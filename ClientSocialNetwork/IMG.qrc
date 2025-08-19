@@ -1,0 +1,36 @@
+<RCC>
+    <qresource prefix="/IMG">
+        <file>IMG/AddPostPin50x50SN.png</file>
+        <file>IMG/CameraPin150x150SN.png</file>
+        <file>IMG/CancelPin50x50SN.png</file>
+        <file>IMG/CloseEye35x35SN.png</file>
+        <file>IMG/CloseEyeSN35x35SN.png</file>
+        <file>IMG/CommentPin50x50SN.png</file>
+        <file>IMG/DefultProfile75x75.png</file>
+        <file>IMG/DefultProfile150x150SN.png</file>
+        <file>IMG/DefultProfilePin40x40SN.png</file>
+        <file>IMG/DefultProfilePin80x80SN.png</file>
+        <file>IMG/DownloadPin48x48SN.png</file>
+        <file>IMG/ExitPin40x40SN.png</file>
+        <file>IMG/ExitPin80x80SN.png</file>
+        <file>IMG/FilePin50x50SN.png</file>
+        <file>IMG/LikeFullPin50x50SN.png</file>
+        <file>IMG/LikePin50x50SN.png</file>
+        <file>IMG/logoSN.png</file>
+        <file>IMG/MenuPostPin50x50SN.png</file>
+        <file>IMG/MenuTablePin1000x70SN.png</file>
+        <file>IMG/NotificationPin50x50SN.png</file>
+        <file>IMG/OpenEye35x35SN.png</file>
+        <file>IMG/OpenEyeSN35x35.png</file>
+        <file>IMG/PausePin48x48SN.png</file>
+        <file>IMG/PlayPin48x48SN.png</file>
+        <file>IMG/PostPin40x40SN.png</file>
+        <file>IMG/PostPin80x80SN.png</file>
+        <file>IMG/SettingsPin35x35SN.png</file>
+        <file>IMG/SettingsPin80x80SN.png</file>
+        <file>IMG/UpdatePin50x50SN.png</file>
+        <file>IMG/UsersPin80x80SN.png</file>
+        <file>IMG/VolumeMutedPin48x48SN.png</file>
+        <file>IMG/VolumePin48x48SN.png</file>
+    </qresource>
+</RCC>

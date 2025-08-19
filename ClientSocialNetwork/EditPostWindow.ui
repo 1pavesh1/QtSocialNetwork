@@ -1,0 +1,837 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EditPostWindow</class>
+ <widget class="QDialog" name="EditPostWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>700</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>700</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>700</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Редактирование поста</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="IMG.qrc">
+    <normaloff>:/IMG/IMG/logoSN.png</normaloff>:/IMG/IMG/logoSN.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(248, 249, 255);</string>
+  </property>
+  <widget class="QPushButton" name="editPostButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>640</y>
+     <width>681</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>14</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton 
+{
+    background: qlineargradient(
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 #6a3093, 
+        stop:1 #a044ff 
+    );
+    color: white;     
+    border-radius: 20px;
+    padding: 8px 16px;  
+    font-weight: bold;   
+    border: 1px solid #4a148c; 
+}
+
+QPushButton:hover
+ {
+    background: qlineargradient(
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 #7b1fa2,
+        stop:1 #aa00ff
+    );
+    border: 2px solid #7b1fa2;
+}
+
+QPushButton:pressed 
+{
+    background: qlineargradient(
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 #4a148c,
+        stop:1 #7b1fa2
+    );
+}</string>
+   </property>
+   <property name="text">
+    <string>Сохранить</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="nameText">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>661</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit
+{
+	background-color: rgb(248, 249, 255);
+	border: 0;
+    border-bottom: 1px solid black; 
+	padding: 10px;
+}
+
+QLineEdit:focus
+{
+    border-bottom: 2px solid #4a148c; 
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="placeholderText">
+    <string>Заголовок поста</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="fileFrame">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>70</y>
+     <width>621</width>
+     <height>431</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame
+{
+	background-color: white;
+    border: 2px;
+    border-radius: 10px;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QLabel" name="nameFile">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>200</y>
+      <width>431</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>190</y>
+      <width>51</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>:/IMG/IMG/FilePin50x50.png</pixmap>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QTextEdit" name="contentText">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>510</y>
+     <width>661</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTextEdit
+{
+	background-color: rgb(248, 249, 255);
+	border: none;
+	padding: 10px;
+}</string>
+   </property>
+   <property name="placeholderText">
+    <string>Напишите что-нибудь...</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="audioFrame">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>70</y>
+     <width>621</width>
+     <height>431</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame
+{
+	background-color: white;
+    border: 2px;
+    border-radius: 10px;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QLabel" name="timeAudioLabel">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>360</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>12</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>00:00:00</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="volumeAudioSlider">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>400</y>
+      <width>111</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QSlider
+{
+    background: transparent;
+    margin: 0 10px;
+}
+
+QSlider::groove:horizontal 
+{
+    background: #e0e0e0;
+    height: 6px;
+    border-radius: 3px;
+}
+
+QSlider::handle:horizontal 
+{
+    width: 16px;
+    height: 16px;
+    margin: -5px 0;
+    background: rgb(182, 146, 255);
+    border: 2px;
+    border-radius: 8px;
+}
+
+QSlider::sub-page:horizontal 
+{
+    background: rgb(182, 146, 255);
+    border-radius: 3px;
+}</string>
+    </property>
+    <property name="maximum">
+     <number>10</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Orientation::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="volumeAudioButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>400</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton 
+{
+    border-radius: 45px;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/IMG/IMG/VolumePin48x48.png</normaloff>:/IMG/IMG/VolumePin48x48.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>21</width>
+      <height>21</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="playAudioButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>370</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton 
+{
+    border-radius: 45px;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="IMG.qrc">
+      <normaloff>:/IMG/IMG/PlayPin48x48SN.png</normaloff>:/IMG/IMG/PlayPin48x48SN.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>21</width>
+      <height>21</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QSlider" name="timeAudioSlider">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>370</y>
+      <width>491</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QSlider
+{
+    background: transparent;
+    margin: 0 10px;
+}
+
+QSlider::groove:horizontal 
+{
+    background: #e0e0e0;
+    height: 6px;
+    border-radius: 3px;
+}
+
+QSlider::handle:horizontal 
+{
+    width: 16px;
+    height: 16px;
+    margin: -5px 0;
+    background: rgb(182, 146, 255);
+    border: 2px;
+    border-radius: 8px;
+}
+
+QSlider::sub-page:horizontal 
+{
+    background: rgb(182, 146, 255);
+    border-radius: 3px;
+}</string>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Orientation::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="nameAudioFile">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>20</y>
+      <width>541</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="audioFileLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>51</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>:/IMG/IMG/FilePin50x50.png</pixmap>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="deleteFileInputButton">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>70</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton 
+{
+    border-radius: 30px;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="IMG.qrc">
+     <normaloff>:/IMG/IMG/CancelPin50x50SN.png</normaloff>:/IMG/IMG/CancelPin50x50SN.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>30</width>
+     <height>30</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QFrame" name="fhotoFrame">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>70</y>
+     <width>621</width>
+     <height>431</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame
+{
+	background-color: white;
+    border: 2px;
+    border-radius: 10px;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="fhotoViewButton">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>621</width>
+      <height>431</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+	background-color: white;
+    border: 2px;
+    border-radius: 10px;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>620</width>
+      <height>420</height>
+     </size>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="addMediaButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>70</y>
+     <width>621</width>
+     <height>431</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+ {
+	background-color: white;
+    border: 2px dashed black;
+    border-radius: 10px;
+    color: grey;
+    padding: 15px;
+    text-align: center;
+}
+
+QPushButton::icon 
+{
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}</string>
+   </property>
+   <property name="text">
+    <string>Добавьте фото, видео, музыку 
+или файл</string>
+   </property>
+   <property name="icon">
+    <iconset resource="IMG.qrc">
+     <normaloff>:/IMG/IMG/AddPostPin50x50SN.png</normaloff>:/IMG/IMG/AddPostPin50x50SN.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>50</width>
+     <height>50</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QFrame" name="videoFrame">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>70</y>
+     <width>621</width>
+     <height>431</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame
+{
+	background-color: white;
+    border: 2px;
+    border-radius: 10px;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QSlider" name="timeVideoSlider">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>370</y>
+      <width>491</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QSlider
+{
+    background: transparent;
+    margin: 0 10px;
+}
+
+QSlider::groove:horizontal 
+{
+    background: #e0e0e0;
+    height: 6px;
+    border-radius: 3px;
+}
+
+QSlider::handle:horizontal 
+{
+    width: 16px;
+    height: 16px;
+    margin: -5px 0;
+    background: rgb(182, 146, 255);
+    border: 2px;
+    border-radius: 8px;
+}
+
+QSlider::sub-page:horizontal 
+{
+    background: rgb(182, 146, 255);
+    border-radius: 3px;
+}</string>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Orientation::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="playVideoButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>370</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton 
+{
+    border-radius: 45px;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="IMG.qrc">
+      <normaloff>:/IMG/IMG/PlayPin48x48SN.png</normaloff>:/IMG/IMG/PlayPin48x48SN.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>21</width>
+      <height>21</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="nameVideoFile">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>601</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeVideoLabel">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>360</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>12</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>00:00:00</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="volumeVideoButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>400</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton 
+{
+    border-radius: 45px;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="IMG.qrc">
+      <normaloff>:/IMG/IMG/VolumePin48x48SN.png</normaloff>:/IMG/IMG/VolumePin48x48SN.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>21</width>
+      <height>21</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QSlider" name="volumeVideoSlider">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>400</y>
+      <width>111</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QSlider
+{
+    background: transparent;
+    margin: 0 10px;
+}
+
+QSlider::groove:horizontal 
+{
+    background: #e0e0e0;
+    height: 6px;
+    border-radius: 3px;
+}
+
+QSlider::handle:horizontal 
+{
+    width: 16px;
+    height: 16px;
+    margin: -5px 0;
+    background: rgb(182, 146, 255);
+    border: 2px;
+    border-radius: 8px;
+}
+
+QSlider::sub-page:horizontal 
+{
+    background: rgb(182, 146, 255);
+    border-radius: 3px;
+}</string>
+    </property>
+    <property name="maximum">
+     <number>10</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Orientation::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBoxVideo">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>40</y>
+      <width>621</width>
+      <height>321</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="IMG.qrc"/>
+ </resources>
+ <connections/>
+</ui>

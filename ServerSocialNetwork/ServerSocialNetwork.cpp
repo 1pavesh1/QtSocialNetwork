@@ -1,0 +1,359 @@
+#include "ServerSocialNetwork.h"
+
+ServerSocialNetwork::ServerSocialNetwork()
+{
+    if (this->listen(QHostAddress::Any, 2323))
+    {
+        qDebug("Сервер работает");
+        connect(this, &QTcpServer::newConnection, this, &ServerSocialNetwork::IncomingConnection);
+    }
+    else
+    {
+        qDebug("Сервер не работает");
+    }
+    this->nextBlockSize = 0;
+}
+
+void ServerSocialNetwork::IncomingConnection()
+{
+    socket = this->nextPendingConnection();
+    if (socket)
+    {
+        connect(socket, &QTcpSocket::readyRead, this, &ServerSocialNetwork::SlotReadyRead);
+        connect(socket, &QTcpSocket::disconnected, this, [this]() { SlotDisconnected(socket); });
+
+        userServerManager.AddSocketServerToMap(userServerMap, socket);
+
+        qDebug() << "Новое подключение";
+    }
+}
+
+void ServerSocialNetwork::SlotDisconnected(QTcpSocket *socket)
+{
+    dbUserManager.UpdateTimeUser(userModel, dbConnectManager.GetDataBase());
+    userServerManager.RemoveUserServerFromMap(userServerMap, socket);
+
+    qDebug() << "Пользователь отключен";
+
+    socket->deleteLater();
+}
+
+void ServerSocialNetwork::SlotReadyRead()
+{
+    socket = (QTcpSocket*)sender();
+    QDataStream in(socket);
+    in.setVersion(QDataStream::Qt_6_9);
+    if (in.status() == QDataStream::Ok)
+    {
+        while (1)
+        {
+            if (this->nextBlockSize == 0)
+            {
+                if (socket->bytesAvailable() < 2)
+                {
+                    break;
+                }
+                in >> this->nextBlockSize;
+            }
+            if (socket->bytesAvailable() < this->nextBlockSize)
+            {
+                break;
+            }
+            ReadQuery(in, socket);
+            this->nextBlockSize = 0;
+        }
+    }
+    else
+    {
+        qDebug() << "Ошибка передачи сообщения...";
+    }
+}
+
+void ServerSocialNetwork::ReadQuery(QDataStream &query, QTcpSocket *socket)
+{
+    query >> typeQuery;
+    switch (typeQuery)
+    {
+    case REG_USER_QUERY:
+        query >> userModel;
+        RegUser(userModel, socket);
+        break;
+    case AUTH_USER_QUERY:
+        query >> userModel;
+        AuthUser(userModel, socket);
+        break;
+    case UPDATE_USER_QUERY:
+        query >> userModel;
+        UpdateDataUser(userModel, socket);
+        break;
+    case LOGOUT_USER_QUERY:
+        query >> userModel;
+        LogoutUser(userModel, socket);
+        break;
+    case CHECK_USER_QUERY:
+        query >> userModel;
+        CheckUser(userModel, socket);
+        break;
+    case CHANGE_PHOTO_USER_QUERY:
+        query >> userModel;
+        ChangePhotoUser(userModel, socket);
+        break;
+    case GET_USERS_QUERY:
+        query >> userModel;
+        GetUsers(socket);
+        break;
+    case GET_FRIENDS_QUERY:
+        query >> userModel;
+        GetFriends(userModel, socket);
+        break;
+    case GET_RELATIONSHIP_USER_QUERY:
+        query >> userModel;
+        GetRelationShipUser(userModel, socket);
+        break;
+    case ADD_USER_QUERY:
+        query >> userModel;
+        AddUser(userModel, socket);
+        break;
+    case CANCEL_USER_QUERY:
+        query >> userModel;
+        CancelUser(userModel, socket);
+        break;
+    case DELETE_USER_QUERY:
+        query >> userModel;
+        DeleteUser(userModel, socket);
+        break;
+    case GET_NOTIFICATIONS_QUERY:
+        query >> userModel;
+        GetNotifications(userModel, socket);
+        break;
+    case ACCEPT_NOTIIFICATION_QUERY:
+        query >> notificationModel;
+        AcceptNotification(notificationModel, socket);
+        break;
+    case CANCEL_NOTIIFICATION_QUERY:
+        query >> notificationModel;
+        CancelNotification(notificationModel, socket);
+        break;
+    case ADD_POST_QUERY:
+        query >> postModel;
+        AddPost(postModel, socket);
+        break;
+    case GET_POSTS_QUERY:
+        query >> userModel;
+        GetPosts(socket);
+        break;
+    case GET_USER_POSTS_QUERY:
+        query >> userModel;
+        GetUserPosts(userModel, socket);
+        break;
+    default:
+        break;
+    }
+}
+
+void ServerSocialNetwork::RegUser(UserModel &userModel, QTcpSocket *socket)
+{
+    if (dbUserManager.CheckUserLogin(userModel, dbConnectManager.GetDataBase()))
+    {
+        if (dbUserManager.RegUser(userModel, dbConnectManager.GetDataBase()))
+        {
+            userServerManager.AddUserServerToMap(userServerMap, socket, userModel);
+            SendDataToClient(REG_USER_QUERY, userModel, socket);
+        }
+        else
+        {
+            SendDataToClient(REG_USER_FAILED_ANSWER, userModel, socket);
+        }
+    }
+    else
+    {
+        SendDataToClient(REG_USER_REPEAT_ANSWER, userModel, socket);
+    }
+}
+
+void ServerSocialNetwork::AuthUser(UserModel &userModel, QTcpSocket *socket)
+{
+    if (userServerManager.CheckUserOnServer(userServerMap, socket))
+    {
+        if (dbUserManager.AuthUser(userModel, dbConnectManager.GetDataBase()))
+        {
+            userServerManager.AddUserServerToMap(userServerMap, socket, userModel);
+            SendDataToClient(AUTH_USER_QUERY, userModel, socket);
+        }
+        else
+        {
+            SendDataToClient(AUTH_USER_DATA_ANSWER, userModel, socket);
+        }
+    }
+    else
+    {
+        SendDataToClient(AUTH_USER_ON_SERVER_ANSWER, userModel, socket);
+    }
+}
+
+void ServerSocialNetwork::UpdateDataUser(UserModel &userModel, QTcpSocket *socket)
+{
+    if (dbUserManager.CheckUserLogin(userModel, dbConnectManager.GetDataBase()))
+    {
+        if (dbUserManager.UpdateDataUser(userModel, dbConnectManager.GetDataBase()))
+        {
+            userServerManager.ReplaceUser(userServerMap, socket, userModel);
+            SendDataToClient(UPDATE_USER_QUERY, userModel, socket);
+        }
+        else
+        {
+            SendDataToClient(UPDATE_USER_FAILED_ANSWER, userModel, socket);
+        }
+    }
+    else
+    {
+        SendDataToClient(UPDATE_USER_NAME_ANSWER, userModel, socket);
+    }
+}
+
+void ServerSocialNetwork::LogoutUser(const UserModel &userModel, QTcpSocket *socket)
+{
+    dbUserManager.UpdateTimeUser(userModel, dbConnectManager.GetDataBase());
+    userServerManager.DeleteDataUserServerFromMap(userServerMap, socket);
+}
+
+void ServerSocialNetwork::CheckUser(UserModel &userModel, QTcpSocket *socket)
+{
+    if (userServerManager.CheckUserMain(userServerMap, socket, userModel))
+        SendDataToClient(USER_IS_MAIN_ANSWER, userModel, socket);
+    else
+        SendDataToClient(USER_NOT_MAIN_ANSWER, userModel, socket);
+}
+
+void ServerSocialNetwork::ChangePhotoUser(UserModel &userModel, QTcpSocket *socket)
+{
+    if (mediaManager.SavePhotoUserOnServer(userModel) && dbUserManager.UpdatePhotoUser(userModel, dbConnectManager.GetDataBase()))
+        SendDataToClient(CHANGE_PHOTO_USER_QUERY, userModel, socket);
+    else
+        SendDataToClient(CHANGE_PHOTO_FAILED_ANSWER, userModel, socket);
+}
+
+void ServerSocialNetwork::GetUsers(QTcpSocket *socket)
+{
+    userModelVector.SetUserModelVector(dbFriendsManager.GetUsers(dbConnectManager.GetDataBase()));
+    for (auto userModel : userModelVector.GetUserModelVector())
+    {
+        if (userServerManager.CheckUserOnServer(userServerMap, socket))
+        {
+            userModel.SetStatus(true);
+        }
+    }
+    SendDataToClient(GET_USERS_QUERY, userModelVector, socket);
+}
+
+void ServerSocialNetwork::GetFriends(const UserModel &userModel, QTcpSocket *socket)
+{
+    userModelVector.SetUserModelVector(dbFriendsManager.GetFriends(userModel, dbConnectManager.GetDataBase()));
+    for (auto userModel : userModelVector.GetUserModelVector())
+    {
+        if (userServerManager.CheckUserOnServer(userServerMap, socket))
+        {
+            userModel.SetStatus(true);
+        }
+    }
+    SendDataToClient(GET_FRIENDS_QUERY, userModelVector, socket);
+}
+
+void ServerSocialNetwork::GetRelationShipUser(const UserModel &userModel, QTcpSocket *socket)
+{
+    SendDataToClient(dbFriendsManager.GetRelationship(userServerManager.GetUserInSocket(userServerMap, socket),
+                                                      userModel,
+                                                      dbConnectManager.GetDataBase()), userModel, socket);
+}
+
+void ServerSocialNetwork::AddUser(const UserModel &userModel, QTcpSocket *socket)
+{
+    dbNotificationManager.AddNotification(userServerManager.GetUserInSocket(userServerMap, socket),
+                                          userModel,
+                                          dbConnectManager.GetDataBase());
+    SendDataToClient(dbFriendsManager.GetRelationship(userServerManager.GetUserInSocket(userServerMap, socket),
+                                                      userModel,
+                                                      dbConnectManager.GetDataBase()), userModel, socket);
+}
+
+void ServerSocialNetwork::CancelUser(const UserModel &userModel, QTcpSocket *socket)
+{
+    dbNotificationManager.DeleteNotificationInUser(userServerManager.GetUserInSocket(userServerMap, socket),
+                                                   userModel,
+                                                   dbConnectManager.GetDataBase());
+    SendDataToClient(dbFriendsManager.GetRelationship(userServerManager.GetUserInSocket(userServerMap, socket),
+                                                      userModel,
+                                                      dbConnectManager.GetDataBase()), userModel, socket);
+}
+
+void ServerSocialNetwork::DeleteUser(const UserModel &userModel, QTcpSocket *socket)
+{
+    dbFriendsManager.DeleteFriend(userServerManager.GetUserInSocket(userServerMap, socket),
+                                  userModel,
+                                  dbConnectManager.GetDataBase());
+    SendDataToClient(dbFriendsManager.GetRelationship(userServerManager.GetUserInSocket(userServerMap, socket),
+                                                      userModel,
+                                                      dbConnectManager.GetDataBase()), userModel, socket);
+}
+
+void ServerSocialNetwork::GetNotifications(const UserModel &userModel, QTcpSocket *socket)
+{
+    notificationModelVector.SetNotificationModelVector(
+        dbNotificationManager.GetNotifications(userModel, dbConnectManager.GetDataBase()));
+    SendDataToClient(GET_NOTIFICATIONS_QUERY, notificationModelVector, socket);
+}
+
+void ServerSocialNetwork::AcceptNotification(const NotificationModel &notificationModel, QTcpSocket *socket)
+{
+    dbNotificationManager.AcceptNotifciation(notificationModel, dbConnectManager.GetDataBase());
+    SendDataToClient(ACCEPT_NOTIIFICATION_QUERY, notificationModel, socket);
+}
+
+void ServerSocialNetwork::CancelNotification(const NotificationModel &notificationModel, QTcpSocket *socket)
+{
+    dbNotificationManager.DeleteNotificationInModel(notificationModel, dbConnectManager.GetDataBase());
+    SendDataToClient(CANCEL_NOTIIFICATION_QUERY, notificationModel, socket);
+}
+
+void ServerSocialNetwork::AddPost(PostModel &postModel, QTcpSocket *socket)
+{
+    if (mediaManager.SaveMediaDataPostOnServer(postModel))
+    {
+        if (dbPostManager.AddPost(postModel, dbConnectManager.GetDataBase()))
+            SendDataToClient(ADD_POST_QUERY, postModel, socket);
+        else
+            SendDataToClient(ADD_POST_FAILED_ANSWER, postModel, socket);
+    }
+    else
+    {
+        SendDataToClient(ADD_POST_FAILED_ANSWER, postModel, socket);
+    }
+}
+
+void ServerSocialNetwork::GetPosts(QTcpSocket *socket)
+{
+    postModelVector.SetPostModelVector(dbPostManager.GetPosts(dbConnectManager.GetDataBase()));
+    SendDataToClient(GET_POSTS_QUERY, postModelVector, socket);
+}
+
+void ServerSocialNetwork::GetUserPosts(const UserModel &userModel, QTcpSocket *socket)
+{
+    postModelVector.SetPostModelVector(dbPostManager.GetUserPosts(userModel, dbConnectManager.GetDataBase()));
+    SendDataToClient(GET_USER_POSTS_QUERY, postModelVector, socket);
+}
+
+void ServerSocialNetwork::SendDataToClient(const TypeQuery &typeQuery, const Data &data, QTcpSocket *socket)
+{
+    qDebug() << typeQuery;
+    auto it = userServerMap.find(socket);
+    arrayData.clear();
+    QDataStream out(&arrayData, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_6_9);
+    out << qint32(0) << typeQuery << data;
+    out.device()->seek(0);
+    out << qint32(arrayData.size() - sizeof(qint32));
+    it.key()->write(arrayData);
+    qDebug() << "Сообщение отправлено пользователю: " << it.value().GetLogin();
+}
+
+

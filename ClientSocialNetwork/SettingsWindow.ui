@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsWindow</class>
+ <widget class="QDialog" name="SettingsWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>520</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>520</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>400</width>
+    <height>520</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Настройки</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="IMG.qrc">
+    <normaloff>:/IMG/IMG/logoSN.png</normaloff>:/IMG/IMG/logoSN.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(248, 249, 255);</string>
+  </property>
+  <widget class="QPushButton" name="closeEye">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>410</y>
+     <width>35</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton 
+{
+    background: transparent;
+	background-color: rgb(248, 249, 255);
+    border: none;
+    text-align: left;
+    padding: 0;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/IMG/IMG/CloseEyeSN35x35.png</normaloff>:/IMG/IMG/CloseEyeSN35x35.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="passwordLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>370</y>
+     <width>361</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: grey;</string>
+   </property>
+   <property name="text">
+    <string>Пароль:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="phoneLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>361</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: grey;</string>
+   </property>
+   <property name="text">
+    <string>Телефон:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="dateLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>280</y>
+     <width>361</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: grey;</string>
+   </property>
+   <property name="text">
+    <string>Дата рождения:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="emailLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>190</y>
+     <width>361</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: grey;</string>
+   </property>
+   <property name="text">
+    <string>Почта:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="sendButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>465</y>
+     <width>231</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton 
+{
+    background: qlineargradient(
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 #6a3093, 
+        stop:1 #a044ff 
+    );
+    color: white;     
+    border-radius: 20px;
+    padding: 8px 16px;  
+    font-weight: bold;   
+    border: 1px solid #4a148c; 
+}
+
+QPushButton:hover
+ {
+    background: qlineargradient(
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 #7b1fa2,
+        stop:1 #aa00ff
+    );
+    border: 2px solid #7b1fa2;
+}
+
+QPushButton:pressed 
+{
+    background: qlineargradient(
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 #4a148c,
+        stop:1 #7b1fa2
+    );
+}</string>
+   </property>
+   <property name="text">
+    <string>Сохранить </string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="passwordText">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>410</y>
+     <width>361</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit
+{
+	background-color: rgb(248, 249, 255);
+	border: 0;
+    border-bottom: 1px solid black; 
+	padding: 10px;
+}
+
+QLineEdit:focus
+{
+    border-bottom: 2px solid #4a148c; 
+}</string>
+   </property>
+   <property name="maxLength">
+    <number>25</number>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::EchoMode::Password</enum>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="loginText">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>361</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit
+{
+	background-color: rgb(248, 249, 255);
+	border: 0;
+    border-bottom: 1px solid black; 
+	padding: 10px;
+}
+
+QLineEdit:focus
+{
+    border-bottom: 2px solid #4a148c; 
+}</string>
+   </property>
+   <property name="maxLength">
+    <number>25</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="loginLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>361</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: grey;</string>
+   </property>
+   <property name="text">
+    <string>Логин:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="openEye">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>410</y>
+     <width>35</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton 
+{
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: 0;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="IMG.qrc">
+     <normaloff>:/IMG/IMG/OpenEyeSN35x35.png</normaloff>:/IMG/IMG/OpenEyeSN35x35.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="phoneText">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>361</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit
+{
+	background-color: rgb(248, 249, 255);
+	border: 0;
+    border-bottom: 1px solid black; 
+	padding: 10px;
+}
+
+QLineEdit:focus
+{
+    border-bottom: 2px solid #4a148c; 
+}</string>
+   </property>
+   <property name="maxLength">
+    <number>25</number>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="dateText">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>320</y>
+     <width>361</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QDateEdit
+{
+	background: transparent;
+	border: 0;
+    border-bottom: 1px solid black; 
+	padding: 10px;
+}
+
+QDateEdit:focus
+{
+    border-bottom: 2px solid #4a148c; 
+}</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="emailText">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>230</y>
+     <width>361</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit
+{
+	background-color: rgb(248, 249, 255);
+	border: 0;
+    border-bottom: 1px solid black; 
+	padding: 10px;
+}
+
+QLineEdit:focus
+{
+    border-bottom: 2px solid #4a148c; 
+}</string>
+   </property>
+   <property name="maxLength">
+    <number>50</number>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="IMG.qrc"/>
+ </resources>
+ <connections/>
+</ui>
