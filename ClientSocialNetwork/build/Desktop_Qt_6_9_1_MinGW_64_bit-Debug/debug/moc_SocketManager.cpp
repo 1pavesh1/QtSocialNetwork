@@ -56,8 +56,8 @@ template <> constexpr inline auto SocketManager::qt_create_metaobjectdata<qt_met
         "UserIsMain",
         "UserNotMain",
         "GetUsers",
-        "UserVector",
-        "userModelVector",
+        "UserList",
+        "userList",
         "GetUsersFailed",
         "GetFriends",
         "GetFriendsFailed",
@@ -65,8 +65,8 @@ template <> constexpr inline auto SocketManager::qt_create_metaobjectdata<qt_met
         "TypeQuery",
         "relationship",
         "GetNotifications",
-        "NotificationVector",
-        "notificationModelVector",
+        "NotificationList",
+        "notificationList",
         "GetNotificationsFailed",
         "AcceptNotification",
         "NotificationModel",
@@ -79,11 +79,33 @@ template <> constexpr inline auto SocketManager::qt_create_metaobjectdata<qt_met
         "AddPost",
         "AddPostFailed",
         "GetPost",
-        "PostVector",
-        "postModelVector",
+        "PostList",
+        "postList",
         "GetPostFailed",
         "GetUserPost",
-        "GetUserPostFailed"
+        "GetUserPostFailed",
+        "DeletePost",
+        "PostModel",
+        "postModel",
+        "DeletePostFailed",
+        "EditPost",
+        "EditPostFailed",
+        "LikePost",
+        "LikeModel",
+        "likeModel",
+        "LikePostFailed",
+        "AddCommentPost",
+        "CommentModel",
+        "commentModel",
+        "AddCommentPostFailed",
+        "EditCommentPost",
+        "EditCommentPostFailed",
+        "DeleteCommentPost",
+        "DeleteCommentPostFailed",
+        "GetCommentPost",
+        "CommentList",
+        "commentList",
+        "GetCommentPostFailed"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -122,13 +144,13 @@ template <> constexpr inline auto SocketManager::qt_create_metaobjectdata<qt_met
         // Signal 'UserNotMain'
         QtMocHelpers::SignalData<void()>(16, 2, QMC::AccessPublic, QMetaType::Void),
         // Signal 'GetUsers'
-        QtMocHelpers::SignalData<void(const UserVector &)>(17, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SignalData<void(const UserList &)>(17, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 18, 19 },
         }}),
         // Signal 'GetUsersFailed'
         QtMocHelpers::SignalData<void()>(20, 2, QMC::AccessPublic, QMetaType::Void),
         // Signal 'GetFriends'
-        QtMocHelpers::SignalData<void(const UserVector &)>(21, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SignalData<void(const UserList &)>(21, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 18, 19 },
         }}),
         // Signal 'GetFriendsFailed'
@@ -138,7 +160,7 @@ template <> constexpr inline auto SocketManager::qt_create_metaobjectdata<qt_met
             { 0x80000000 | 24, 25 },
         }}),
         // Signal 'GetNotifications'
-        QtMocHelpers::SignalData<void(const NotificationVector &)>(26, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SignalData<void(const NotificationList &)>(26, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 27, 28 },
         }}),
         // Signal 'GetNotificationsFailed'
@@ -168,17 +190,59 @@ template <> constexpr inline auto SocketManager::qt_create_metaobjectdata<qt_met
         // Signal 'AddPostFailed'
         QtMocHelpers::SignalData<void()>(39, 2, QMC::AccessPublic, QMetaType::Void),
         // Signal 'GetPost'
-        QtMocHelpers::SignalData<void(const PostVector &)>(40, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SignalData<void(const PostList &)>(40, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 41, 42 },
         }}),
         // Signal 'GetPostFailed'
         QtMocHelpers::SignalData<void()>(43, 2, QMC::AccessPublic, QMetaType::Void),
         // Signal 'GetUserPost'
-        QtMocHelpers::SignalData<void(const PostVector &)>(44, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SignalData<void(const PostList &)>(44, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 41, 42 },
         }}),
         // Signal 'GetUserPostFailed'
         QtMocHelpers::SignalData<void()>(45, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'DeletePost'
+        QtMocHelpers::SignalData<void(const PostModel &)>(46, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 47, 48 },
+        }}),
+        // Signal 'DeletePostFailed'
+        QtMocHelpers::SignalData<void()>(49, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'EditPost'
+        QtMocHelpers::SignalData<void(const PostModel &)>(50, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 47, 48 },
+        }}),
+        // Signal 'EditPostFailed'
+        QtMocHelpers::SignalData<void()>(51, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'LikePost'
+        QtMocHelpers::SignalData<void(const LikeModel &)>(52, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 53, 54 },
+        }}),
+        // Signal 'LikePostFailed'
+        QtMocHelpers::SignalData<void()>(55, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'AddCommentPost'
+        QtMocHelpers::SignalData<void(const CommentModel &)>(56, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 57, 58 },
+        }}),
+        // Signal 'AddCommentPostFailed'
+        QtMocHelpers::SignalData<void()>(59, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'EditCommentPost'
+        QtMocHelpers::SignalData<void(const CommentModel &)>(60, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 57, 58 },
+        }}),
+        // Signal 'EditCommentPostFailed'
+        QtMocHelpers::SignalData<void()>(61, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'DeleteCommentPost'
+        QtMocHelpers::SignalData<void(const CommentModel &)>(62, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 57, 58 },
+        }}),
+        // Signal 'DeleteCommentPostFailed'
+        QtMocHelpers::SignalData<void()>(63, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'GetCommentPost'
+        QtMocHelpers::SignalData<void(const CommentList &)>(64, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 65, 66 },
+        }}),
+        // Signal 'GetCommentPostFailed'
+        QtMocHelpers::SignalData<void()>(67, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -215,12 +279,12 @@ void SocketManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 10: _t->UserChangePhotoFailed(); break;
         case 11: _t->UserIsMain(); break;
         case 12: _t->UserNotMain(); break;
-        case 13: _t->GetUsers((*reinterpret_cast< std::add_pointer_t<UserVector>>(_a[1]))); break;
+        case 13: _t->GetUsers((*reinterpret_cast< std::add_pointer_t<UserList>>(_a[1]))); break;
         case 14: _t->GetUsersFailed(); break;
-        case 15: _t->GetFriends((*reinterpret_cast< std::add_pointer_t<UserVector>>(_a[1]))); break;
+        case 15: _t->GetFriends((*reinterpret_cast< std::add_pointer_t<UserList>>(_a[1]))); break;
         case 16: _t->GetFriendsFailed(); break;
         case 17: _t->CheckRelationship((*reinterpret_cast< std::add_pointer_t<TypeQuery>>(_a[1]))); break;
-        case 18: _t->GetNotifications((*reinterpret_cast< std::add_pointer_t<NotificationVector>>(_a[1]))); break;
+        case 18: _t->GetNotifications((*reinterpret_cast< std::add_pointer_t<NotificationList>>(_a[1]))); break;
         case 19: _t->GetNotificationsFailed(); break;
         case 20: _t->AcceptNotification((*reinterpret_cast< std::add_pointer_t<NotificationModel>>(_a[1]))); break;
         case 21: _t->CancelNotification((*reinterpret_cast< std::add_pointer_t<NotificationModel>>(_a[1]))); break;
@@ -229,10 +293,24 @@ void SocketManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 24: _t->DeleteFriend((*reinterpret_cast< std::add_pointer_t<TypeQuery>>(_a[1]))); break;
         case 25: _t->AddPost(); break;
         case 26: _t->AddPostFailed(); break;
-        case 27: _t->GetPost((*reinterpret_cast< std::add_pointer_t<PostVector>>(_a[1]))); break;
+        case 27: _t->GetPost((*reinterpret_cast< std::add_pointer_t<PostList>>(_a[1]))); break;
         case 28: _t->GetPostFailed(); break;
-        case 29: _t->GetUserPost((*reinterpret_cast< std::add_pointer_t<PostVector>>(_a[1]))); break;
+        case 29: _t->GetUserPost((*reinterpret_cast< std::add_pointer_t<PostList>>(_a[1]))); break;
         case 30: _t->GetUserPostFailed(); break;
+        case 31: _t->DeletePost((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 32: _t->DeletePostFailed(); break;
+        case 33: _t->EditPost((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 34: _t->EditPostFailed(); break;
+        case 35: _t->LikePost((*reinterpret_cast< std::add_pointer_t<LikeModel>>(_a[1]))); break;
+        case 36: _t->LikePostFailed(); break;
+        case 37: _t->AddCommentPost((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
+        case 38: _t->AddCommentPostFailed(); break;
+        case 39: _t->EditCommentPost((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
+        case 40: _t->EditCommentPostFailed(); break;
+        case 41: _t->DeleteCommentPost((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
+        case 42: _t->DeleteCommentPostFailed(); break;
+        case 43: _t->GetCommentPost((*reinterpret_cast< std::add_pointer_t<CommentList>>(_a[1]))); break;
+        case 44: _t->GetCommentPostFailed(); break;
         default: ;
         }
     }
@@ -263,17 +341,17 @@ void SocketManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
             return;
         if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::UserNotMain, 12))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const UserVector & )>(_a, &SocketManager::GetUsers, 13))
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const UserList & )>(_a, &SocketManager::GetUsers, 13))
             return;
         if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::GetUsersFailed, 14))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const UserVector & )>(_a, &SocketManager::GetFriends, 15))
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const UserList & )>(_a, &SocketManager::GetFriends, 15))
             return;
         if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::GetFriendsFailed, 16))
             return;
         if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const TypeQuery & )>(_a, &SocketManager::CheckRelationship, 17))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const NotificationVector & )>(_a, &SocketManager::GetNotifications, 18))
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const NotificationList & )>(_a, &SocketManager::GetNotifications, 18))
             return;
         if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::GetNotificationsFailed, 19))
             return;
@@ -291,13 +369,41 @@ void SocketManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
             return;
         if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::AddPostFailed, 26))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const PostVector & )>(_a, &SocketManager::GetPost, 27))
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const PostList & )>(_a, &SocketManager::GetPost, 27))
             return;
         if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::GetPostFailed, 28))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const PostVector & )>(_a, &SocketManager::GetUserPost, 29))
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const PostList & )>(_a, &SocketManager::GetUserPost, 29))
             return;
         if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::GetUserPostFailed, 30))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const PostModel & )>(_a, &SocketManager::DeletePost, 31))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::DeletePostFailed, 32))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const PostModel & )>(_a, &SocketManager::EditPost, 33))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::EditPostFailed, 34))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const LikeModel & )>(_a, &SocketManager::LikePost, 35))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::LikePostFailed, 36))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const CommentModel & )>(_a, &SocketManager::AddCommentPost, 37))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::AddCommentPostFailed, 38))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const CommentModel & )>(_a, &SocketManager::EditCommentPost, 39))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::EditCommentPostFailed, 40))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const CommentModel & )>(_a, &SocketManager::DeleteCommentPost, 41))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::DeleteCommentPostFailed, 42))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const CommentList & )>(_a, &SocketManager::GetCommentPost, 43))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::GetCommentPostFailed, 44))
             return;
     }
 }
@@ -321,14 +427,14 @@ int SocketManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 31)
+        if (_id < 45)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 31;
+        _id -= 45;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 31)
+        if (_id < 45)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 31;
+        _id -= 45;
     }
     return _id;
 }
@@ -412,7 +518,7 @@ void SocketManager::UserNotMain()
 }
 
 // SIGNAL 13
-void SocketManager::GetUsers(const UserVector & _t1)
+void SocketManager::GetUsers(const UserList & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 13, nullptr, _t1);
 }
@@ -424,7 +530,7 @@ void SocketManager::GetUsersFailed()
 }
 
 // SIGNAL 15
-void SocketManager::GetFriends(const UserVector & _t1)
+void SocketManager::GetFriends(const UserList & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 15, nullptr, _t1);
 }
@@ -442,7 +548,7 @@ void SocketManager::CheckRelationship(const TypeQuery & _t1)
 }
 
 // SIGNAL 18
-void SocketManager::GetNotifications(const NotificationVector & _t1)
+void SocketManager::GetNotifications(const NotificationList & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 18, nullptr, _t1);
 }
@@ -496,7 +602,7 @@ void SocketManager::AddPostFailed()
 }
 
 // SIGNAL 27
-void SocketManager::GetPost(const PostVector & _t1)
+void SocketManager::GetPost(const PostList & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 27, nullptr, _t1);
 }
@@ -508,7 +614,7 @@ void SocketManager::GetPostFailed()
 }
 
 // SIGNAL 29
-void SocketManager::GetUserPost(const PostVector & _t1)
+void SocketManager::GetUserPost(const PostList & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 29, nullptr, _t1);
 }
@@ -517,5 +623,89 @@ void SocketManager::GetUserPost(const PostVector & _t1)
 void SocketManager::GetUserPostFailed()
 {
     QMetaObject::activate(this, &staticMetaObject, 30, nullptr);
+}
+
+// SIGNAL 31
+void SocketManager::DeletePost(const PostModel & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 31, nullptr, _t1);
+}
+
+// SIGNAL 32
+void SocketManager::DeletePostFailed()
+{
+    QMetaObject::activate(this, &staticMetaObject, 32, nullptr);
+}
+
+// SIGNAL 33
+void SocketManager::EditPost(const PostModel & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 33, nullptr, _t1);
+}
+
+// SIGNAL 34
+void SocketManager::EditPostFailed()
+{
+    QMetaObject::activate(this, &staticMetaObject, 34, nullptr);
+}
+
+// SIGNAL 35
+void SocketManager::LikePost(const LikeModel & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 35, nullptr, _t1);
+}
+
+// SIGNAL 36
+void SocketManager::LikePostFailed()
+{
+    QMetaObject::activate(this, &staticMetaObject, 36, nullptr);
+}
+
+// SIGNAL 37
+void SocketManager::AddCommentPost(const CommentModel & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 37, nullptr, _t1);
+}
+
+// SIGNAL 38
+void SocketManager::AddCommentPostFailed()
+{
+    QMetaObject::activate(this, &staticMetaObject, 38, nullptr);
+}
+
+// SIGNAL 39
+void SocketManager::EditCommentPost(const CommentModel & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 39, nullptr, _t1);
+}
+
+// SIGNAL 40
+void SocketManager::EditCommentPostFailed()
+{
+    QMetaObject::activate(this, &staticMetaObject, 40, nullptr);
+}
+
+// SIGNAL 41
+void SocketManager::DeleteCommentPost(const CommentModel & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 41, nullptr, _t1);
+}
+
+// SIGNAL 42
+void SocketManager::DeleteCommentPostFailed()
+{
+    QMetaObject::activate(this, &staticMetaObject, 42, nullptr);
+}
+
+// SIGNAL 43
+void SocketManager::GetCommentPost(const CommentList & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 43, nullptr, _t1);
+}
+
+// SIGNAL 44
+void SocketManager::GetCommentPostFailed()
+{
+    QMetaObject::activate(this, &staticMetaObject, 44, nullptr);
 }
 QT_WARNING_POP

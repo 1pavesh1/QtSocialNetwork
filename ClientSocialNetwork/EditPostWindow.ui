@@ -89,42 +89,6 @@ QPushButton:pressed
     <string>Сохранить</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="nameText">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>661</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit
-{
-	background-color: rgb(248, 249, 255);
-	border: 0;
-    border-bottom: 1px solid black; 
-	padding: 10px;
-}
-
-QLineEdit:focus
-{
-    border-bottom: 2px solid #4a148c; 
-}</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="placeholderText">
-    <string>Заголовок поста</string>
-   </property>
-  </widget>
   <widget class="QFrame" name="fileFrame">
    <property name="geometry">
     <rect>
@@ -180,9 +144,45 @@ QLineEdit:focus
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>:/IMG/IMG/FilePin50x50.png</pixmap>
+     <pixmap resource="IMG.qrc">:/IMG/IMG/FilePin50x50SN.png</pixmap>
     </property>
    </widget>
+  </widget>
+  <widget class="QLineEdit" name="nameText">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>661</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit
+{
+	background-color: rgb(248, 249, 255);
+	border: 0;
+    border-bottom: 1px solid black; 
+	padding: 10px;
+}
+
+QLineEdit:focus
+{
+    border-bottom: 2px solid #4a148c; 
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="placeholderText">
+    <string>Заголовок поста</string>
+   </property>
   </widget>
   <widget class="QTextEdit" name="contentText">
    <property name="geometry">
@@ -328,8 +328,8 @@ QSlider::sub-page:horizontal
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>:/IMG/IMG/VolumePin48x48.png</normaloff>:/IMG/IMG/VolumePin48x48.png</iconset>
+     <iconset resource="IMG.qrc">
+      <normaloff>:/IMG/IMG/VolumePin48x48SN.png</normaloff>:/IMG/IMG/VolumePin48x48SN.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -448,41 +448,9 @@ QSlider::sub-page:horizontal
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>:/IMG/IMG/FilePin50x50.png</pixmap>
+     <pixmap resource="IMG.qrc">:/IMG/IMG/FilePin50x50SN.png</pixmap>
     </property>
    </widget>
-  </widget>
-  <widget class="QPushButton" name="deleteFileInputButton">
-   <property name="geometry">
-    <rect>
-     <x>650</x>
-     <y>70</y>
-     <width>31</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="cursor">
-    <cursorShape>PointingHandCursor</cursorShape>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton 
-{
-    border-radius: 30px;
-}</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset resource="IMG.qrc">
-     <normaloff>:/IMG/IMG/CancelPin50x50SN.png</normaloff>:/IMG/IMG/CancelPin50x50SN.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>30</width>
-     <height>30</height>
-    </size>
-   </property>
   </widget>
   <widget class="QFrame" name="fhotoFrame">
    <property name="geometry">
@@ -537,6 +505,38 @@ QSlider::sub-page:horizontal
      </size>
     </property>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="deleteFileInputButton">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>70</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton 
+{
+    border-radius: 30px;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="IMG.qrc">
+     <normaloff>:/IMG/IMG/CancelPin50x50SN.png</normaloff>:/IMG/IMG/CancelPin50x50SN.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>30</width>
+     <height>30</height>
+    </size>
+   </property>
   </widget>
   <widget class="QPushButton" name="addMediaButton">
    <property name="geometry">
@@ -829,6 +829,15 @@ QSlider::sub-page:horizontal
     </property>
    </widget>
   </widget>
+  <zorder>addMediaButton</zorder>
+  <zorder>editPostButton</zorder>
+  <zorder>nameText</zorder>
+  <zorder>contentText</zorder>
+  <zorder>deleteFileInputButton</zorder>
+  <zorder>audioFrame</zorder>
+  <zorder>fhotoFrame</zorder>
+  <zorder>fileFrame</zorder>
+  <zorder>videoFrame</zorder>
  </widget>
  <resources>
   <include location="IMG.qrc"/>

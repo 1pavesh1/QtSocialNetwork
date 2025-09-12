@@ -2,33 +2,15 @@
 #include "ui_UserPostsWindow.h"
 
 UserPostsWindow::UserPostsWindow(QWidget *parent)
-    : QDialog(parent)
+    : BaseWindow(parent)
     , ui(new Ui::UserPostsWindow)
 {
     ui->setupUi(this);
-    connect(&SocketManager::instance(), &SocketManager::GetUserPost, this, &UserPostsWindow::HandlerGetUserPost);
-    connect(&SocketManager::instance(), &SocketManager::GetUserPostFailed, this, &UserPostsWindow::HandlerGetUserPostFailed);
 }
 
 UserPostsWindow::~UserPostsWindow()
 {
     delete ui;
-}
-
-void UserPostsWindow::EnableWindow()
-{
-    this->setEnabled(true);
-}
-
-void UserPostsWindow::DisableWindow()
-{
-    this->setEnabled(false);
-}
-
-void UserPostsWindow::closeEvent(QCloseEvent *event)
-{
-    emit closeSignal();
-    event->accept();
 }
 
 void UserPostsWindow::SetData(const UserModel &userModel)
@@ -37,11 +19,11 @@ void UserPostsWindow::SetData(const UserModel &userModel)
     SocketManager::instance().GetUserPostQuery(userModel);
 }
 
-void UserPostsWindow::HandlerGetUserPost(const PostVector &postModelVector)
+void UserPostsWindow::HandlerGetUserPost(const PostList &postList)
 {
     ui->postUserList->clear(); // Очищаем список
 
-    for (const PostModel &post : postModelVector.GetPostModelVector())
+    for (const PostModel &post : postList.GetPostList())
     {
         // Создаем кастомный виджет для поста
         PostItemWidget *itemWidget = new PostItemWidget(post.GetUserModel(), post);
@@ -62,17 +44,18 @@ void UserPostsWindow::HandlerGetUserPost(const PostVector &postModelVector)
 
 void UserPostsWindow::HandlerGetUserPostFailed()
 {
+    messageWidget = new MessageWidget(this, "Не получилось доставить данные", DANGER);
+    messageWidget->Show();
+}
+
+void UserPostsWindow::OnLikeClicked(const PostModel &postModel)
+{
 
 }
 
-void UserPostsWindow::OnLikeClicked(qint32 idPost)
+void UserPostsWindow::OnCommentClicked(const PostModel &postModel)
 {
-    qDebug() << "Like clicked for post:" << idPost;
-}
 
-void UserPostsWindow::OnCommentClicked(qint32 idPost)
-{
-    qDebug() << "Comment clicked for post:" << idPost;
 }
 
 void UserPostsWindow::on_addPostButton_clicked()
@@ -90,3 +73,13 @@ void UserPostsWindow::on_searchButton_clicked()
 
 }
 
+void UserPostsWindow::ConnectSlots()
+{
+    connect(&SocketManager::instance(), &SocketManager::GetUserPost, this, &UserPostsWindow::HandlerGetUserPost);
+    connect(&SocketManager::instance(), &SocketManager::GetUserPostFailed, this, &UserPostsWindow::HandlerGetUserPostFailed);
+}
+
+void UserPostsWindow::DisconnectSlots()
+{
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
+}

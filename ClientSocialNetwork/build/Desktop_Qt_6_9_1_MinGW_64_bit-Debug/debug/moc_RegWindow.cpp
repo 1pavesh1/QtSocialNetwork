@@ -83,7 +83,7 @@ template <> constexpr inline auto RegWindow::qt_create_metaobjectdata<qt_meta_ta
             qt_methods, qt_properties, qt_enums);
 }
 Q_CONSTINIT const QMetaObject RegWindow::staticMetaObject = { {
-    QMetaObject::SuperData::link<QDialog::staticMetaObject>(),
+    QMetaObject::SuperData::link<BaseWindow::staticMetaObject>(),
     qt_staticMetaObjectStaticContent<qt_meta_tag_ZN9RegWindowE_t>.stringdata,
     qt_staticMetaObjectStaticContent<qt_meta_tag_ZN9RegWindowE_t>.data,
     qt_static_metacall,
@@ -132,12 +132,12 @@ void *RegWindow::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN9RegWindowE_t>.strings))
         return static_cast<void*>(this);
-    return QDialog::qt_metacast(_clname);
+    return BaseWindow::qt_metacast(_clname);
 }
 
 int RegWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QDialog::qt_metacall(_c, _id, _a);
+    _id = BaseWindow::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {

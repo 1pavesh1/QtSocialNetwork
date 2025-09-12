@@ -4,16 +4,19 @@
 #include <QDir>
 #include <QSqlQuery>
 #include <QSqlError>
-#include "TimeManager.h"
-#include "MediaManager.h"
+#include "Utils/TimeUtil.h"
 #include "UserModel.h"
+#include "Managers/DataBaseFileManager.h"
+#include "MediaHelpers/FileWriter.h"
+#include "MediaHelpers/FileReader.h"
 
 class DataBaseUserManager
 {
 private:
     QByteArray      photoData;
-    TimeManager     timeManager;
-    MediaManager    mediaManager;
+    TimeUtil        timeUtil;
+    DataBaseFileManager dbFileManager;
+
 public:
     UserModel GetUserInId(const qint16 &idUser, const QSqlDatabase &dataBase)
     {
@@ -33,11 +36,7 @@ public:
             tempUserModel.SetLogin(query.value(1).toString());
             tempUserModel.SetPhone(query.value(3).toString());
             tempUserModel.SetEmail(query.value(4).toString());
-            tempUserModel.SetPhotoPath(query.value(5).toString());
-            tempUserModel.SetDateBithday(query.value(7).toString());
-
-            if (!tempUserModel.GetPhotoPath().isEmpty())
-                tempUserModel.SetPhoto(mediaManager.GetPhotoUser(tempUserModel));
+            tempUserModel.SetDateBithday(query.value(6).toString());
         }
 
         return tempUserModel;
@@ -49,7 +48,7 @@ public:
 
         query.prepare("INSERT INTO users (login, password, phone, entry_time) VALUES (?, ?, ?, ?);");
 
-        userModel.SetEntryTime(timeManager.GetDateTime());
+        userModel.SetEntryTime(timeUtil.GetDateTime());
 
         query.addBindValue(userModel.GetLogin());
         query.addBindValue(userModel.GetPassword());
@@ -86,15 +85,12 @@ public:
             {
                 userModel.SetIdUser(query.value(0).toInt());
                 userModel.SetEmail(query.value(4).toString());
-                userModel.SetPhotoPath(query.value(5).toString());
-                userModel.SetEntryTime(timeManager.GetDateTime());
+                userModel.SetEntryTime(timeUtil.GetDateTime());
                 userModel.SetDateBithday(query.value(7).toString());
                 userModel.SetCountNotifications(GetCountNotifications(userModel, dataBase));
                 userModel.SetCountFriends(GetCountFriends(userModel, dataBase));
                 userModel.SetStatus(true);
-
-                if (!userModel.GetPhotoPath().isEmpty())
-                    userModel.SetPhoto(mediaManager.GetPhotoUser(userModel));
+                userModel.SetFileModel(dbFileManager.GetFileInUser(userModel, dataBase));
 
                 return true;
             }
@@ -206,19 +202,7 @@ public:
 
     bool UpdatePhotoUser(const UserModel &userModel, const QSqlDatabase &dataBase)
     {
-        QSqlQuery query(dataBase);
-
-        query.prepare("UPDATE users SET photo_path = ? WHERE id_user = ?;");
-
-        query.addBindValue(userModel.GetPhotoPath());
-        query.addBindValue(userModel.GetIdUser());
-
-        if (!query.exec())
-        {
-            qDebug() << query.lastError().text();
-            return false;
-        }
-        return true;
+        return dbFileManager.AddFileInUser(userModel, dataBase);
     }
 
     qint32 GetCountNotifications(const UserModel &userModel, const QSqlDatabase &dataBase)

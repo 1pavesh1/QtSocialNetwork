@@ -14,12 +14,15 @@ SOURCES += \
 
 HEADERS += \
     Data.h \
+    Enum/TypeMessage.h \
     Enum/TypeQuery.h \
-    Managers/MediaManager.h \
-    ModelVectors/NotificationVector.h \
-    ModelVectors/PostVector.h \
-    ModelVectors/UserVector.h \
+    ModelList/CommentList.h \
+    ModelList/NotificationList.h \
+    ModelList/PostList.h \
+    ModelList/UserList.h \
     Models/CommentModel.h \
+    Models/FileModel.h \
+    Models/LikeModel.h \
     Models/NotificationModel.h \
     Models/PostModel.h \
     Models/UserModel.h

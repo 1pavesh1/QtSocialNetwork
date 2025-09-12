@@ -2,26 +2,15 @@
 #include "ui_NotificationsWindow.h"
 
 NotificationsWindow::NotificationsWindow(QWidget *parent)
-    : QDialog(parent)
+    : BaseWindow(parent)
     , ui(new Ui::NotificationsWindow)
 {
     ui->setupUi(this);
-    connect(&SocketManager::instance(), &SocketManager::GetNotifications, this, &NotificationsWindow::HandlerGetNotification);
-    connect(&SocketManager::instance(), &SocketManager::GetNotificationsFailed, this, &NotificationsWindow::HandlerGetNotificationFailed);
-    connect(&SocketManager::instance(), &SocketManager::AcceptNotification, this, &NotificationsWindow::DeleteNotififcationFromTable);
-    connect(&SocketManager::instance(), &SocketManager::CancelNotification, this, &NotificationsWindow::DeleteNotififcationFromTable);
 }
 
 NotificationsWindow::~NotificationsWindow()
 {
     delete ui;
-}
-
-void NotificationsWindow::closeEvent(QCloseEvent *event)
-{
-    DisconnectAllSlots();
-    emit closeSignal();
-    event->accept();
 }
 
 void NotificationsWindow::SetData(const UserModel &userModel)
@@ -30,11 +19,12 @@ void NotificationsWindow::SetData(const UserModel &userModel)
     SocketManager::instance().GetNotificationQuery(this->userModel);
 }
 
-void NotificationsWindow::HandlerGetNotification(const NotificationVector &notificationModelVector)
+void NotificationsWindow::HandlerGetNotification(const NotificationList &notificationList)
 {
     ui->notificationsList->clear();
-    notificationVector = notificationModelVector.GetNotificationModelVector();
-    for (const NotificationModel &notificationModel : notificationModelVector.GetNotificationModelVector())
+    ui->notificationsList->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->notificationsList->setFocusPolicy(Qt::NoFocus);
+    for (const NotificationModel &notificationModel : notificationList.GetNotificationList())
     {
         NotificationItemWidget *itemWidget = new NotificationItemWidget(notificationModel);
 
@@ -51,7 +41,8 @@ void NotificationsWindow::HandlerGetNotification(const NotificationVector &notif
 
 void NotificationsWindow::HandlerGetNotificationFailed()
 {
-    messageManager.GetDataFailed();
+    messageWidget = new MessageWidget(this, "Не получилось доставить данные", DANGER);
+    messageWidget->Show();
 }
 
 void NotificationsWindow::CancelNotification(const NotificationModel &notificationModel)
@@ -73,6 +64,18 @@ void NotificationsWindow::DeleteNotififcationFromTable(const NotificationModel &
             notificationTempVector.push_back(notificationVector[i]);
         }
     }
-    notificationModelVector.SetNotificationModelVector(notificationTempVector);
-    HandlerGetNotification(notificationModelVector);
+    HandlerGetNotification(notificationList);
+}
+
+void NotificationsWindow::ConnectSlots()
+{
+    connect(&SocketManager::instance(), &SocketManager::GetNotifications, this, &NotificationsWindow::HandlerGetNotification);
+    connect(&SocketManager::instance(), &SocketManager::GetNotificationsFailed, this, &NotificationsWindow::HandlerGetNotificationFailed);
+    connect(&SocketManager::instance(), &SocketManager::AcceptNotification, this, &NotificationsWindow::DeleteNotififcationFromTable);
+    connect(&SocketManager::instance(), &SocketManager::CancelNotification, this, &NotificationsWindow::DeleteNotififcationFromTable);
+}
+
+void NotificationsWindow::DisconnectSlots()
+{
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }

@@ -8,16 +8,16 @@
 #include <QLabel>
 #include <QPushButton>
 #include "UserModel.h"
-#include "ModelVectors/NotificationVector.h"
+#include "ModelList/NotificationList.h"
 #include "Managers/SocketManager.h"
-#include "Managers/MessageManager.h"
 #include "CustomWidgets/NotificationItemWidget.h"
+#include "AbstractClasses/BaseWindow.h"
 
 namespace Ui {
 class NotificationsWindow;
 }
 
-class NotificationsWindow : public QDialog
+class NotificationsWindow : public BaseWindow
 {
     Q_OBJECT
 
@@ -25,26 +25,20 @@ public:
     explicit NotificationsWindow(QWidget *parent = nullptr);
     ~NotificationsWindow();
     void SetData(const UserModel &userModel);
-    void HandlerGetNotification(const NotificationVector &notificationModelVector);
+    void HandlerGetNotification(const NotificationList &notificationList);
     void HandlerGetNotificationFailed();
     void CancelNotification(const NotificationModel &notificationModel);
     void AcceptNotification(const NotificationModel &notificationModel);
     void DeleteNotififcationFromTable(const NotificationModel &notificationModel);
-protected:
-    void closeEvent(QCloseEvent *event) override;
-signals:
-    void closeSignal();
+    void ConnectSlots() override;
+    void DisconnectSlots() override;
 private:
-    inline void DisconnectAllSlots()
-    {
-        disconnect(&SocketManager::instance(), nullptr, this, nullptr);
-    }
     Ui::NotificationsWindow *ui;
 
     UserModel           userModel;
 
     NotificationModel               notificationModel;
-    NotificationVector              notificationModelVector;
+    NotificationList                notificationList;
     QVector <NotificationModel>     notificationVector;
     QVector <NotificationModel>     notificationTempVector;
 
@@ -56,8 +50,6 @@ private:
     QLabel                          *profilePicture;
     QPushButton                     *acceptButton;
     QPushButton                     *cancelButton;
-
-    MessageManager                  messageManager;
 };
 
 #endif // NOTIFICATIONSWINDOW_H

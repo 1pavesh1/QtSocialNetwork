@@ -34,14 +34,6 @@ public:
 
     }
 
-    NotificationModel(const qint32 &idNotification, const qint32 &idUserSender, const qint32 &idUserAccepter,
-                      const QString &query, const QString &dateSending) :
-        idNotification(idNotification), idUserSender(idUserSender), idUserAccepter(idUserAccepter),
-        query(query), dateSending(dateSending)
-    {
-
-    }
-
     qint32    GetIdNotification()     const { return idNotification;  }
     qint32    GetIdUserSender()       const { return idUserSender;    }
     qint32    GetIdUserAccepter()     const { return idUserAccepter;  }

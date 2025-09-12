@@ -7,7 +7,6 @@
 *****************************************************************************/
 
 #include "../../../UsersWindow.h"
-#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -40,19 +39,16 @@ template <> constexpr inline auto UsersWindow::qt_create_metaobjectdata<qt_meta_
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "UsersWindow",
-        "closeSignal",
-        "",
         "on_friendsButton_clicked",
+        "",
         "on_allUsersButton_clicked"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Signal 'closeSignal'
-        QtMocHelpers::SignalData<void()>(1, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'on_friendsButton_clicked'
-        QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_allUsersButton_clicked'
-        QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -62,7 +58,7 @@ template <> constexpr inline auto UsersWindow::qt_create_metaobjectdata<qt_meta_
             qt_methods, qt_properties, qt_enums);
 }
 Q_CONSTINIT const QMetaObject UsersWindow::staticMetaObject = { {
-    QMetaObject::SuperData::link<QDialog::staticMetaObject>(),
+    QMetaObject::SuperData::link<BaseWindow::staticMetaObject>(),
     qt_staticMetaObjectStaticContent<qt_meta_tag_ZN11UsersWindowE_t>.stringdata,
     qt_staticMetaObjectStaticContent<qt_meta_tag_ZN11UsersWindowE_t>.data,
     qt_static_metacall,
@@ -76,16 +72,12 @@ void UsersWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
     auto *_t = static_cast<UsersWindow *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->closeSignal(); break;
-        case 1: _t->on_friendsButton_clicked(); break;
-        case 2: _t->on_allUsersButton_clicked(); break;
+        case 0: _t->on_friendsButton_clicked(); break;
+        case 1: _t->on_allUsersButton_clicked(); break;
         default: ;
         }
     }
-    if (_c == QMetaObject::IndexOfMethod) {
-        if (QtMocHelpers::indexOfMethod<void (UsersWindow::*)()>(_a, &UsersWindow::closeSignal, 0))
-            return;
-    }
+    (void)_a;
 }
 
 const QMetaObject *UsersWindow::metaObject() const
@@ -98,30 +90,24 @@ void *UsersWindow::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN11UsersWindowE_t>.strings))
         return static_cast<void*>(this);
-    return QDialog::qt_metacast(_clname);
+    return BaseWindow::qt_metacast(_clname);
 }
 
 int UsersWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QDialog::qt_metacall(_c, _id, _a);
+    _id = BaseWindow::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 2)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 2;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 2)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 3;
+        _id -= 2;
     }
     return _id;
-}
-
-// SIGNAL 0
-void UsersWindow::closeSignal()
-{
-    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
 }
 QT_WARNING_POP

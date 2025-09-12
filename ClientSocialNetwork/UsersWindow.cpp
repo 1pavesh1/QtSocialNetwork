@@ -2,14 +2,10 @@
 #include "ui_UsersWindow.h"
 
 UsersWindow::UsersWindow(QWidget *parent)
-    : QDialog(parent)
+    : BaseWindow(parent)
     , ui(new Ui::UsersWindow)
 {
     ui->setupUi(this);
-    connect(&SocketManager::instance(), &SocketManager::GetUsers, this, &UsersWindow::HandlerGetUsers);
-    connect(&SocketManager::instance(), &SocketManager::GetFriends, this, &UsersWindow::HandlerGetUsers);
-    connect(&SocketManager::instance(), &SocketManager::GetUsersFailed, this, &UsersWindow::HandlerGetUsersFailed);
-    connect(ui->usersList, &QListWidget::itemClicked, this, &UsersWindow::OnUserClicked);
 }
 
 UsersWindow::~UsersWindow()
@@ -17,10 +13,12 @@ UsersWindow::~UsersWindow()
     delete ui;
 }
 
-void UsersWindow::HandlerGetUsers(const UserVector &userModelVector)
+void UsersWindow::HandlerGetUsers(const UserList &userList)
 {
     ui->usersList->clear();
-    for (const UserModel &userModel : userModelVector.GetUserModelVector())
+    ui->usersList->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->usersList->setFocusPolicy(Qt::NoFocus);
+    for (const UserModel &userModel : userList.GetUserList())
     {
         if (this->userModel.GetLogin() != userModel.GetLogin())
         {
@@ -38,7 +36,8 @@ void UsersWindow::HandlerGetUsers(const UserVector &userModelVector)
 
 void UsersWindow::HandlerGetUsersFailed()
 {
-    messageManager.GetDataFailed();
+    messageWidget = new MessageWidget(this, "Не получилось доставить данные", DANGER);
+    messageWidget->Show();
 }
 
 void UsersWindow::SetData(const UserModel &userModel)
@@ -55,13 +54,6 @@ void UsersWindow::OnUserClicked(QListWidgetItem *item)
     this->profileWindow->show();
 }
 
-void UsersWindow::closeEvent(QCloseEvent *event)
-{
-    DisconnectAllSlots();
-    emit closeSignal();
-    event->accept();
-}
-
 void UsersWindow::on_friendsButton_clicked()
 {
     ui->usersList->clear();
@@ -72,4 +64,17 @@ void UsersWindow::on_allUsersButton_clicked()
 {
     ui->usersList->clear();
     SocketManager::instance().GetUsersQuery(this->userModel);
+}
+
+void UsersWindow::ConnectSlots()
+{
+    connect(&SocketManager::instance(), &SocketManager::GetUsers, this, &UsersWindow::HandlerGetUsers);
+    connect(&SocketManager::instance(), &SocketManager::GetFriends, this, &UsersWindow::HandlerGetUsers);
+    connect(&SocketManager::instance(), &SocketManager::GetUsersFailed, this, &UsersWindow::HandlerGetUsersFailed);
+    connect(ui->usersList, &QListWidget::itemClicked, this, &UsersWindow::OnUserClicked);
+}
+
+void UsersWindow::DisconnectSlots()
+{
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }

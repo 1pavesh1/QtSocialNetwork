@@ -3,18 +3,12 @@
 #include "ui_SettingsWindow.h"
 
 SettingsWindow::SettingsWindow(QWidget *parent)
-    : QDialog(parent)
+    : BaseWindow(parent)
     , ui(new Ui::SettingsWindow)
 {
     ui->setupUi(this);
 
     ui->openEye->setVisible(false);
-
-    connect(ui->closeEye, &QPushButton::clicked, this, &SettingsWindow::ChangedEye);
-    connect(ui->openEye, &QPushButton::clicked, this, &SettingsWindow::ChangedEye);
-    connect(&SocketManager::instance(), &SocketManager::UserUpdateData, this, &SettingsWindow::HandleUserUpdate);
-    connect(&SocketManager::instance(), &SocketManager::UserUpdateName, this, &SettingsWindow::HandleUserUpdateNameFailed);
-    connect(&SocketManager::instance(), &SocketManager::UserUpdateFailed, this, &SettingsWindow::HandleUserUpdateFailed);
 }
 
 SettingsWindow::~SettingsWindow()
@@ -45,17 +39,19 @@ void SettingsWindow::HandleUserUpdate(const UserModel &userModel)
     ui->dateText->setDate(date);
     ui->passwordText->setText(this->userModel.GetPassword());
 
-    messageManager.UpdateData();
-}
+    messageWidget = new MessageWidget(this, "Данные обновлены", SUCCESS);
+    messageWidget->Show();}
 
 void SettingsWindow::HandleUserUpdateNameFailed()
 {
-    messageManager.UpdateDataNameFailed();
+    messageWidget = new MessageWidget(this, "Такой логин уже используется", WARNING);
+    messageWidget->Show();
 }
 
 void SettingsWindow::HandleUserUpdateFailed()
 {
-    messageManager.UpdateDataFailed();
+    messageWidget = new MessageWidget(this, "Не получилось обновить данные", DANGER);
+    messageWidget->Show();
 }
 
 void SettingsWindow::ChangedEye()
@@ -72,13 +68,6 @@ void SettingsWindow::ChangedEye()
         ui->closeEye->setVisible(true);
         ui->passwordText->setEchoMode(QLineEdit::Password);
     }
-}
-
-void SettingsWindow::closeEvent(QCloseEvent *event)
-{
-    DisconnectAllSlots();
-    emit closeSignal();
-    event->accept();
 }
 
 void SettingsWindow::on_sendButton_clicked()
@@ -103,3 +92,16 @@ void SettingsWindow::on_sendButton_clicked()
     }
 }
 
+void SettingsWindow::ConnectSlots()
+{
+    connect(ui->closeEye, &QPushButton::clicked, this, &SettingsWindow::ChangedEye);
+    connect(ui->openEye, &QPushButton::clicked, this, &SettingsWindow::ChangedEye);
+    connect(&SocketManager::instance(), &SocketManager::UserUpdateData, this, &SettingsWindow::HandleUserUpdate);
+    connect(&SocketManager::instance(), &SocketManager::UserUpdateName, this, &SettingsWindow::HandleUserUpdateNameFailed);
+    connect(&SocketManager::instance(), &SocketManager::UserUpdateFailed, this, &SettingsWindow::HandleUserUpdateFailed);
+}
+
+void SettingsWindow::DisconnectSlots()
+{
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
+}

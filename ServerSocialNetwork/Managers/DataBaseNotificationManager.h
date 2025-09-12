@@ -6,21 +6,21 @@
 #include <QSqlError>
 #include "NotificationModel.h"
 #include "UserModel.h"
-#include "Managers/TimeManager.h"
+#include "Utils/TimeUtil.h"
 #include "Managers/DataBaseUserManager.h"
 
 class DataBaseNotificationManager
 {
 public:
-    QVector <NotificationModel> GetNotifications(const UserModel &userModel, const QSqlDatabase &dataBase)
+    QList <NotificationModel> GetNotifications(const UserModel &userModel, const QSqlDatabase &dataBase)
     {
         DataBaseUserManager             dataBaseUserManager;
         NotificationModel               tempNotificationModel;
-        QVector <NotificationModel>     notificationModelVector;
+        QList <NotificationModel>       notificationList;
         QSqlQuery                       query(dataBase);
 
-        if (!notificationModelVector.isEmpty())
-            notificationModelVector.clear();
+        if (!notificationList.isEmpty())
+            notificationList.clear();
 
         query.prepare("SELECT * FROM notification WHERE id_user_accepter = :id_user;");
         query.bindValue(":id_user", userModel.GetIdUser());
@@ -39,27 +39,29 @@ public:
 
             tempNotificationModel.SetUserModel(dataBaseUserManager.GetUserInId(tempNotificationModel.GetIdUserSender(), dataBase));
 
-            notificationModelVector.push_back(tempNotificationModel);
+            notificationList.push_back(tempNotificationModel);
         }
 
-        return notificationModelVector;
+        return notificationList;
     }
 
-    void AddNotification(const UserModel &mainUserModel, const UserModel &tempUserModel, const QSqlDatabase &dataBase)
+    bool AddNotification(const UserModel &mainUserModel, const UserModel &tempUserModel, const QSqlDatabase &dataBase)
     {
-        TimeManager  timeManager;
-        QSqlQuery    query(dataBase);
+        TimeUtil    timeUtil;
+        QSqlQuery   query(dataBase);
 
         query.prepare("INSERT INTO notification (id_user_sender, id_user_accepter, query, date_sending) VALUES (?, ?, ?, ?);");
         query.addBindValue(mainUserModel.GetIdUser());
         query.addBindValue(tempUserModel.GetIdUser());
         query.addBindValue("ADD_USER");
-        query.addBindValue(timeManager.GetDateTime());
+        query.addBindValue(timeUtil.GetDateTime());
 
         if (!query.exec())
         {
             qDebug() << query.lastError().text();
+            return false;
         }
+        return true;
     }
 
     void DeleteNotificationInUser(const UserModel &mainUserModel, const UserModel &tempUserModel, const QSqlDatabase &dataBase)

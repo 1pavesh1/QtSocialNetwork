@@ -91,12 +91,11 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
         ReadChangePhotoAnswer(typeQuery);
         break;
     case GET_USERS_QUERY: case GET_USERS_FAILED_ANSWER:
-        dataFromServer >> userModelVector;
-        qDebug() << userModelVector.GetUserModelVector().size();
+        dataFromServer >> userList;
         ReadGetUsers(typeQuery);
         break;
     case GET_FRIENDS_QUERY: case GET_FRIENDS_FAILED_ANSWER:
-        dataFromServer >> userModelVector;
+        dataFromServer >> userList;
         ReadGetFriends(typeQuery);
         break;
     case RELATIONSHIP_FRIEND_ANSWER: case RELATIONSHIP_NOT_FRIEND_ANSWER: case RELATIONSHIP_WAIT_NOTIFICATION_ANSWER:
@@ -104,7 +103,7 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
         ReadGetRelationship(typeQuery);
         break;
     case GET_NOTIFICATIONS_QUERY:
-        dataFromServer >> notificationModelVector;
+        dataFromServer >> notificationList;
         ReadGetNotification(typeQuery);
         break;
     case ACCEPT_NOTIIFICATION_QUERY: case CANCEL_NOTIIFICATION_QUERY:
@@ -126,6 +125,34 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
     case GET_USER_POSTS_QUERY: case GET_USER_POSTS_FAILED:
         dataFromServer >> postModelVector;
         ReadGetUserPostAnswer(typeQuery);
+        break;
+    case DELETE_USER_POST_QUERY: case DELETE_USER_POST_FAILED:
+        dataFromServer >> postModel;
+        ReadDeletePostAnswer(typeQuery);
+        break;
+    case EDIT_POST_QUERY: case EDIT_POST_FAILED:
+        dataFromServer >> postModel;
+        ReadEditPostAnswer(typeQuery);
+        break;
+    case LIKE_POST_QUERY: case LIKE_POST_FAILED:
+        dataFromServer >> postModel;
+        ReadLikePostAnswer(typeQuery);
+        break;
+    case ADD_COMMENT_QUERY: case ADD_COMMENT_FAILED:
+        dataFromServer >> commentModel;
+        ReadAddCommentPostAnswer(typeQuery);
+        break;
+    case DELETE_COMMENT_QUERY: case DELETE_COMMENT_FAILED:
+        dataFromServer >> commentModel;
+        ReadDeleteCommentPostAnswer(typeQuery);
+        break;
+    case EDIT_COMMENT_QUERY: case EDIT_COMMENT_FAILED:
+        dataFromServer >> commentModel;
+        ReadEditCommentPostAnswer(typeQuery);
+        break;
+    case GET_COMMENTS_QUERY: case GET_COMMENTS_FAILED:
+        dataFromServer >> commentList;
+        ReadGetCommentPostAnswer(typeQuery);
         break;
     default:
         break;
@@ -222,6 +249,41 @@ void SocketManager::GetUserPostQuery(const UserModel &userModel)
     SendDataToServer(GET_USER_POSTS_QUERY, userModel);
 }
 
+void SocketManager::DeletePostQuery(const PostModel &postModel)
+{
+    SendDataToServer(DELETE_USER_POST_QUERY, postModel);
+}
+
+void SocketManager::EditPostQuery(const PostModel &postModel)
+{
+    SendDataToServer(EDIT_POST_QUERY, postModel);
+}
+
+void SocketManager::LikePostQuery(const LikeModel &likeModel)
+{
+    SendDataToServer(LIKE_POST_QUERY, likeModel);
+}
+
+void SocketManager::AddCommentPostQuery(const CommentModel &commentModel)
+{
+    SendDataToServer(ADD_COMMENT_QUERY, commentModel);
+}
+
+void SocketManager::DeleteCommentPostQuery(const CommentModel &commentModel)
+{
+    SendDataToServer(DELETE_COMMENT_QUERY, commentModel);
+}
+
+void SocketManager::EditCommentPostQuery(const CommentModel &commentModel)
+{
+    SendDataToServer(EDIT_COMMENT_QUERY, commentModel);
+}
+
+void SocketManager::GetCommentPostQuery(const PostModel &postModel)
+{
+    SendDataToServer(GET_COMMENTS_QUERY, postModel);
+}
+
 void SocketManager::ReadRegAnswer(const TypeQuery &typeQuery)
 {
     if (typeQuery == REG_USER_QUERY)
@@ -271,7 +333,7 @@ void SocketManager::ReadCheckUserProfileAnswer(const TypeQuery &typeQuery)
 void SocketManager::ReadGetUsers(const TypeQuery &typeQuery)
 {
     if (typeQuery == GET_USERS_QUERY)
-        emit GetUsers(userModelVector);
+        emit GetUsers(userList);
     else
         emit GetUsersFailed();
 }
@@ -279,7 +341,7 @@ void SocketManager::ReadGetUsers(const TypeQuery &typeQuery)
 void SocketManager::ReadGetFriends(const TypeQuery &typeQuery)
 {
     if (typeQuery == GET_FRIENDS_QUERY)
-        emit GetUsers(userModelVector);
+        emit GetUsers(userList);
     else
         emit GetUsersFailed();
 }
@@ -292,7 +354,7 @@ void SocketManager::ReadGetRelationship(const TypeQuery &typeQuery)
 void SocketManager::ReadGetNotification(const TypeQuery &typeQuery)
 {
     if (typeQuery == GET_NOTIFICATIONS_QUERY)
-        emit GetNotifications(notificationModelVector);
+        emit GetNotifications(notificationList);
     else
         emit GetNotificationsFailed();
 }
@@ -332,4 +394,60 @@ void SocketManager::ReadGetUserPostAnswer(const TypeQuery &typeQuery)
         emit GetUserPost(postModelVector);
     else
         emit GetUserPostFailed();
+}
+
+void SocketManager::ReadDeletePostAnswer(const TypeQuery &typeQuery)
+{
+    if (typeQuery == DELETE_USER_POST_QUERY)
+        emit DeletePost(postModel);
+    else
+        emit DeletePostFailed();
+}
+
+void SocketManager::ReadEditPostAnswer(const TypeQuery &typeQuery)
+{
+    if (typeQuery == EDIT_POST_QUERY)
+        emit EditPost(postModel);
+    else
+        emit EditPostFailed();
+}
+
+void SocketManager::ReadLikePostAnswer(const TypeQuery &typeQuery)
+{
+    if (typeQuery == LIKE_POST_QUERY)
+        emit LikePost(likeModel);
+    else
+        emit LikePostFailed();
+}
+
+void SocketManager::ReadAddCommentPostAnswer(const TypeQuery &typeQuery)
+{
+    if (typeQuery == ADD_COMMENT_QUERY)
+        emit AddCommentPost(commentModel);
+    else
+        emit AddCommentPostFailed();
+}
+
+void SocketManager::ReadDeleteCommentPostAnswer(const TypeQuery &typeQuery)
+{
+    if (typeQuery == DELETE_COMMENT_QUERY)
+        emit DeleteCommentPost(commentModel);
+    else
+        emit DeleteCommentPostFailed();
+}
+
+void SocketManager::ReadEditCommentPostAnswer(const TypeQuery &typeQuery)
+{
+    if (typeQuery == EDIT_COMMENT_QUERY)
+        emit EditCommentPost(commentModel);
+    else
+        emit EditCommentPostFailed();
+}
+
+void SocketManager::ReadGetCommentPostAnswer(const TypeQuery &typeQuery)
+{
+    if (typeQuery == GET_COMMENTS_QUERY)
+        emit GetCommentPost(commentList);
+    else
+        emit GetCommentPostFailed();
 }

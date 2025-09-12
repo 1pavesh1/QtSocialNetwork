@@ -6,20 +6,15 @@
 #include "ui_FeedWindow.h"
 
 FeedWindow::FeedWindow(QWidget *parent)
-    : QDialog(parent)
+    : BaseWindow(parent)
     , ui(new Ui::FeedWindow)
 {
     ui->setupUi(this);
+    ui->editCommentFrame->setVisible(false);
 
     timer           = new QTimer(this);
     ui->menuTableFrame->setVisible(false);
-
-    connect(timer, &QTimer::timeout, this, &FeedWindow::CheckCursorPosition);
-    connect(&SocketManager::instance(), &SocketManager::UserUpdateData, this, &FeedWindow::SetData);
-    connect(&SocketManager::instance(), &SocketManager::UserChangePhoto, this, &FeedWindow::SetData);
-    connect(&SocketManager::instance(), &SocketManager::GetPost, this, &FeedWindow::HandlerGetPost);
-    connect(&SocketManager::instance(), &SocketManager::GetPostFailed, this, &FeedWindow::HandlerGetPostFailed);
-
+    ui->commentPostFrame->setVisible(false);
     // Настройка списка
     ui->postList->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     ui->postList->setSelectionMode(QAbstractItemView::NoSelection);
@@ -45,10 +40,6 @@ void FeedWindow::CheckCursorPosition()
 
 void FeedWindow::OpenMenuAnimation()
 {
-    ui->menuTableFrame->setMinimumHeight(0);
-    ui->menuTableFrame->setMaximumHeight(16777215);
-    ui->menuTableFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-
     QRect startRect = ui->menuTableFrame->geometry();
     QRect endRect = startRect;
 
@@ -80,10 +71,6 @@ void FeedWindow::OpenMenuAnimation()
 
 void FeedWindow::CloseMenuAnimation()
 {
-    ui->menuTableFrame->setMinimumHeight(0);
-    ui->menuTableFrame->setMaximumHeight(16777215);
-    ui->menuTableFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-
     QRect startRect = ui->menuTableFrame->geometry();
     QRect endRect = startRect;
 
@@ -114,23 +101,83 @@ void FeedWindow::CloseMenuAnimation()
     group->start();
 }
 
-void FeedWindow::EnableWindow()
+void FeedWindow::OpenCommentAnimation()
 {
-    this->setEnabled(true);
+    QRect startRect = ui->commentPostFrame->geometry();
+    QRect endRect = startRect;
+
+    QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(ui->commentPostFrame);
+    QPropertyAnimation *posAnimation = new QPropertyAnimation(ui->commentPostFrame, "geometry");
+    QPropertyAnimation *opacityAnimation = new QPropertyAnimation(opacityEffect, "opacity");
+    QParallelAnimationGroup *group = new QParallelAnimationGroup(this);
+
+    // Начальная позиция: за правым краем экрана
+    startRect.setX(900); // Смещаем вправо за пределы окна
+    startRect.setWidth(800); // Ширина остается постоянной
+
+    // Конечная позиция: выезжает слева направо
+    endRect.setX(ui->commentPostFrame->width() - 700); // Смещаем на ширину комментариев
+    endRect.setWidth(800);
+
+    ui->commentPostFrame->setGraphicsEffect(opacityEffect);
+    ui->commentPostFrame->setVisible(true);
+    ui->commentPostFrame->setGeometry(startRect);
+
+    posAnimation->setDuration(200);
+    posAnimation->setStartValue(startRect);
+    posAnimation->setEndValue(endRect);
+
+    opacityAnimation->setDuration(200);
+    opacityAnimation->setStartValue(0.0);
+    opacityAnimation->setEndValue(1.0);
+
+    group->addAnimation(posAnimation);
+    group->addAnimation(opacityAnimation);
+
+    group->start();
 }
 
-void FeedWindow::DisableWindow()
+void FeedWindow::CloseCommentAnimation()
 {
-    this->setEnabled(false);
+    QRect startRect = ui->commentPostFrame->geometry();
+    QRect endRect = startRect;
+
+    QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(ui->commentPostFrame);
+    QPropertyAnimation *posAnimation = new QPropertyAnimation(ui->commentPostFrame, "geometry");
+    QPropertyAnimation *opacityAnimation = new QPropertyAnimation(opacityEffect, "opacity");
+    QParallelAnimationGroup *group = new QParallelAnimationGroup(this);
+
+    ui->commentPostFrame->setGraphicsEffect(opacityEffect);
+
+    // Конечная позиция: уезжает вправо за пределы экрана
+    endRect.setX(900);
+    endRect.setWidth(800);
+
+    posAnimation->setDuration(200);
+    posAnimation->setStartValue(startRect);
+    posAnimation->setEndValue(endRect);
+
+    opacityAnimation->setDuration(200);
+    opacityAnimation->setStartValue(1.0);
+    opacityAnimation->setEndValue(0.0);
+
+    group->addAnimation(posAnimation);
+    group->addAnimation(opacityAnimation);
+
+    connect(group, &QParallelAnimationGroup::finished, this, [this]() {
+        ui->commentPostFrame->setVisible(false);
+    });
+
+    group->start();
 }
 
 void FeedWindow::SetData(const UserModel &userModel)
 {
     this->userModel = userModel;
 
-    if (!this->userModel.GetPhoto().isEmpty())
+    if (!this->userModel.GetFileModel().GetFileData().isEmpty())
     {
-        ui->profilePinButton->setIcon(QIcon(mediaManager.GetHandlerPhoto(this->userModel.GetPhoto(), ui->profilePinButton->size())));
+        ui->profilePinButton->setIcon(QIcon(photoUtil.GetHandlerPhoto(this->userModel.GetFileModel().GetFileData(), ui->profilePinButton->size())));
         ui->profilePinButton->setIconSize(ui->profilePinButton->size());
     }
 
@@ -139,11 +186,12 @@ void FeedWindow::SetData(const UserModel &userModel)
     SocketManager::instance().GetPostQuery(this->userModel);
 }
 
-void FeedWindow::HandlerGetPost(const PostVector &postModelVector)
+void FeedWindow::HandlerGetPost(const PostList &postList)
 {
     ui->postList->clear(); // Очищаем список
-
-    for (const PostModel &post : postModelVector.GetPostModelVector()) {
+    ui->postList->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->postList->setFocusPolicy(Qt::NoFocus);
+    for (const PostModel &post : postList.GetPostList()) {
         // Создаем кастомный виджет для поста
         PostItemWidget *itemWidget = new PostItemWidget(post.GetUserModel(), post);
 
@@ -158,22 +206,139 @@ void FeedWindow::HandlerGetPost(const PostVector &postModelVector)
         // Подключаем сигналы
         connect(itemWidget, &PostItemWidget::likeClicked, this, &FeedWindow::OnLikeClicked);
         connect(itemWidget, &PostItemWidget::commentClicked, this, &FeedWindow::OnCommentClicked);
+        connect(itemWidget, &PostItemWidget::editClicked, this, &FeedWindow::EditPost);
+        connect(itemWidget, &PostItemWidget::deleteClicked, this, &FeedWindow::DeletePost);
     }
 }
 
 void FeedWindow::HandlerGetPostFailed()
 {
-    qDebug() << "Пиздец";
+    messageWidget = new MessageWidget(this, "Не получилось доставить данные", DANGER);
+    messageWidget->Show();
 }
 
-void FeedWindow::OnLikeClicked(qint32 idPost)
+void FeedWindow::HandlerDeletePost(const PostModel &postModel)
 {
-    qDebug() << "Like clicked for post:" << idPost;
+    ui->postList->clear();
 }
 
-void FeedWindow::OnCommentClicked(qint32 idPost)
+void FeedWindow::HandlerDeletePostFailed()
 {
-    qDebug() << "Comment clicked for post:" << idPost;
+    messageWidget = new MessageWidget(this, "Не удалось удалить пост", DANGER);
+    messageWidget->Show();
+}
+
+void FeedWindow::HandlerAddCommentPost(const CommentModel &commentModel)
+{
+
+}
+
+void FeedWindow::HandlerAddCommentPostFailed()
+{
+    messageWidget = new MessageWidget(this, "Не удалось добавить комментарий", DANGER);
+    messageWidget->Show();
+}
+
+void FeedWindow::HandlerEditCommentPost(const CommentModel &commentModel)
+{
+
+}
+
+void FeedWindow::HandlerEditCommentPostFailed()
+{
+    messageWidget = new MessageWidget(this, "Не удалось отредактировать комментарий", DANGER);
+    messageWidget->Show();
+}
+
+void FeedWindow::HandlerDeleteCommentPost(const CommentModel &commentModel)
+{
+
+}
+
+void FeedWindow::HandlerDeleteCommentPostFailed()
+{
+    messageWidget = new MessageWidget(this, "Не удалось удалить комментарий", DANGER);
+    messageWidget->Show();
+}
+
+void FeedWindow::HandlerGetCommentPost(const CommentList &commentList)
+{
+    ui->commentList->clear(); // Очищаем список комментариев
+    ui->commentList->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->commentList->setFocusPolicy(Qt::NoFocus);
+    ui->commentList->setSpacing(10);
+    for (const CommentModel &comment : commentList.GetCommentList()) {
+        // Создаем кастомный виджет для комментария
+        CommentItemWidget *itemWidget = new CommentItemWidget(comment, userModel);
+
+        // Создаем QListWidgetItem
+        QListWidgetItem *item = new QListWidgetItem();
+        item->setSizeHint(itemWidget->sizeHint());
+
+        // Добавляем в список комментариев (commentList), а не в postList
+        ui->commentList->addItem(item);
+        ui->commentList->setItemWidget(item, itemWidget);
+
+        // Подключаем сигналы для редактирования и удаления комментариев
+        connect(itemWidget, &CommentItemWidget::EditClicked, this, &FeedWindow::onEditComment);
+        connect(itemWidget, &CommentItemWidget::DeleteClicked, this, &FeedWindow::onDeleteComment);
+    }
+}
+
+void FeedWindow::onEditComment(const CommentModel &commentModel)
+{
+    this->commentModel.SetIdComment(commentModel.GetIdComment());
+    isEdit = true;
+    ui->editCommentFrame->setVisible(true);
+    ui->editCommentLabel->setText(commentModel.GetTextContent());
+    ui->commentLineEdit->setText(commentModel.GetTextContent());
+}
+
+void FeedWindow::onDeleteComment(const CommentModel &commentModel)
+{
+    SocketManager::instance().DeleteCommentPostQuery(commentModel);
+}
+
+void FeedWindow::HandlerGetCommentPostFailed()
+{
+    messageWidget = new MessageWidget(this, "Не получилось доставить данные", DANGER);
+    messageWidget->Show();
+}
+
+void FeedWindow::DeletePost(const PostModel &postModel)
+{
+    SocketManager::instance().DeletePostQuery(postModel);
+}
+
+void FeedWindow::EditPost(const PostModel &postModel)
+{
+    this->DisableWindow();
+
+    this->editPostWindow = new class EditPostWindow();
+    this->editPostWindow->SetData(postModel);
+    this->editPostWindow->show();
+
+    connect(editPostWindow, &EditPostWindow::closeSignal, this, FeedWindow::EnableWindow);
+}
+
+void FeedWindow::OnLikeClicked(const PostModel &postModel)
+{
+    likeModel.SetIdPost(postModel.GetIdPost());
+    likeModel.SetIdUser(userModel.GetIdUser());
+    SocketManager::instance().LikePostQuery(likeModel);
+}
+
+void FeedWindow::OnCommentClicked(const PostModel &postModel)
+{
+    if (!commentsIsOpen)
+    {
+        ui->namePostLabel->setText(postModel.GetName());
+        ui->countCommentsPostLabel->setText(QString::number(postModel.GetCountComments()) + " Комментариев");
+        commentModel.SetIdPost(postModel.GetIdPost());
+        SocketManager::instance().GetCommentPostQuery(postModel);
+        commentsIsOpen = true;
+        OpenCommentAnimation();
+    }
 }
 
 void FeedWindow::on_openMenuButton_clicked()
@@ -231,7 +396,7 @@ void FeedWindow::on_settingsPinButton_clicked()
 
 void FeedWindow::on_exitPinButton_clicked()
 {
-    DisconnectAllSlots();
+    DisconnectSlots();
 
     SocketManager::instance().LogoutUserQuery(this->userModel);
 
@@ -267,8 +432,71 @@ void FeedWindow::on_searchButton_clicked()
 
 }
 
-void FeedWindow::closeEvent(QCloseEvent *event)
+void FeedWindow::on_updateFeedButton_clicked()
 {
-    emit closeSignal();
-    event->accept();
+    SocketManager().instance().GetPostQuery(userModel);
 }
+
+void FeedWindow::on_backButton_clicked()
+{
+    if (commentsIsOpen)
+    {
+        commentsIsOpen = false;
+        ui->commentLineEdit->clear();
+        if (isEdit)
+        {
+            ui->editCommentFrame->setVisible(false);
+            isEdit = false;
+        }
+        CloseCommentAnimation();
+    }
+}
+
+void FeedWindow::on_sendCommentButton_clicked()
+{
+    commentModel.SetIdUser(userModel.GetIdUser());
+    commentModel.SetTextContent(ui->commentLineEdit->text());
+    ui->commentLineEdit->clear();
+
+    if (isEdit)
+    {
+        ui->editCommentFrame->setVisible(false);
+        SocketManager::instance().EditCommentPostQuery(commentModel);
+    }
+    else
+        SocketManager::instance().AddCommentPostQuery(commentModel);
+
+}
+
+
+void FeedWindow::on_cancelEditComment_clicked()
+{
+    isEdit = false;
+    ui->editCommentFrame->setVisible(false);
+    ui->commentLineEdit->clear();
+}
+
+void FeedWindow::ConnectSlots()
+{
+    connect(timer, &QTimer::timeout, this, &FeedWindow::CheckCursorPosition);
+    connect(&SocketManager::instance(), &SocketManager::UserUpdateData, this, &FeedWindow::SetData);
+    connect(&SocketManager::instance(), &SocketManager::UserChangePhoto, this, &FeedWindow::SetData);
+    connect(&SocketManager::instance(), &SocketManager::GetPost, this, &FeedWindow::HandlerGetPost);
+    connect(&SocketManager::instance(), &SocketManager::GetPostFailed, this, &FeedWindow::HandlerGetPostFailed);
+    connect(&SocketManager::instance(), &SocketManager::DeletePost, this, &FeedWindow::HandlerDeletePost);
+    connect(&SocketManager::instance(), &SocketManager::DeletePostFailed, this, &FeedWindow::HandlerDeletePostFailed);
+    connect(&SocketManager::instance(), &SocketManager::AddCommentPost, this, &FeedWindow::HandlerAddCommentPost);
+    connect(&SocketManager::instance(), &SocketManager::AddCommentPostFailed, this, &FeedWindow::HandlerAddCommentPostFailed);
+    connect(&SocketManager::instance(), &SocketManager::EditCommentPost, this, &FeedWindow::HandlerEditCommentPost);
+    connect(&SocketManager::instance(), &SocketManager::EditCommentPostFailed, this, &FeedWindow::HandlerEditCommentPostFailed);
+    connect(&SocketManager::instance(), &SocketManager::DeleteCommentPost, this, &FeedWindow::HandlerDeleteCommentPost);
+    connect(&SocketManager::instance(), &SocketManager::DeleteCommentPostFailed, this, &FeedWindow::HandlerDeleteCommentPostFailed);
+    connect(&SocketManager::instance(), &SocketManager::GetCommentPost, this, &FeedWindow::HandlerGetCommentPost);
+    connect(&SocketManager::instance(), &SocketManager::GetCommentPostFailed, this, &FeedWindow::HandlerGetCommentPostFailed);
+}
+
+void FeedWindow::DisconnectSlots()
+{
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
+}
+

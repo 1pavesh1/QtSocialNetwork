@@ -2,19 +2,12 @@
 #include "ui_AuthWindow.h"
 
 AuthWindow::AuthWindow(QWidget *parent)
-    : QDialog(parent)
+    : BaseWindow(parent)
     , ui(new Ui::AuthWindow)
 {
     ui->setupUi(this);
 
     ui->openEye->setVisible(false);
-
-    connect(qApp, &QApplication::focusChanged, this, &AuthWindow::ChangedTelephoneText);
-    connect(ui->closeEye, &QPushButton::clicked, this, &AuthWindow::ChangedEye);
-    connect(ui->openEye, &QPushButton::clicked, this, &AuthWindow::ChangedEye);
-    connect(&SocketManager::instance(), &SocketManager::UserAuth, this, &AuthWindow::HandleUserAuth);
-    connect(&SocketManager::instance(), &SocketManager::UserAuthServer, this, &AuthWindow::HandleUserAuthServer);
-    connect(&SocketManager::instance(), &SocketManager::UserAuthFailed, this, &AuthWindow::HandleUserAuthFailed);
 }
 
 AuthWindow::~AuthWindow()
@@ -81,13 +74,14 @@ void AuthWindow::on_authButton_clicked()
     }
     else
     {
-        messageManager.LineIsClear();
+        messageWidget = new MessageWidget(this, "Поля пусты", WARNING);
+        messageWidget->Show();
     }
 }
 
 void AuthWindow::HandleUserAuth(const UserModel &userModel)
 {
-    disconnectAllSlots();
+    DisconnectSlots();
     this->close();
     this->feedWindow = new class FeedWindow();
     this->feedWindow->SetData(userModel);
@@ -96,10 +90,27 @@ void AuthWindow::HandleUserAuth(const UserModel &userModel)
 
 void AuthWindow::HandleUserAuthFailed()
 {
-    messageManager.AuthFailed();
+    messageWidget = new MessageWidget(this, "Авторизация не удалась", DANGER);
+    messageWidget->Show();
 }
 
 void AuthWindow::HandleUserAuthServer()
 {
-    messageManager.AuthUserOnServer();
+    messageWidget = new MessageWidget(this, "Пользователь уже в сети", WARNING);
+    messageWidget->Show();
+}
+
+void AuthWindow::ConnectSlots()
+{
+    connect(qApp, &QApplication::focusChanged, this, &AuthWindow::ChangedTelephoneText);
+    connect(ui->closeEye, &QPushButton::clicked, this, &AuthWindow::ChangedEye);
+    connect(ui->openEye, &QPushButton::clicked, this, &AuthWindow::ChangedEye);
+    connect(&SocketManager::instance(), &SocketManager::UserAuth, this, &AuthWindow::HandleUserAuth);
+    connect(&SocketManager::instance(), &SocketManager::UserAuthServer, this, &AuthWindow::HandleUserAuthServer);
+    connect(&SocketManager::instance(), &SocketManager::UserAuthFailed, this, &AuthWindow::HandleUserAuthFailed);
+}
+
+void AuthWindow::DisconnectSlots()
+{
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }

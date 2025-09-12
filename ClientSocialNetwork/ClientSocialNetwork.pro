@@ -9,9 +9,8 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 INCLUDEPATH += ../Data
-INCLUDEPATH += ../Data/Managers
 INCLUDEPATH += ../Data/Models
-INCLUDEPATH += ../Data/ModelVectors
+INCLUDEPATH += ../Data/ModelList
 INCLUDEPATH += ../Data/Enum
 
 SOURCES += \
@@ -31,18 +30,28 @@ SOURCES += \
     MainWindow.cpp
 
 HEADERS += \
+    AbstractClasses/AnimationInterface.h \
+    AbstractClasses/BaseWindow.h \
+    AbstractClasses/CustomMediaWidget.h \
+    AbstractClasses/CustomWidget.h \
     AddPostWindow.h \
     AuthWindow.h \
     ChangePhotoWindow.h \
+    CustomWidgets/AudioWidget.h \
+    CustomWidgets/CommentItemWidget.h \
+    CustomWidgets/FileWidget.h \
     CustomWidgets/FriendItemWidget.h \
+    CustomWidgets/MessageWidget.h \
     CustomWidgets/NotificationItemWidget.h \
+    CustomWidgets/PhotoWidget.h \
     CustomWidgets/PostItemWidget.h \
+    CustomWidgets/VideoWidget.h \
     EditPostWindow.h \
     FeedWindow.h \
     MainWindow.h \
-    Managers/MessageManager.h \
     Managers/SocketManager.h \
     Managers/ValidationManager.h \
+    MediaUtil/PhotoUtil.h \
     NotificationsWindow.h \
     ProfileWindow.h \
     RegWindow.h \

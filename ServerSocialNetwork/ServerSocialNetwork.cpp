@@ -146,6 +146,34 @@ void ServerSocialNetwork::ReadQuery(QDataStream &query, QTcpSocket *socket)
         query >> userModel;
         GetUserPosts(userModel, socket);
         break;
+    case DELETE_USER_POST_QUERY:
+        query >> postModel;
+        DeletePost(postModel, socket);
+        break;
+    case EDIT_POST_QUERY:
+        query >> postModel;
+        EditPost(postModel, socket);
+        break;
+    case LIKE_POST_QUERY:
+        query >> likeModel;
+        LikePost(likeModel, socket);
+        break;
+    case ADD_COMMENT_QUERY:
+        query >> commentModel;
+        AddCommentPost(commentModel, socket);
+        break;
+    case DELETE_COMMENT_QUERY:
+        query >> commentModel;
+        DeleteCommentPost(commentModel, socket);
+        break;
+    case EDIT_COMMENT_QUERY:
+        query >> commentModel;
+        EditCommentPost(commentModel, socket);
+        break;
+    case GET_COMMENTS_QUERY:
+        query >> postModel;
+        GetCommentsPost(postModel, socket);
+        break;
     default:
         break;
     }
@@ -227,7 +255,7 @@ void ServerSocialNetwork::CheckUser(UserModel &userModel, QTcpSocket *socket)
 
 void ServerSocialNetwork::ChangePhotoUser(UserModel &userModel, QTcpSocket *socket)
 {
-    if (mediaManager.SavePhotoUserOnServer(userModel) && dbUserManager.UpdatePhotoUser(userModel, dbConnectManager.GetDataBase()))
+    if (dbUserManager.UpdatePhotoUser(userModel, dbConnectManager.GetDataBase()))
         SendDataToClient(CHANGE_PHOTO_USER_QUERY, userModel, socket);
     else
         SendDataToClient(CHANGE_PHOTO_FAILED_ANSWER, userModel, socket);
@@ -235,28 +263,24 @@ void ServerSocialNetwork::ChangePhotoUser(UserModel &userModel, QTcpSocket *sock
 
 void ServerSocialNetwork::GetUsers(QTcpSocket *socket)
 {
-    userModelVector.SetUserModelVector(dbFriendsManager.GetUsers(dbConnectManager.GetDataBase()));
-    for (auto userModel : userModelVector.GetUserModelVector())
+    userList.SetUserList(dbFriendsManager.GetUsers(dbConnectManager.GetDataBase()));
+    for (auto userModel : userList.GetUserList())
     {
         if (userServerManager.CheckUserOnServer(userServerMap, socket))
-        {
             userModel.SetStatus(true);
-        }
     }
-    SendDataToClient(GET_USERS_QUERY, userModelVector, socket);
+    SendDataToClient(GET_USERS_QUERY, userList, socket);
 }
 
 void ServerSocialNetwork::GetFriends(const UserModel &userModel, QTcpSocket *socket)
 {
-    userModelVector.SetUserModelVector(dbFriendsManager.GetFriends(userModel, dbConnectManager.GetDataBase()));
-    for (auto userModel : userModelVector.GetUserModelVector())
+    userList.SetUserList(dbFriendsManager.GetFriends(userModel, dbConnectManager.GetDataBase()));
+    for (auto userModel : userList.GetUserList())
     {
         if (userServerManager.CheckUserOnServer(userServerMap, socket))
-        {
             userModel.SetStatus(true);
-        }
     }
-    SendDataToClient(GET_FRIENDS_QUERY, userModelVector, socket);
+    SendDataToClient(GET_FRIENDS_QUERY, userList, socket);
 }
 
 void ServerSocialNetwork::GetRelationShipUser(const UserModel &userModel, QTcpSocket *socket)
@@ -298,9 +322,9 @@ void ServerSocialNetwork::DeleteUser(const UserModel &userModel, QTcpSocket *soc
 
 void ServerSocialNetwork::GetNotifications(const UserModel &userModel, QTcpSocket *socket)
 {
-    notificationModelVector.SetNotificationModelVector(
+    notificationList.SetNotificationList(
         dbNotificationManager.GetNotifications(userModel, dbConnectManager.GetDataBase()));
-    SendDataToClient(GET_NOTIFICATIONS_QUERY, notificationModelVector, socket);
+    SendDataToClient(GET_NOTIFICATIONS_QUERY, notificationList, socket);
 }
 
 void ServerSocialNetwork::AcceptNotification(const NotificationModel &notificationModel, QTcpSocket *socket)
@@ -317,7 +341,8 @@ void ServerSocialNetwork::CancelNotification(const NotificationModel &notificati
 
 void ServerSocialNetwork::AddPost(PostModel &postModel, QTcpSocket *socket)
 {
-    if (mediaManager.SaveMediaDataPostOnServer(postModel))
+    postModel.GetFileModel().SetPath(dirHelper.GetFilePath(postModel.GetFileModel()));
+    if (fileWriter.SaveFileOnServer(postModel.GetFileModel()))
     {
         if (dbPostManager.AddPost(postModel, dbConnectManager.GetDataBase()))
             SendDataToClient(ADD_POST_QUERY, postModel, socket);
@@ -332,14 +357,66 @@ void ServerSocialNetwork::AddPost(PostModel &postModel, QTcpSocket *socket)
 
 void ServerSocialNetwork::GetPosts(QTcpSocket *socket)
 {
-    postModelVector.SetPostModelVector(dbPostManager.GetPosts(dbConnectManager.GetDataBase()));
-    SendDataToClient(GET_POSTS_QUERY, postModelVector, socket);
+    postList.SetPostList(dbPostManager.GetPosts(dbConnectManager.GetDataBase()));
+    SendDataToClient(GET_POSTS_QUERY, postList, socket);
 }
 
 void ServerSocialNetwork::GetUserPosts(const UserModel &userModel, QTcpSocket *socket)
 {
-    postModelVector.SetPostModelVector(dbPostManager.GetUserPosts(userModel, dbConnectManager.GetDataBase()));
-    SendDataToClient(GET_USER_POSTS_QUERY, postModelVector, socket);
+    postList.SetPostList(dbPostManager.GetUserPosts(userModel, dbConnectManager.GetDataBase()));
+    SendDataToClient(GET_USER_POSTS_QUERY, postList, socket);
+}
+
+void ServerSocialNetwork::DeletePost(const PostModel &postModel, QTcpSocket *socket)
+{
+    if (dbPostManager.DeletePost(postModel, dbConnectManager.GetDataBase()))
+        SendDataToClient(DELETE_USER_POST_QUERY, postModel, socket);
+    else
+        SendDataToClient(DELETE_USER_POST_FAILED, postModel, socket);
+}
+
+void ServerSocialNetwork::EditPost(const PostModel &postModel, QTcpSocket *socket)
+{
+
+}
+
+void ServerSocialNetwork::LikePost(const LikeModel &likeModel, QTcpSocket *socket)
+{
+    if (dbLikeManager.AddLikePost(likeModel, dbConnectManager.GetDataBase()))
+        SendDataToClient(LIKE_POST_QUERY, postModel, socket);
+    else
+        SendDataToClient(LIKE_POST_FAILED, postModel, socket);
+}
+
+void ServerSocialNetwork::AddCommentPost(const CommentModel &commentModel, QTcpSocket *socket)
+{
+    if (dbCommentManager.AddComment(commentModel, dbConnectManager.GetDataBase()))
+        SendDataToClient(ADD_COMMENT_QUERY, commentModel, socket);
+    else
+        SendDataToClient(ADD_COMMENT_FAILED, commentModel, socket);
+}
+
+void ServerSocialNetwork::GetCommentsPost(const PostModel &postModel, QTcpSocket *socket)
+{
+    commentList.SetCommentList(
+        dbCommentManager.GetComments(postModel, dbConnectManager.GetDataBase()));
+    SendDataToClient(GET_COMMENTS_QUERY, commentList, socket);
+}
+
+void ServerSocialNetwork::DeleteCommentPost(const CommentModel &commentModel, QTcpSocket *socket)
+{
+    if (dbCommentManager.DeleteComment(commentModel, dbConnectManager.GetDataBase()))
+        SendDataToClient(DELETE_COMMENT_QUERY, commentModel, socket);
+    else
+        SendDataToClient(DELETE_COMMENT_FAILED, commentModel, socket);
+}
+
+void ServerSocialNetwork::EditCommentPost(const CommentModel &commentModel, QTcpSocket *socket)
+{
+    if (dbCommentManager.EditComment(commentModel, dbConnectManager.GetDataBase()))
+        SendDataToClient(EDIT_COMMENT_QUERY, commentModel, socket);
+    else
+        SendDataToClient(EDIT_COMMENT_FAILED, commentModel, socket);
 }
 
 void ServerSocialNetwork::SendDataToClient(const TypeQuery &typeQuery, const Data &data, QTcpSocket *socket)
@@ -355,5 +432,3 @@ void ServerSocialNetwork::SendDataToClient(const TypeQuery &typeQuery, const Dat
     it.key()->write(arrayData);
     qDebug() << "Сообщение отправлено пользователю: " << it.value().GetLogin();
 }
-
-

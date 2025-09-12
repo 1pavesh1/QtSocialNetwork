@@ -45,9 +45,7 @@ public:
     bool CheckUserOnServer(QMap <QTcpSocket*, UserModel> &userServerMap, QTcpSocket *socket)
     {
         if (userServerMap.count(socket))
-        {
             return true;
-        }
         return false;
     }
 
@@ -55,8 +53,7 @@ public:
     {
         if (userServerMap.value(socket).GetIdUser() == userModel.GetIdUser())
             return true;
-        else
-            return false;
+        return false;
     }
 };
 

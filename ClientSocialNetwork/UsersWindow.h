@@ -4,51 +4,40 @@
 #include <QDialog>
 #include <QCloseEvent>
 #include <QListWidgetItem>
-#include "Managers/SocketManager.h"
 #include "UserModel.h"
 #include "ProfileWindow.h"
-#include "ModelVectors/UserVector.h"
-#include "Managers/MessageManager.h"
-#include "MediaManager.h"
+#include "ModelList/UserList.h"
 #include "CustomWidgets/FriendItemWidget.h"
+#include "AbstractClasses/BaseWindow.h"
 
 namespace Ui {
 class UsersWindow;
 }
 
-class UsersWindow : public QDialog
+class UsersWindow : public BaseWindow
 {
     Q_OBJECT
 
 public:
     explicit UsersWindow(QWidget *parent = nullptr);
     ~UsersWindow();
-    void HandlerGetUsers(const UserVector &userModelVector);
+    void HandlerGetUsers(const UserList &userList);
     void HandlerGetUsersFailed();
     void SetData(const UserModel &userModel);
     void OnUserClicked(QListWidgetItem *item);
-protected:
-    void closeEvent(QCloseEvent *event) override;
-signals:
-    void closeSignal();
+    void ConnectSlots() override;
+    void DisconnectSlots() override;
 private slots:
     void on_friendsButton_clicked();
 
     void on_allUsersButton_clicked();
 
 private:
-    inline void DisconnectAllSlots()
-    {
-        disconnect(&SocketManager::instance(), nullptr, this, nullptr);
-    }
 
     Ui::UsersWindow *ui;
     class ProfileWindow         *profileWindow;
 
     QListWidgetItem             *item;
-
-    MessageManager              messageManager;
-    MediaManager                mediaManager;
 
     UserModel                   userModel;
 };

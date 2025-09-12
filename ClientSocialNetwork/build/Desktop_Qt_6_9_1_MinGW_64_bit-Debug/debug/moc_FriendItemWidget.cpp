@@ -7,7 +7,6 @@
 *****************************************************************************/
 
 #include "../../../CustomWidgets/FriendItemWidget.h"
-#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -80,6 +79,8 @@ void *FriendItemWidget::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN16FriendItemWidgetE_t>.strings))
         return static_cast<void*>(this);
+    if (!strcmp(_clname, "CustomWidget"))
+        return static_cast< CustomWidget*>(this);
     return QWidget::qt_metacast(_clname);
 }
 

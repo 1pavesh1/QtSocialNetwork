@@ -27,10 +27,10 @@ class Ui_EditPostWindow
 {
 public:
     QPushButton *editPostButton;
-    QLineEdit *nameText;
     QFrame *fileFrame;
     QLabel *nameFile;
     QLabel *label;
+    QLineEdit *nameText;
     QTextEdit *contentText;
     QFrame *audioFrame;
     QLabel *timeAudioLabel;
@@ -40,9 +40,9 @@ public:
     QSlider *timeAudioSlider;
     QLabel *nameAudioFile;
     QLabel *audioFileLabel;
-    QPushButton *deleteFileInputButton;
     QFrame *fhotoFrame;
     QPushButton *fhotoViewButton;
+    QPushButton *deleteFileInputButton;
     QPushButton *addMediaButton;
     QFrame *videoFrame;
     QSlider *timeVideoSlider;
@@ -105,25 +105,6 @@ public:
 "        stop:1 #7b1fa2\n"
 "    );\n"
 "}"));
-        nameText = new QLineEdit(EditPostWindow);
-        nameText->setObjectName("nameText");
-        nameText->setGeometry(QRect(20, 10, 661, 51));
-        QFont font1;
-        font1.setFamilies({QString::fromUtf8("Arial")});
-        font1.setPointSize(12);
-        nameText->setFont(font1);
-        nameText->setStyleSheet(QString::fromUtf8("QLineEdit\n"
-"{\n"
-"	background-color: rgb(248, 249, 255);\n"
-"	border: 0;\n"
-"    border-bottom: 1px solid black; \n"
-"	padding: 10px;\n"
-"}\n"
-"\n"
-"QLineEdit:focus\n"
-"{\n"
-"    border-bottom: 2px solid #4a148c; \n"
-"}"));
         fileFrame = new QFrame(EditPostWindow);
         fileFrame->setObjectName("fileFrame");
         fileFrame->setGeometry(QRect(20, 70, 621, 431));
@@ -138,11 +119,30 @@ public:
         nameFile = new QLabel(fileFrame);
         nameFile->setObjectName("nameFile");
         nameFile->setGeometry(QRect(180, 200, 431, 41));
+        QFont font1;
+        font1.setFamilies({QString::fromUtf8("Arial")});
+        font1.setPointSize(12);
         nameFile->setFont(font1);
         label = new QLabel(fileFrame);
         label->setObjectName("label");
         label->setGeometry(QRect(130, 190, 51, 61));
-        label->setPixmap(QPixmap(QString::fromUtf8(":/IMG/IMG/FilePin50x50.png")));
+        label->setPixmap(QPixmap(QString::fromUtf8(":/IMG/IMG/FilePin50x50SN.png")));
+        nameText = new QLineEdit(EditPostWindow);
+        nameText->setObjectName("nameText");
+        nameText->setGeometry(QRect(20, 10, 661, 51));
+        nameText->setFont(font1);
+        nameText->setStyleSheet(QString::fromUtf8("QLineEdit\n"
+"{\n"
+"	background-color: rgb(248, 249, 255);\n"
+"	border: 0;\n"
+"    border-bottom: 1px solid black; \n"
+"	padding: 10px;\n"
+"}\n"
+"\n"
+"QLineEdit:focus\n"
+"{\n"
+"    border-bottom: 2px solid #4a148c; \n"
+"}"));
         contentText = new QTextEdit(EditPostWindow);
         contentText->setObjectName("contentText");
         contentText->setGeometry(QRect(20, 510, 661, 121));
@@ -216,7 +216,7 @@ public:
 "    border-radius: 45px;\n"
 "}"));
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/IMG/IMG/VolumePin48x48.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        icon1.addFile(QString::fromUtf8(":/IMG/IMG/VolumePin48x48SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
         volumeAudioButton->setIcon(icon1);
         volumeAudioButton->setIconSize(QSize(21, 21));
         playAudioButton = new QPushButton(audioFrame);
@@ -271,19 +271,7 @@ public:
         audioFileLabel = new QLabel(audioFrame);
         audioFileLabel->setObjectName("audioFileLabel");
         audioFileLabel->setGeometry(QRect(10, 10, 51, 61));
-        audioFileLabel->setPixmap(QPixmap(QString::fromUtf8(":/IMG/IMG/FilePin50x50.png")));
-        deleteFileInputButton = new QPushButton(EditPostWindow);
-        deleteFileInputButton->setObjectName("deleteFileInputButton");
-        deleteFileInputButton->setGeometry(QRect(650, 70, 31, 31));
-        deleteFileInputButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
-        deleteFileInputButton->setStyleSheet(QString::fromUtf8("QPushButton \n"
-"{\n"
-"    border-radius: 30px;\n"
-"}"));
-        QIcon icon3;
-        icon3.addFile(QString::fromUtf8(":/IMG/IMG/CancelPin50x50SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        deleteFileInputButton->setIcon(icon3);
-        deleteFileInputButton->setIconSize(QSize(30, 30));
+        audioFileLabel->setPixmap(QPixmap(QString::fromUtf8(":/IMG/IMG/FilePin50x50SN.png")));
         fhotoFrame = new QFrame(EditPostWindow);
         fhotoFrame->setObjectName("fhotoFrame");
         fhotoFrame->setGeometry(QRect(20, 70, 621, 431));
@@ -306,6 +294,18 @@ public:
 "    border-radius: 10px;\n"
 "}"));
         fhotoViewButton->setIconSize(QSize(620, 420));
+        deleteFileInputButton = new QPushButton(EditPostWindow);
+        deleteFileInputButton->setObjectName("deleteFileInputButton");
+        deleteFileInputButton->setGeometry(QRect(650, 70, 31, 31));
+        deleteFileInputButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        deleteFileInputButton->setStyleSheet(QString::fromUtf8("QPushButton \n"
+"{\n"
+"    border-radius: 30px;\n"
+"}"));
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/IMG/IMG/CancelPin50x50SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        deleteFileInputButton->setIcon(icon3);
+        deleteFileInputButton->setIconSize(QSize(30, 30));
         addMediaButton = new QPushButton(EditPostWindow);
         addMediaButton->setObjectName("addMediaButton");
         addMediaButton->setGeometry(QRect(20, 70, 621, 431));
@@ -402,9 +402,7 @@ public:
 "{\n"
 "    border-radius: 45px;\n"
 "}"));
-        QIcon icon5;
-        icon5.addFile(QString::fromUtf8(":/IMG/IMG/VolumePin48x48SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        volumeVideoButton->setIcon(icon5);
+        volumeVideoButton->setIcon(icon1);
         volumeVideoButton->setIconSize(QSize(21, 21));
         volumeVideoSlider = new QSlider(videoFrame);
         volumeVideoSlider->setObjectName("volumeVideoSlider");
@@ -444,6 +442,15 @@ public:
         groupBoxVideo = new QGroupBox(videoFrame);
         groupBoxVideo->setObjectName("groupBoxVideo");
         groupBoxVideo->setGeometry(QRect(0, 40, 621, 321));
+        addMediaButton->raise();
+        editPostButton->raise();
+        nameText->raise();
+        contentText->raise();
+        deleteFileInputButton->raise();
+        audioFrame->raise();
+        fhotoFrame->raise();
+        fileFrame->raise();
+        videoFrame->raise();
 
         retranslateUi(EditPostWindow);
 
@@ -454,18 +461,18 @@ public:
     {
         EditPostWindow->setWindowTitle(QCoreApplication::translate("EditPostWindow", "\320\240\320\265\320\264\320\260\320\272\321\202\320\270\321\200\320\276\320\262\320\260\320\275\320\270\320\265 \320\277\320\276\321\201\321\202\320\260", nullptr));
         editPostButton->setText(QCoreApplication::translate("EditPostWindow", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214", nullptr));
-        nameText->setText(QString());
-        nameText->setPlaceholderText(QCoreApplication::translate("EditPostWindow", "\320\227\320\260\320\263\320\276\320\273\320\276\320\262\320\276\320\272 \320\277\320\276\321\201\321\202\320\260", nullptr));
         nameFile->setText(QString());
         label->setText(QString());
+        nameText->setText(QString());
+        nameText->setPlaceholderText(QCoreApplication::translate("EditPostWindow", "\320\227\320\260\320\263\320\276\320\273\320\276\320\262\320\276\320\272 \320\277\320\276\321\201\321\202\320\260", nullptr));
         contentText->setPlaceholderText(QCoreApplication::translate("EditPostWindow", "\320\235\320\260\320\277\320\270\321\210\320\270\321\202\320\265 \321\207\321\202\320\276-\320\275\320\270\320\261\321\203\320\264\321\214...", nullptr));
         timeAudioLabel->setText(QCoreApplication::translate("EditPostWindow", "00:00:00", nullptr));
         volumeAudioButton->setText(QString());
         playAudioButton->setText(QString());
         nameAudioFile->setText(QString());
         audioFileLabel->setText(QString());
-        deleteFileInputButton->setText(QString());
         fhotoViewButton->setText(QString());
+        deleteFileInputButton->setText(QString());
         addMediaButton->setText(QCoreApplication::translate("EditPostWindow", "\320\224\320\276\320\261\320\260\320\262\321\214\321\202\320\265 \321\204\320\276\321\202\320\276, \320\262\320\270\320\264\320\265\320\276, \320\274\321\203\320\267\321\213\320\272\321\203 \n"
 "\320\270\320\273\320\270 \321\204\320\260\320\271\320\273", nullptr));
         playVideoButton->setText(QString());

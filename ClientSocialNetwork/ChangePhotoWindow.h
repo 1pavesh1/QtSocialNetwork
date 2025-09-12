@@ -10,12 +10,13 @@
 #include <QPainterPath>
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
+#include "AbstractClasses/BaseWindow.h"
 
 namespace Ui {
 class ChangePhotoWindow;
 }
 
-class ChangePhotoWindow : public QDialog
+class ChangePhotoWindow : public BaseWindow
 {
     Q_OBJECT
 
@@ -23,7 +24,8 @@ public:
     explicit ChangePhotoWindow(const QPixmap &originalPixmap, QWidget *parent = nullptr);
     ~ChangePhotoWindow();
     QPixmap GetCroppedPixmap() const;
-
+    void ConnectSlots() override;
+    void DisconnectSlots() override;
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 

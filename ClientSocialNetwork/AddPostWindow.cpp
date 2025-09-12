@@ -3,28 +3,15 @@
 #include <QFileDialog>
 
 AddPostWindow::AddPostWindow(QWidget *parent)
-    : QDialog(parent)
+    : BaseWindow(parent)
     , ui(new Ui::AddPostWindow)
 {
     ui->setupUi(this);
+    if (!ui->mediaFrame->layout())
+        ui->mediaFrame->setLayout(new QVBoxLayout());
 
-    player = new QMediaPlayer();
-    audioOutput = new QAudioOutput();
-
-    player->setAudioOutput(audioOutput);
-
-    ui->fileFrame->setVisible(false);
-    ui->fhotoFrame->setVisible(false);
-    ui->videoFrame->setVisible(false);
-    ui->audioFrame->setVisible(false);
-
-    connect(&SocketManager::instance(), &SocketManager::AddPost, this, &AddPostWindow::HandleAddPost);
-    connect(&SocketManager::instance(), &SocketManager::AddPostFailed, this, &AddPostWindow::HandleAddPostFailed);
-    connect(player, &QMediaPlayer::durationChanged, this, &AddPostWindow::DurationChanged);
-    connect(player, &QMediaPlayer::positionChanged, this, &AddPostWindow::PositionChanged);
-
-    ui->timeVideoSlider->setRange(0, player->duration() / 1000);
-    ui->timeAudioSlider->setRange(0, player->duration() / 1000);
+    ui->mediaFrame->layout()->setContentsMargins(0, 0, 0, 0);
+    ui->mediaFrame->layout()->setSpacing(0);
 }
 
 AddPostWindow::~AddPostWindow()
@@ -40,12 +27,6 @@ void AddPostWindow::HandleAddPost()
 void AddPostWindow::HandleAddPostFailed()
 {
 
-}
-
-void AddPostWindow::closeEvent(QCloseEvent *event)
-{
-    emit closeSignal();
-    event->accept();
 }
 
 void AddPostWindow::SetData(const UserModel &userModel)
@@ -72,215 +53,78 @@ void AddPostWindow::on_addMediaButton_clicked()
         QFile file(filePath);
         if (file.open(QIODevice::ReadOnly))
         {
-            QByteArray fileData = file.readAll();
+            postModel.GetFileModel().SetFileData(file.readAll());
             file.close();
 
-            QString type = "document";
-            QString extension = QFileInfo(filePath).suffix().toLower();
+            postModel.GetFileModel().SetPath(filePath);
+            postModel.GetFileModel().SetFormat(QFileInfo(filePath).suffix().toLower());
+            postModel.GetFileModel().SetName(QFileInfo(filePath).fileName());
 
-            if (extension == "png" || extension == "jpg" || extension == "jpeg" ||
-                extension == "bmp" || extension == "gif")
+            if (postModel.GetFileModel().GetFormat() == "png" || postModel.GetFileModel().GetFormat() == "jpg" || postModel.GetFileModel().GetFormat() == "jpeg" ||
+                postModel.GetFileModel().GetFormat() == "bmp" || postModel.GetFileModel().GetFormat() == "gif")
             {
-                type = "image";
-                ui->fhotoViewButton->setIcon(QIcon(filePath));
+                PhotoWidget *photoWidget = new PhotoWidget(postModel.GetFileModel(), ui->mediaFrame);
+                ui->mediaFrame->layout()->addWidget(photoWidget);
             }
-            else if (extension == "mp4" || extension == "avi" || extension == "mov")
+            else if (postModel.GetFileModel().GetFormat() == "mp4" || postModel.GetFileModel().GetFormat() == "avi" || postModel.GetFileModel().GetFormat() == "mov")
             {
-                type = "video";
-                audioOutput->setVolume(ui->volumeVideoSlider->value());
-                video = new QVideoWidget();
-                video->setGeometry(0, 0, ui->groupBoxVideo->width(), ui->groupBoxVideo->height());
-                video->setParent(ui->groupBoxVideo);
-                player->setVideoOutput(video);
-                player->setSource(QUrl(filePath));
-                video->setVisible(true);
-                video->show();
+                VideoWidget *videoWidget = new VideoWidget(postModel.GetFileModel(), ui->mediaFrame);
+                ui->mediaFrame->layout()->addWidget(videoWidget);
             }
-            else if (extension == "mp3" || extension == "wav" || extension == "ogg")
+            else if (postModel.GetFileModel().GetFormat() == "mp3" || postModel.GetFileModel().GetFormat() == "wav" || postModel.GetFileModel().GetFormat() == "ogg")
             {
-                type = "audio";
-                audioOutput->setVolume(ui->volumeAudioSlider->value());
-                player->setSource(QUrl(filePath));
+                AudioWidget *audioWidget = new AudioWidget(postModel.GetFileModel(), ui->mediaFrame);
+                ui->mediaFrame->layout()->addWidget(audioWidget);
             }
-
-            postModel.SetMediaData(fileData);
-            postModel.SetFileType(type);
-            postModel.SetFileName(QFileInfo(filePath).fileName());
-            ui->nameVideoFile->setText(postModel.GetFileName());
-            ui->nameAudioFile->setText(postModel.GetFileName());
-            ui->nameFile->setText(postModel.GetFileName());
-            ui->nameAudioFile->setText(postModel.GetFileName());
-
-            UpdateMediaPreview();
+            else if (postModel.GetFileModel().GetFormat() == "pdf" || postModel.GetFileModel().GetFormat() == "doc" || postModel.GetFileModel().GetFormat() == "docx")
+            {
+                FileWidget *fileWidget = new FileWidget(postModel.GetFileModel(), ui->mediaFrame);
+                ui->mediaFrame->layout()->addWidget(fileWidget);
+            }
         }
         else
         {
-            QMessageBox::warning(this, "Ошибка", "Не удалось открыть файл");
+            messageWidget = new MessageWidget(this, "Не удалось открыть файл", DANGER);
+            messageWidget->Show();
         }
     }
 }
 
 void AddPostWindow::UpdateMediaPreview()
 {
-    if (postModel.GetFileType() == "document")
-    {
-        ui->fileFrame->setVisible(true);
-    }
-    else if (postModel.GetFileType() == "image")
-    {
-        ui->fhotoFrame->setVisible(true);
-    }
-    else if (postModel.GetFileType() == "video")
-    {
-        ui->videoFrame->setVisible(true);
-    }
-    else if (postModel.GetFileType() == "audio")
-    {
-        ui->audioFrame->setVisible(true);
-    }
+    ui->mediaFrame->setVisible(true);
 }
 
 void AddPostWindow::on_deleteFileInputButton_clicked()
 {
-    if (postModel.GetFileType() == "document")
+    layout = ui->mediaFrame->layout();
+
+    if (!layout || layout->count() == 0)
     {
-        ui->fileFrame->setVisible(false);
+        messageWidget = new MessageWidget(this, "There is no file to delete", DANGER);
+        messageWidget->Show();
+        return;
     }
-    else if (postModel.GetFileType() == "image")
+
+    while (QLayoutItem* item = layout->takeAt(0))
     {
-        ui->fhotoFrame->setVisible(false);
-    }
-    else if (postModel.GetFileType() == "video")
-    {
-        ui->videoFrame->setVisible(false);
-    }
-    else if (postModel.GetFileType() == "audio")
-    {
-        ui->audioFrame->setVisible(false);
+        if (item->widget())
+        {
+            QWidget* widget = item->widget();
+            widget->deleteLater();
+            ui->mediaFrame->setVisible(false);
+        }
+        delete item;
     }
 }
 
-//////// Файл ////////
-
-//////// Аудио ////////
-
-void AddPostWindow::on_playAudioButton_clicked()
+void AddPostWindow::ConnectSlots()
 {
-    if (isPause == true)
-    {
-        isPause = false;
-        player->play();
-        ui->playAudioButton->setIcon(QIcon(":/IMG/IMG/PlayPin48x48.png"));
-    }
-    else
-    {
-        isPause = true;
-        player->pause();
-        ui->playAudioButton->setIcon(QIcon(":/IMG/IMG/PausePin48x48.png"));
-    }
+    connect(&SocketManager::instance(), &SocketManager::AddPost, this, &AddPostWindow::HandleAddPost);
+    connect(&SocketManager::instance(), &SocketManager::AddPostFailed, this, &AddPostWindow::HandleAddPostFailed);
 }
 
-void AddPostWindow::on_volumeAudioButton_clicked()
+void AddPostWindow::DisconnectSlots()
 {
-    if (isMuted == false)
-    {
-        isMuted = true;
-        ui->volumeAudioButton->setIcon(QIcon(":/IMG/IMG/VolumeMutedPin48x48.png"));
-        audioOutput->setMuted(true);
-    }
-    else
-    {
-        isMuted = false;
-        ui->volumeAudioButton->setIcon(QIcon(":/IMG/IMG/VolumePin48x48.png"));
-        audioOutput->setMuted(false);
-    }
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }
-
-void AddPostWindow::on_timeAudioSlider_valueChanged(qint32 value)
-{
-    player->setPosition(value * 1000);
-}
-
-void AddPostWindow::on_volumeAudioSlider_valueChanged(qint32 value)
-{
-    audioOutput->setVolume(float(value) / 10);
-}
-
-//////// Видео ////////
-
-void AddPostWindow::on_playVideoButton_clicked()
-{
-    if (isPause == true)
-    {
-        isPause = false;
-        player->play();
-        ui->playVideoButton->setIcon(QIcon(":/IMG/IMG/PlayPin48x48.png"));
-    }
-    else
-    {
-        isPause = true;
-        player->pause();
-        ui->playVideoButton->setIcon(QIcon(":/IMG/IMG/PausePin48x48.png"));
-    }
-}
-
-void AddPostWindow::on_volumeVideoButton_clicked()
-{
-    if (isMuted == false)
-    {
-        isMuted = true;
-        ui->volumeVideoButton->setIcon(QIcon(":/IMG/IMG/VolumeMutedPin48x48.png"));
-        audioOutput->setMuted(true);
-    }
-    else
-    {
-        isMuted = false;
-        ui->volumeVideoButton->setIcon(QIcon(":/IMG/IMG/VolumePin48x48.png"));
-        audioOutput->setMuted(false);
-    }
-}
-
-void AddPostWindow::on_timeVideoSlider_valueChanged(qint32 value)
-{
-    player->setPosition(value * 1000);
-}
-
-void AddPostWindow::on_volumeVideoSlider_valueChanged(qint32 value)
-{
-    audioOutput->setVolume(float(value) / 10);
-}
-
-//////// Фото ////////
-
-
-
-void AddPostWindow::UpdateDuration(const qint32 &duration)
-{
-    if (duration || mediaDuration)
-    {
-        QTime currentTime((duration / 3600) % 60, (duration / 60) % 60, duration % 60, (duration * 1000) % 1000);
-        QTime totalTime((mediaDuration / 3600) % 60, (mediaDuration / 60) % 60, mediaDuration % 60, (mediaDuration * 1000) % 1000);
-        QString format = "";
-        if (mediaDuration > 3600)
-            format = "hh:mm:ss";
-        else
-            format = "mm:ss";
-        ui->timeVideoLabel->setText(currentTime.toString(format));
-    }
-}
-
-void AddPostWindow::DurationChanged(const qint32 &duration)
-{
-    mediaDuration = duration / 1000;
-    ui->timeVideoSlider->setMaximum(mediaDuration);
-}
-
-void AddPostWindow::PositionChanged(const qint32 &duration)
-{
-    if (!ui->timeVideoSlider->isSliderDown())
-    {
-        ui->timeVideoSlider->setValue(duration / 1000);
-    }
-    UpdateDuration(duration / 1000);
-}
-

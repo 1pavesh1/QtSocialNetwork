@@ -14,16 +14,20 @@
 #include "Managers/DataBasePostManager.h"
 #include "Managers/DataBaseUserManager.h"
 #include "Managers/UserServerManager.h"
-#include "MediaManager.h"
 #include "Data.h"
 #include "TypeQuery.h"
 #include "CommentModel.h"
 #include "NotificationModel.h"
 #include "PostModel.h"
 #include "UserModel.h"
-#include "UserVector.h"
-#include "NotificationVector.h"
-#include "PostVector.h"
+#include "UserList.h"
+#include "NotificationList.h"
+#include "PostList.h"
+#include "CommentList.h"
+#include "LikeModel.h"
+#include "MediaHelpers/FileReader.h"
+#include "MediaHelpers/FileWriter.h"
+#include "MediaHelpers/DirectoryHelper.h"
 
 class ServerSocialNetwork : public QTcpServer
 {
@@ -32,6 +36,13 @@ private:
     QTcpSocket                      *socket;
     QByteArray                      arrayData;
     qint32                          nextBlockSize;
+    QMap <QTcpSocket*, UserModel>   userServerMap;
+
+    TypeQuery                       typeQuery;
+
+    FileReader                      fileReader;
+    FileWriter                      fileWriter;
+    DirectoryHelper                 dirHelper;
 
     DataBaseConnectManager          dbConnectManager;
     DataBaseCommentManager          dbCommentManager;
@@ -41,20 +52,20 @@ private:
     DataBasePostManager             dbPostManager;
     DataBaseUserManager             dbUserManager;
     UserServerManager               userServerManager;
-    MediaManager                    mediaManager;
 
     UserModel                       userModel;
-    UserVector                      userModelVector;
+    UserList                        userList;
 
     NotificationModel               notificationModel;
-    NotificationVector              notificationModelVector;
+    NotificationList                notificationList;
 
     PostModel                       postModel;
-    PostVector                      postModelVector;
+    PostList                        postList;
 
-    QMap <QTcpSocket*, UserModel>   userServerMap;
+    LikeModel                       likeModel;
 
-    TypeQuery typeQuery;
+    CommentModel                    commentModel;
+    CommentList                     commentList;
 
     void ReadQuery(QDataStream &query, QTcpSocket *socket);
     void RegUser(UserModel &userModel, QTcpSocket *socket);
@@ -75,6 +86,13 @@ private:
     void AddPost(PostModel &postModel, QTcpSocket *socket);
     void GetPosts(QTcpSocket *socket);
     void GetUserPosts(const UserModel &userModel, QTcpSocket *socket);
+    void DeletePost(const PostModel &postModel, QTcpSocket *socket);
+    void EditPost(const PostModel &postModel, QTcpSocket *socket);
+    void LikePost(const LikeModel &likeModel, QTcpSocket *socket);
+    void AddCommentPost(const CommentModel &commentModel, QTcpSocket *socket);
+    void DeleteCommentPost(const CommentModel &commentModel, QTcpSocket *socket);
+    void EditCommentPost(const CommentModel &commentModel, QTcpSocket *socket);
+    void GetCommentsPost(const PostModel &postModel, QTcpSocket *socket);
     void SendDataToClient(const TypeQuery &typeQuery, const Data &data, QTcpSocket *socket);
 public:
     ServerSocialNetwork();

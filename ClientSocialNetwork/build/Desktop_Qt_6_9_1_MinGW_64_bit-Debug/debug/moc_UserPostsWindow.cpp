@@ -40,19 +40,16 @@ template <> constexpr inline auto UserPostsWindow::qt_create_metaobjectdata<qt_m
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "UserPostsWindow",
-        "closeSignal",
-        "",
         "on_addPostButton_clicked",
+        "",
         "on_searchButton_clicked"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Signal 'closeSignal'
-        QtMocHelpers::SignalData<void()>(1, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'on_addPostButton_clicked'
-        QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_searchButton_clicked'
-        QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -62,7 +59,7 @@ template <> constexpr inline auto UserPostsWindow::qt_create_metaobjectdata<qt_m
             qt_methods, qt_properties, qt_enums);
 }
 Q_CONSTINIT const QMetaObject UserPostsWindow::staticMetaObject = { {
-    QMetaObject::SuperData::link<QDialog::staticMetaObject>(),
+    QMetaObject::SuperData::link<BaseWindow::staticMetaObject>(),
     qt_staticMetaObjectStaticContent<qt_meta_tag_ZN15UserPostsWindowE_t>.stringdata,
     qt_staticMetaObjectStaticContent<qt_meta_tag_ZN15UserPostsWindowE_t>.data,
     qt_static_metacall,
@@ -76,16 +73,12 @@ void UserPostsWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
     auto *_t = static_cast<UserPostsWindow *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->closeSignal(); break;
-        case 1: _t->on_addPostButton_clicked(); break;
-        case 2: _t->on_searchButton_clicked(); break;
+        case 0: _t->on_addPostButton_clicked(); break;
+        case 1: _t->on_searchButton_clicked(); break;
         default: ;
         }
     }
-    if (_c == QMetaObject::IndexOfMethod) {
-        if (QtMocHelpers::indexOfMethod<void (UserPostsWindow::*)()>(_a, &UserPostsWindow::closeSignal, 0))
-            return;
-    }
+    (void)_a;
 }
 
 const QMetaObject *UserPostsWindow::metaObject() const
@@ -98,30 +91,24 @@ void *UserPostsWindow::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN15UserPostsWindowE_t>.strings))
         return static_cast<void*>(this);
-    return QDialog::qt_metacast(_clname);
+    return BaseWindow::qt_metacast(_clname);
 }
 
 int UserPostsWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QDialog::qt_metacall(_c, _id, _a);
+    _id = BaseWindow::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 2)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 2;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 2)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 3;
+        _id -= 2;
     }
     return _id;
-}
-
-// SIGNAL 0
-void UserPostsWindow::closeSignal()
-{
-    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
 }
 QT_WARNING_POP

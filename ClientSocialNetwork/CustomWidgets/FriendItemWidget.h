@@ -2,25 +2,21 @@
 #define FRIENDITEMWIDGET_H
 
 #include <QWidget>
-#include <QLabel>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QDateTime>
-#include "MediaManager.h"
+#include "AbstractClasses/CustomWidget.h"
 #include "UserModel.h"
+#include "MediaUtil/PhotoUtil.h"
 
-class FriendItemWidget : public QWidget
+class FriendItemWidget : public QWidget, public CustomWidget
 {
     Q_OBJECT
 private:
     UserModel userModel;
-    MediaManager mediaManager;
     QLabel *statusLabel;
     QLabel *loginLabel;
     QLabel *avatarLabel;
+    PhotoUtil photoUtil;
 
-    void SetupUI()
+    void InitializationInterface() override
     {
         QHBoxLayout *mainLayout = new QHBoxLayout(this);
         mainLayout->setSpacing(12);
@@ -48,39 +44,8 @@ private:
         mainLayout->addStretch();
     }
 
-    void SetupContent()
+    void SetupQCC() override
     {
-        LoadAvatar();
-
-        loginLabel->setText(userModel.GetLogin());
-
-        if (userModel.GetStatusOnline()) {
-            statusLabel->setText("в сети");
-            statusLabel->setStyleSheet("color: green; font-size: 12px;");
-        }
-        else
-        {
-            statusLabel->setText(userModel.GetEntryTime());
-            statusLabel->setStyleSheet("color: black; font-size: 12px;");
-        }
-    }
-
-    void LoadAvatar()
-    {
-        if (!userModel.GetPhoto().isEmpty()) {
-            QPixmap avatar = mediaManager.GetHandlerPhoto(userModel.GetPhoto(), QSize(40, 40));
-            avatarLabel->setPixmap(avatar);
-        } else {
-            avatarLabel->setPixmap(QPixmap(":/IMG/IMG/DefultProfilePin40x40SN.png")
-                                       .scaled(40, 40, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-        }
-    }
-public:
-    FriendItemWidget(const UserModel &userModel, QWidget *parent = nullptr)
-        : QWidget(parent), userModel(userModel)
-    {
-        SetupUI();
-        SetupContent();
         setStyleSheet(R"(
         FriendItemWidget
         {
@@ -91,13 +56,14 @@ public:
         }
         FriendItemWidget:hover
         {
-            background: #f5f5f5;
+            background: white; /* Убираем изменение фона при наведении */
+            border: 1px solid #e7e8ec; /* Убираем изменение границы при наведении */
         }
         QLabel
         {
             font-size: 13px;
-            background: transparent;
             color: black;
+            background: transparent;
         }
         QLabel#loginLabel
         {
@@ -118,6 +84,39 @@ public:
             background: transparent;
         }
     )");
+    }
+
+
+    void LoadContent() override
+    {
+        if (!userModel.GetFileModel().GetFileData().isEmpty()) {
+            QPixmap avatar = photoUtil.GetHandlerPhoto(userModel.GetFileModel().GetFileData(), QSize(40, 40));
+            avatarLabel->setPixmap(avatar);
+        } else {
+            avatarLabel->setPixmap(QPixmap(":/IMG/IMG/DefultProfilePin40x40SN.png")
+                                       .scaled(40, 40, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        }
+
+        loginLabel->setText(userModel.GetLogin());
+
+        if (userModel.GetStatusOnline()) {
+            statusLabel->setText("в сети");
+            statusLabel->setStyleSheet("color: green; font-size: 12px;");
+        }
+        else
+        {
+            statusLabel->setText(userModel.GetEntryTime());
+            statusLabel->setStyleSheet("color: black; font-size: 12px;");
+        }
+    }
+
+public:
+    FriendItemWidget(const UserModel &userModel, QWidget *parent = nullptr)
+        : QWidget(parent), userModel(userModel)
+    {
+        InitializationInterface();
+        SetupQCC();
+        LoadContent();
     }
 };
 

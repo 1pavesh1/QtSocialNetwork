@@ -6,7 +6,7 @@
 #include <QGraphicsSceneMouseEvent>
 
 ChangePhotoWindow::ChangePhotoWindow(const QPixmap &originalPixmap, QWidget *parent)
-    : QDialog(parent), ui(new Ui::ChangePhotoWindow),
+    : BaseWindow(parent), ui(new Ui::ChangePhotoWindow),
     originalPixmap(originalPixmap),
     scene(new QGraphicsScene(this)),
     pixmapItem(nullptr),
@@ -26,8 +26,6 @@ ChangePhotoWindow::ChangePhotoWindow(const QPixmap &originalPixmap, QWidget *par
 
     CreateResizableCircle();
     UpdateMask();
-
-    connect(scene, &QGraphicsScene::changed, this, &ChangePhotoWindow::UpdateMask);
 }
 
 void ChangePhotoWindow::CreateResizableCircle()
@@ -222,3 +220,14 @@ ChangePhotoWindow::~ChangePhotoWindow()
     delete scene;
     delete ui;
 }
+
+void ChangePhotoWindow::ConnectSlots()
+{
+    connect(scene, &QGraphicsScene::changed, this, &ChangePhotoWindow::UpdateMask);
+}
+
+void ChangePhotoWindow::DisconnectSlots()
+{
+
+}
+

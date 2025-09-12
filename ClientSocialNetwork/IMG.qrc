@@ -6,7 +6,7 @@
         <file>IMG/CloseEye35x35SN.png</file>
         <file>IMG/CloseEyeSN35x35SN.png</file>
         <file>IMG/CommentPin50x50SN.png</file>
-        <file>IMG/DefultProfile75x75.png</file>
+        <file>IMG/DefultProfile75x75SN.png</file>
         <file>IMG/DefultProfile150x150SN.png</file>
         <file>IMG/DefultProfilePin40x40SN.png</file>
         <file>IMG/DefultProfilePin80x80SN.png</file>
@@ -32,5 +32,14 @@
         <file>IMG/UsersPin80x80SN.png</file>
         <file>IMG/VolumeMutedPin48x48SN.png</file>
         <file>IMG/VolumePin48x48SN.png</file>
+        <file>IMG/BackPin60x60SN.png</file>
+        <file>IMG/SendCommentMsgPin60x60SN.png</file>
+        <file>IMG/CancelPin512x512SN.png</file>
+        <file>IMG/EditMsg512x512SN.png</file>
+        <file>IMG/ErrorPin48x48SN.png</file>
+        <file>IMG/InformationPin48x48SN.png</file>
+        <file>IMG/ScreenPin50x50SN.png</file>
+        <file>IMG/SuccessPin48x48SN.png</file>
+        <file>IMG/WarningPin48x48SN.png</file>
     </qresource>
 </RCC>

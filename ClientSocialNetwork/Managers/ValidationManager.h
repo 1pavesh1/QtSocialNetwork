@@ -3,7 +3,6 @@
 
 #include <QDebug>
 #include <QString>
-#include "Managers/MessageManager.h"
 
 class ValidationManager
 {
@@ -19,7 +18,6 @@ private:
         {
             if (!((login[i] >= 'A' && login[i] <= 'Z') || (login[i] >= 'a' && login[i] <= 'z')))
             {
-                messageManager.LoginIsCorrect();
                 return false;
             }
         }
@@ -31,7 +29,6 @@ private:
         {
             if (!((password[i] >= 'A' && password[i] <= 'Z') || (password[i] >= 'a' && password[i] <= 'z')))
             {
-                messageManager.PasswordIsCorrect();
                 return false;
             }
         }
@@ -41,7 +38,6 @@ private:
     {
         if (phone.size() != 17)
         {
-            messageManager.PhoneSize();
             return false;
         }
         return true;
@@ -50,13 +46,10 @@ private:
     {
         if (tempText.size() < 5)
         {
-            messageManager.DataSize();
             return false;
         }
         return true;
     }
-
-    MessageManager messageManager;
 };
 
 #endif // VALIDATIONMANAGER_H

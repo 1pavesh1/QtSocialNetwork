@@ -31,20 +31,20 @@ public:
     {
         if (UserPostsWindow->objectName().isEmpty())
             UserPostsWindow->setObjectName("UserPostsWindow");
-        UserPostsWindow->resize(800, 600);
-        UserPostsWindow->setMinimumSize(QSize(800, 600));
-        UserPostsWindow->setMaximumSize(QSize(800, 600));
+        UserPostsWindow->resize(1000, 600);
+        UserPostsWindow->setMinimumSize(QSize(1000, 600));
+        UserPostsWindow->setMaximumSize(QSize(1000, 600));
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/IMG/IMG/logoSN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
         UserPostsWindow->setWindowIcon(icon);
-        UserPostsWindow->setStyleSheet(QString::fromUtf8("background-color: rgb(248, 249, 255);"));
+        UserPostsWindow->setStyleSheet(QString::fromUtf8("background-color: white;"));
         addPostButton = new QPushButton(UserPostsWindow);
         addPostButton->setObjectName("addPostButton");
-        addPostButton->setGeometry(QRect(600, 20, 61, 61));
+        addPostButton->setGeometry(QRect(760, 10, 61, 61));
         addPostButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         addPostButton->setStyleSheet(QString::fromUtf8("QPushButton \n"
 "{\n"
-"	background-color: rgb(248, 249, 255);\n"
+"	background-color: white;\n"
 "    border-radius: 30px;\n"
 "}\n"
 "\n"
@@ -62,7 +62,7 @@ public:
         addPostButton->setIconSize(QSize(50, 50));
         searchText = new QLineEdit(UserPostsWindow);
         searchText->setObjectName("searchText");
-        searchText->setGeometry(QRect(20, 25, 371, 50));
+        searchText->setGeometry(QRect(180, 15, 371, 50));
         QFont font;
         font.setFamilies({QString::fromUtf8("Arial")});
         font.setPointSize(12);
@@ -79,7 +79,7 @@ public:
         searchText->setMaxLength(100);
         searchButton = new QPushButton(UserPostsWindow);
         searchButton->setObjectName("searchButton");
-        searchButton->setGeometry(QRect(361, 25, 200, 50));
+        searchButton->setGeometry(QRect(521, 15, 200, 50));
         searchButton->setMinimumSize(QSize(1, 0));
         QFont font1;
         font1.setFamilies({QString::fromUtf8("Arial")});
@@ -121,7 +121,7 @@ public:
 "}"));
         postUserList = new QListWidget(UserPostsWindow);
         postUserList->setObjectName("postUserList");
-        postUserList->setGeometry(QRect(0, 100, 801, 501));
+        postUserList->setGeometry(QRect(100, 100, 801, 501));
         postUserList->setStyleSheet(QString::fromUtf8("QListWidget\n"
 "{\n"
 "    background-color: white;\n"

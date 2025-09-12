@@ -51,6 +51,7 @@ public:
         closeEye = new QPushButton(SettingsWindow);
         closeEye->setObjectName("closeEye");
         closeEye->setGeometry(QRect(330, 410, 35, 35));
+        closeEye->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         closeEye->setStyleSheet(QString::fromUtf8("QPushButton \n"
 "{\n"
 "    background: transparent;\n"
@@ -60,7 +61,7 @@ public:
 "    padding: 0;\n"
 "}"));
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/IMG/IMG/CloseEyeSN35x35.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        icon1.addFile(QString::fromUtf8(":/IMG/IMG/CloseEyeSN35x35SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
         closeEye->setIcon(icon1);
         closeEye->setIconSize(QSize(35, 35));
         passwordLabel = new QLabel(SettingsWindow);
@@ -174,6 +175,7 @@ public:
         openEye = new QPushButton(SettingsWindow);
         openEye->setObjectName("openEye");
         openEye->setGeometry(QRect(330, 410, 35, 35));
+        openEye->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         openEye->setStyleSheet(QString::fromUtf8("QPushButton \n"
 "{\n"
 "    background: transparent;\n"
@@ -235,6 +237,19 @@ public:
 "    border-bottom: 2px solid #4a148c; \n"
 "}"));
         emailText->setMaxLength(50);
+        passwordLabel->raise();
+        phoneLabel->raise();
+        dateLabel->raise();
+        emailLabel->raise();
+        sendButton->raise();
+        passwordText->raise();
+        loginText->raise();
+        loginLabel->raise();
+        phoneText->raise();
+        dateText->raise();
+        emailText->raise();
+        openEye->raise();
+        closeEye->raise();
 
         retranslateUi(SettingsWindow);
 

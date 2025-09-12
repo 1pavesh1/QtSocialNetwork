@@ -4,22 +4,24 @@
 #include <QDialog>
 #include "FeedWindow.h"
 #include "AuthWindow.h"
-#include "Managers/MessageManager.h"
 #include "Managers/SocketManager.h"
 #include "Models/UserModel.h"
 #include "Managers/ValidationManager.h"
+#include "AbstractClasses/BaseWindow.h"
 
 namespace Ui {
 class RegWindow;
 }
 
-class RegWindow : public QDialog
+class RegWindow : public BaseWindow
 {
     Q_OBJECT
 
 public:
     explicit RegWindow(QWidget *parent = nullptr);
     ~RegWindow();
+    void ConnectSlots() override;
+    void DisconnectSlots() override;
 public slots:
     void HandleUserReg(const UserModel &userModel);
     void HandleUserRegRepeat();
@@ -31,10 +33,6 @@ private slots:
     void on_authLink_clicked();
 
 private:
-    inline void disconnectAllSlots()
-    {
-        disconnect(&SocketManager::instance(), nullptr, this, nullptr);
-    }
     Ui::RegWindow *ui;
 
     class FeedWindow           *feedWindow;
@@ -43,7 +41,6 @@ private:
     UserModel                   userModel;
 
     ValidationManager           validationManager;
-    MessageManager              messageManager;
 };
 
 #endif // REGWINDOW_H

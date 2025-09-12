@@ -9,9 +9,12 @@
 #include "NotificationModel.h"
 #include "PostModel.h"
 #include "UserModel.h"
-#include "UserVector.h"
-#include "NotificationVector.h"
-#include "PostVector.h"
+#include "UserList.h"
+#include "NotificationList.h"
+#include "PostList.h"
+#include "LikeModel.h"
+#include "CommentModel.h"
+#include "CommentList.h"
 
 class SocketManager : public QTcpSocket
 {
@@ -25,13 +28,18 @@ private:
 
     UserModel                       userModel;
     UserModel                       tempUser;
-    UserVector                      userModelVector;
+    UserList                        userList;
 
     NotificationModel               notificationModel;
-    NotificationVector              notificationModelVector;
+    NotificationList                notificationList;
 
     PostModel                       postModel;
-    PostVector                      postModelVector;
+    PostList                        postModelVector;
+
+    LikeModel                       likeModel;
+
+    CommentModel                    commentModel;
+    CommentList                     commentList;
 
 public:
     static SocketManager& instance();
@@ -61,6 +69,13 @@ public:
     void AddPostQuery(const PostModel &postModel);
     void GetPostQuery(const UserModel &userModel);
     void GetUserPostQuery(const UserModel &userModel);
+    void DeletePostQuery(const PostModel &postModel);
+    void EditPostQuery(const PostModel &postModel);
+    void LikePostQuery(const LikeModel &likeModel);
+    void AddCommentPostQuery(const CommentModel &commentModel);
+    void EditCommentPostQuery(const CommentModel &commentModel);
+    void DeleteCommentPostQuery(const CommentModel &commentModel);
+    void GetCommentPostQuery(const PostModel &postModel);
 
     void ReadRegAnswer(const TypeQuery &typeQuery);
     void ReadAuthAnswer(const TypeQuery &typeQuery);
@@ -76,6 +91,13 @@ public:
     void ReadAddPostAnswer(const TypeQuery &typeQuery);
     void ReadGetPostAnswer(const TypeQuery &typeQuery);
     void ReadGetUserPostAnswer(const TypeQuery &typeQuery);
+    void ReadDeletePostAnswer(const TypeQuery &typeQuery);
+    void ReadEditPostAnswer(const TypeQuery &typeQuery);
+    void ReadLikePostAnswer(const TypeQuery &typeQuery);
+    void ReadAddCommentPostAnswer(const TypeQuery &typeQuery);
+    void ReadEditCommentPostAnswer(const TypeQuery &typeQuery);
+    void ReadDeleteCommentPostAnswer(const TypeQuery &typeQuery);
+    void ReadGetCommentPostAnswer(const TypeQuery &typeQuery);
 
 signals:
     // Регистрация
@@ -96,15 +118,15 @@ signals:
     void UserIsMain();
     void UserNotMain();
     // Получение пользователей
-    void GetUsers(const UserVector &userModelVector);
+    void GetUsers(const UserList &userList);
     void GetUsersFailed();
     // Получение друзей
-    void GetFriends(const UserVector &userModelVector);
+    void GetFriends(const UserList &userList);
     void GetFriendsFailed();
     // Получение статуса отношений пользователя
     void CheckRelationship(const TypeQuery &relationship);
     // Получение уведомлений
-    void GetNotifications(const NotificationVector &notificationModelVector);
+    void GetNotifications(const NotificationList &notificationList);
     void GetNotificationsFailed();
     // Принятие и отказ от уведомлений
     void AcceptNotification(const NotificationModel &notificationModel);
@@ -116,10 +138,25 @@ signals:
     // Удаление, добавление, редактирование, получение постов
     void AddPost();
     void AddPostFailed();
-    void GetPost(const PostVector &postModelVector);
+    void GetPost(const PostList &postList);
     void GetPostFailed();
-    void GetUserPost(const PostVector &postModelVector);
+    void GetUserPost(const PostList &postList);
     void GetUserPostFailed();
+    void DeletePost(const PostModel &postModel);
+    void DeletePostFailed();
+    void EditPost(const PostModel &postModel);
+    void EditPostFailed();
+    // Лайки и комментарии поста
+    void LikePost(const LikeModel &likeModel);
+    void LikePostFailed();
+    void AddCommentPost(const CommentModel &commentModel);
+    void AddCommentPostFailed();
+    void EditCommentPost(const CommentModel &commentModel);
+    void EditCommentPostFailed();
+    void DeleteCommentPost(const CommentModel &commentModel);
+    void DeleteCommentPostFailed();
+    void GetCommentPost(const CommentList &commentList);
+    void GetCommentPostFailed();
 };
 
 #endif // SOCKETMANAGER_H

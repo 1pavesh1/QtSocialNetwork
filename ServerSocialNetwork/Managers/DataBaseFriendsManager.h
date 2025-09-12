@@ -1,29 +1,29 @@
 #ifndef DATABASEFRIENDSMANAGER_H
 #define DATABASEFRIENDSMANAGER_H
 
-#include <QVector>
+#include <QList>
 #include <QString>
 #include <QByteArray>
 #include <QSqlQuery>
 #include <QSqlError>
-#include "MediaManager.h"
 #include "TypeQuery.h"
 #include "UserModel.h"
+#include "Managers/DataBaseFileManager.h"
 
 class DataBaseFriendsManager
 {
 private:
     UserModel           tempUserModel;
-    QVector <UserModel> usersVector;
-    MediaManager mediaManager;
+    QList <UserModel>   userList;
+    DataBaseFileManager dbFileManager;
 
 public:
-    QVector <UserModel> GetUsers(const QSqlDatabase &dataBase)  // Функция получения массива пользователей
+    QList <UserModel> GetUsers(const QSqlDatabase &dataBase)  // Функция получения массива пользователей
     {
         QSqlQuery query(dataBase);
 
-        if (!usersVector.isEmpty())
-            usersVector.clear();
+        if (!userList.isEmpty())
+            userList.clear();
 
         query.prepare("SELECT * FROM users;");
 
@@ -37,28 +37,25 @@ public:
             tempUserModel.SetLogin(query.value(1).toString());
             tempUserModel.SetPhone(query.value(3).toString());
             tempUserModel.SetEmail(query.value(4).toString());
-            tempUserModel.SetPhotoPath(query.value(5).toString());
-            tempUserModel.SetEntryTime(query.value(6).toString());
-            tempUserModel.SetDateBithday(query.value(7).toString());
+            tempUserModel.SetEntryTime(query.value(5).toString());
+            tempUserModel.SetDateBithday(query.value(6).toString());
+            tempUserModel.SetFileModel(dbFileManager.GetFileInUser(tempUserModel, dataBase));
 
-            if (!tempUserModel.GetPhotoPath().isEmpty())
-                tempUserModel.SetPhoto(mediaManager.GetPhotoUser(tempUserModel));
-
-            usersVector.push_back(tempUserModel);
+            userList.push_back(tempUserModel);
         }
 
-        return usersVector;
+        return userList;
     }
 
-    QVector <UserModel> GetFriends(const UserModel &userModel, const QSqlDatabase &dataBase)
+    QList <UserModel> GetFriends(const UserModel &userModel, const QSqlDatabase &dataBase)
     {
-        QVector <qint16>    indexUserVector;
+        QList <qint16>      indexUserList;
         QSqlQuery           query(dataBase);
 
-        if (!usersVector.isEmpty() || !indexUserVector.isEmpty())
+        if (!userList.isEmpty() || !indexUserList.isEmpty())
         {
-            usersVector.clear();
-            indexUserVector.clear();
+            userList.clear();
+            indexUserList.clear();
         }
 
         query.prepare("SELECT * FROM friends WHERE id_first_user = :id_user;");
@@ -70,7 +67,7 @@ public:
         }
         while (query.next())
         {
-            indexUserVector.push_back(query.value(1).toInt());
+            indexUserList.push_back(query.value(1).toInt());
         }
 
         query.prepare("SELECT * FROM friends WHERE id_second_user = :id_user;");
@@ -82,14 +79,14 @@ public:
         }
         while (query.next())
         {
-            indexUserVector.push_back(query.value(1).toInt());
+            indexUserList.push_back(query.value(1).toInt());
         }
 
         query.prepare("SELECT * FROM users WHERE id_user = :id_user;");
 
-        for (int i = 0; i < indexUserVector.size(); ++i)
+        for (int i = 0; i < indexUserList.size(); ++i)
         {
-            query.bindValue(":id_user", indexUserVector[i]);
+            query.bindValue(":id_user", indexUserList[i]);
 
             if (!query.exec())
             {
@@ -101,18 +98,15 @@ public:
                 tempUserModel.SetLogin(query.value(1).toString());
                 tempUserModel.SetPhone(query.value(3).toString());
                 tempUserModel.SetEmail(query.value(4).toString());
-                tempUserModel.SetPhotoPath(query.value(5).toString());
-                tempUserModel.SetEntryTime(query.value(6).toString());
-                tempUserModel.SetDateBithday(query.value(7).toString());
+                tempUserModel.SetEntryTime(query.value(5).toString());
+                tempUserModel.SetDateBithday(query.value(6).toString());
+                tempUserModel.SetFileModel(dbFileManager.GetFileInUser(tempUserModel, dataBase));
 
-                if (!tempUserModel.GetPhotoPath().isEmpty())
-                    tempUserModel.SetPhoto(mediaManager.GetPhotoUser(tempUserModel));
-
-                usersVector.push_back(tempUserModel);
+                userList.push_back(tempUserModel);
             }
         }
-        qDebug() << "Размер вектора друзей: " << usersVector.size();
-        return usersVector;
+        qDebug() << "Размер вектора друзей: " << userList.size();
+        return userList;
     }
 
     TypeQuery GetRelationship(const UserModel &mainUserModel, const UserModel &tempUserModel, const QSqlDatabase &dataBase)

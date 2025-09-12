@@ -4,27 +4,31 @@
 #include <QDir>
 #include <QSqlQuery>
 #include <QSqlError>
-#include <QVector>
-#include "TimeManager.h"
-#include "MediaManager.h"
+#include <QList>
+#include "Utils/TimeUtil.h"
 #include "PostModel.h"
 #include "Managers/DataBaseUserManager.h"
+#include "Managers/DataBaseFileManager.h"
+#include "Managers/DataBaseFileManager.h"
+#include "MediaHelpers/FileWriter.h"
+#include "MediaHelpers/FileReader.h"
 
 class DataBasePostManager
 {
 private:
-    QVector <PostModel> vectorPost;
-    TimeManager     timeManger;
-    MediaManager    mediaManager;
+    QList <PostModel>   postList;
+    TimeUtil            timeUtil;
+    DataBaseFileManager dbFileManager;
+    FileWriter          fileWriter;
 
 public:
-    QVector<PostModel> GetPosts(const QSqlDatabase &dataBase)
+    QList<PostModel> GetPosts(const QSqlDatabase &dataBase)
     {
         DataBaseUserManager dbUserManager;
         QSqlQuery           query(dataBase);
 
-        if (!vectorPost.isEmpty())
-            vectorPost.clear();
+        if (!postList.isEmpty())
+            postList.clear();
 
         query.prepare("SELECT * FROM post;");
 
@@ -38,29 +42,26 @@ public:
 
             tempPostModel.SetIdPost(query.value(0).toInt());
             tempPostModel.SetIdUser(query.value(1).toInt());
-            tempPostModel.SetName(query.value(5).toString());
-            tempPostModel.SetTextContent(query.value(2).toString());
+            tempPostModel.SetName(query.value(2).toString());
+            tempPostModel.SetTextContent(query.value(3).toString());
             tempPostModel.SetCreatedDate(query.value(4).toString());
-            tempPostModel.SetFileName(query.value(7).toString());
-            tempPostModel.SetFileType(query.value(6).toString());
-            tempPostModel.SetFilePath(query.value(3).toString());
+            tempPostModel.SetCountLikes(GetCountLikes(tempPostModel, dataBase));
+            tempPostModel.SetCountComments(GetCountComments(tempPostModel, dataBase));
             tempPostModel.SetUserModel(dbUserManager.GetUserInId(tempPostModel.GetIdUser(), dataBase));
+            tempPostModel.SetFileModel(dbFileManager.GetFileInPost(tempPostModel, dataBase));
 
-            if (!tempPostModel.GetFilePath().isEmpty())
-                tempPostModel.SetMediaData(mediaManager.GetMediaDataPost(tempPostModel));
-
-            vectorPost.push_back(tempPostModel);
+            postList.push_back(tempPostModel);
         }
 
-        return vectorPost;
+        return postList;
     }
 
-    QVector<PostModel> GetUserPosts(const UserModel &userModel, const QSqlDatabase &dataBase)
+    QList<PostModel> GetUserPosts(const UserModel &userModel, const QSqlDatabase &dataBase)
     {
         QSqlQuery           query(dataBase);
 
-        if (!vectorPost.isEmpty())
-            vectorPost.clear();
+        if (!postList.isEmpty())
+            postList.clear();
 
         query.prepare("SELECT * FROM post WHERE id_user = :id_user;");
         query.bindValue(":id_user", userModel.GetIdUser());
@@ -75,35 +76,35 @@ public:
 
             tempPostModel.SetIdPost(query.value(0).toInt());
             tempPostModel.SetIdUser(query.value(1).toInt());
-            tempPostModel.SetName(query.value(5).toString());
-            tempPostModel.SetTextContent(query.value(2).toString());
+            tempPostModel.SetName(query.value(2).toString());
+            tempPostModel.SetTextContent(query.value(3).toString());
             tempPostModel.SetCreatedDate(query.value(4).toString());
-            tempPostModel.SetFileName(query.value(7).toString());
-            tempPostModel.SetFileType(query.value(6).toString());
-            tempPostModel.SetFilePath(query.value(3).toString());
+            tempPostModel.SetCountLikes(GetCountLikes(tempPostModel, dataBase));
+            tempPostModel.SetCountComments(GetCountComments(tempPostModel, dataBase));
+            tempPostModel.SetFileModel(dbFileManager.GetFileInPost(tempPostModel, dataBase));
 
-            if (!tempPostModel.GetFilePath().isEmpty())
-                tempPostModel.SetMediaData(mediaManager.GetMediaDataPost(tempPostModel));
-
-            vectorPost.push_back(tempPostModel);
+            postList.push_back(tempPostModel);
         }
 
-        return vectorPost;
+        return postList;
+    }
+
+    bool EditPost(const PostModel &postModel, const QSqlDatabase &dataBase)
+    {
+
     }
 
     bool AddPost(const PostModel &postModel, const QSqlDatabase &dataBase)
     {
         QSqlQuery query(dataBase);
 
-        query.prepare("INSERT INTO post (id_user, text_content, file_path, created_date, name, file_type, file_name) VALUES (?, ?, ?, ?, ?, ?, ?);");
+        query.prepare("INSERT INTO post (id_user, name, text_content, created_date) VALUES (?, ?, ?, ?);");
 
         query.addBindValue(postModel.GetIdUser());
-        query.addBindValue(postModel.GetTextContent());
-        query.addBindValue(postModel.GetFilePath());
-        query.addBindValue(timeManger.GetDateTime());
         query.addBindValue(postModel.GetName());
-        query.addBindValue(postModel.GetFileType());
-        query.addBindValue(postModel.GetFileName());
+        query.addBindValue(postModel.GetTextContent());
+        query.addBindValue(timeUtil.GetDateTime());
+        dbFileManager.AddFileInPost(postModel, dataBase);
 
         if (!query.exec())
         {
@@ -112,6 +113,60 @@ public:
         }
 
         return true;
+    }
+
+    bool DeletePost(const PostModel &postModel, const QSqlDatabase &dataBase)
+    {
+        QSqlQuery query(dataBase);
+
+        query.prepare("DELETE FROM post WHERE id_post = :id_post;");
+        query.bindValue(":id_post", postModel.GetIdPost());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+            return false;
+        }
+        if (!dbFileManager.DeleteFileInPost(postModel, dataBase))
+            return false;
+
+        return fileWriter.DeleteFile(postModel.GetFileModel());
+    }
+
+    qint32 GetCountLikes(const PostModel &postModel, const QSqlDatabase &dataBase)
+    {
+        QSqlQuery query(dataBase);
+
+        query.prepare("SELECT COUNT(*) FROM likes WHERE id_post = :id_post");
+        query.bindValue(":id_post", postModel.GetIdPost());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+        }
+        if (query.next())
+        {
+            return query.value(0).toInt();
+        }
+        return 0;
+    }
+
+    qint32 GetCountComments(const PostModel &postModel, const QSqlDatabase &dataBase)
+    {
+        QSqlQuery query(dataBase);
+
+        query.prepare("SELECT COUNT(*) FROM comment WHERE id_post = :id_post");
+        query.bindValue(":id_post", postModel.GetIdPost());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+        }
+        if (query.next())
+        {
+            return query.value(0).toInt();
+        }
+        return 0;
     }
 };
 

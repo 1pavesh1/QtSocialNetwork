@@ -39,66 +39,19 @@ template <> constexpr inline auto AddPostWindow::qt_create_metaobjectdata<qt_met
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "AddPostWindow",
-        "closeSignal",
-        "",
-        "DurationChanged",
-        "duration",
-        "PositionChanged",
         "on_deleteFileInputButton_clicked",
+        "",
         "on_addPostButton_clicked",
-        "on_addMediaButton_clicked",
-        "on_timeAudioSlider_valueChanged",
-        "value",
-        "on_playAudioButton_clicked",
-        "on_volumeAudioButton_clicked",
-        "on_volumeAudioSlider_valueChanged",
-        "on_playVideoButton_clicked",
-        "on_volumeVideoButton_clicked",
-        "on_timeVideoSlider_valueChanged",
-        "on_volumeVideoSlider_valueChanged"
+        "on_addMediaButton_clicked"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Signal 'closeSignal'
-        QtMocHelpers::SignalData<void()>(1, 2, QMC::AccessPublic, QMetaType::Void),
-        // Slot 'DurationChanged'
-        QtMocHelpers::SlotData<void(const qint32 &)>(3, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 4 },
-        }}),
-        // Slot 'PositionChanged'
-        QtMocHelpers::SlotData<void(const qint32 &)>(5, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 4 },
-        }}),
         // Slot 'on_deleteFileInputButton_clicked'
-        QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_addPostButton_clicked'
-        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_addMediaButton_clicked'
-        QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_timeAudioSlider_valueChanged'
-        QtMocHelpers::SlotData<void(qint32)>(9, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 10 },
-        }}),
-        // Slot 'on_playAudioButton_clicked'
-        QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_volumeAudioButton_clicked'
-        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_volumeAudioSlider_valueChanged'
-        QtMocHelpers::SlotData<void(qint32)>(13, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 10 },
-        }}),
-        // Slot 'on_playVideoButton_clicked'
-        QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_volumeVideoButton_clicked'
-        QtMocHelpers::SlotData<void()>(15, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_timeVideoSlider_valueChanged'
-        QtMocHelpers::SlotData<void(qint32)>(16, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 10 },
-        }}),
-        // Slot 'on_volumeVideoSlider_valueChanged'
-        QtMocHelpers::SlotData<void(qint32)>(17, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 10 },
-        }}),
+        QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -108,7 +61,7 @@ template <> constexpr inline auto AddPostWindow::qt_create_metaobjectdata<qt_met
             qt_methods, qt_properties, qt_enums);
 }
 Q_CONSTINIT const QMetaObject AddPostWindow::staticMetaObject = { {
-    QMetaObject::SuperData::link<QDialog::staticMetaObject>(),
+    QMetaObject::SuperData::link<BaseWindow::staticMetaObject>(),
     qt_staticMetaObjectStaticContent<qt_meta_tag_ZN13AddPostWindowE_t>.stringdata,
     qt_staticMetaObjectStaticContent<qt_meta_tag_ZN13AddPostWindowE_t>.data,
     qt_static_metacall,
@@ -122,27 +75,13 @@ void AddPostWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
     auto *_t = static_cast<AddPostWindow *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->closeSignal(); break;
-        case 1: _t->DurationChanged((*reinterpret_cast< std::add_pointer_t<qint32>>(_a[1]))); break;
-        case 2: _t->PositionChanged((*reinterpret_cast< std::add_pointer_t<qint32>>(_a[1]))); break;
-        case 3: _t->on_deleteFileInputButton_clicked(); break;
-        case 4: _t->on_addPostButton_clicked(); break;
-        case 5: _t->on_addMediaButton_clicked(); break;
-        case 6: _t->on_timeAudioSlider_valueChanged((*reinterpret_cast< std::add_pointer_t<qint32>>(_a[1]))); break;
-        case 7: _t->on_playAudioButton_clicked(); break;
-        case 8: _t->on_volumeAudioButton_clicked(); break;
-        case 9: _t->on_volumeAudioSlider_valueChanged((*reinterpret_cast< std::add_pointer_t<qint32>>(_a[1]))); break;
-        case 10: _t->on_playVideoButton_clicked(); break;
-        case 11: _t->on_volumeVideoButton_clicked(); break;
-        case 12: _t->on_timeVideoSlider_valueChanged((*reinterpret_cast< std::add_pointer_t<qint32>>(_a[1]))); break;
-        case 13: _t->on_volumeVideoSlider_valueChanged((*reinterpret_cast< std::add_pointer_t<qint32>>(_a[1]))); break;
+        case 0: _t->on_deleteFileInputButton_clicked(); break;
+        case 1: _t->on_addPostButton_clicked(); break;
+        case 2: _t->on_addMediaButton_clicked(); break;
         default: ;
         }
     }
-    if (_c == QMetaObject::IndexOfMethod) {
-        if (QtMocHelpers::indexOfMethod<void (AddPostWindow::*)()>(_a, &AddPostWindow::closeSignal, 0))
-            return;
-    }
+    (void)_a;
 }
 
 const QMetaObject *AddPostWindow::metaObject() const
@@ -155,30 +94,24 @@ void *AddPostWindow::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN13AddPostWindowE_t>.strings))
         return static_cast<void*>(this);
-    return QDialog::qt_metacast(_clname);
+    return BaseWindow::qt_metacast(_clname);
 }
 
 int AddPostWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QDialog::qt_metacall(_c, _id, _a);
+    _id = BaseWindow::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 14)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 3;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 14)
+        if (_id < 3)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 14;
+        _id -= 3;
     }
     return _id;
-}
-
-// SIGNAL 0
-void AddPostWindow::closeSignal()
-{
-    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
 }
 QT_WARNING_POP

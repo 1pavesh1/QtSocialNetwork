@@ -41,6 +41,9 @@
      <height>35</height>
     </rect>
    </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton 
 {
@@ -55,8 +58,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>:/IMG/IMG/CloseEyeSN35x35.png</normaloff>:/IMG/IMG/CloseEyeSN35x35.png</iconset>
+    <iconset resource="IMG.qrc">
+     <normaloff>:/IMG/IMG/CloseEyeSN35x35SN.png</normaloff>:/IMG/IMG/CloseEyeSN35x35SN.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -315,6 +318,9 @@ QLineEdit:focus
      <height>35</height>
     </rect>
    </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton 
 {
@@ -434,6 +440,19 @@ QLineEdit:focus
     <number>50</number>
    </property>
   </widget>
+  <zorder>passwordLabel</zorder>
+  <zorder>phoneLabel</zorder>
+  <zorder>dateLabel</zorder>
+  <zorder>emailLabel</zorder>
+  <zorder>sendButton</zorder>
+  <zorder>passwordText</zorder>
+  <zorder>loginText</zorder>
+  <zorder>loginLabel</zorder>
+  <zorder>phoneText</zorder>
+  <zorder>dateText</zorder>
+  <zorder>emailText</zorder>
+  <zorder>openEye</zorder>
+  <zorder>closeEye</zorder>
  </widget>
  <resources>
   <include location="IMG.qrc"/>

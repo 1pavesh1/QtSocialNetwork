@@ -39,13 +39,29 @@ template <> constexpr inline auto EditPostWindow::qt_create_metaobjectdata<qt_me
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "EditPostWindow",
-        "closeSignal",
-        ""
+        "on_deleteFileInputButton_clicked",
+        "",
+        "on_addMediaButton_clicked",
+        "HandleEditPost",
+        "PostModel",
+        "postModel",
+        "HandleEditPostFailed",
+        "on_editPostButton_clicked"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Signal 'closeSignal'
-        QtMocHelpers::SignalData<void()>(1, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'on_deleteFileInputButton_clicked'
+        QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_addMediaButton_clicked'
+        QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'HandleEditPost'
+        QtMocHelpers::SlotData<void(const PostModel &)>(4, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 5, 6 },
+        }}),
+        // Slot 'HandleEditPostFailed'
+        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_editPostButton_clicked'
+        QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -55,7 +71,7 @@ template <> constexpr inline auto EditPostWindow::qt_create_metaobjectdata<qt_me
             qt_methods, qt_properties, qt_enums);
 }
 Q_CONSTINIT const QMetaObject EditPostWindow::staticMetaObject = { {
-    QMetaObject::SuperData::link<QDialog::staticMetaObject>(),
+    QMetaObject::SuperData::link<BaseWindow::staticMetaObject>(),
     qt_staticMetaObjectStaticContent<qt_meta_tag_ZN14EditPostWindowE_t>.stringdata,
     qt_staticMetaObjectStaticContent<qt_meta_tag_ZN14EditPostWindowE_t>.data,
     qt_static_metacall,
@@ -69,13 +85,13 @@ void EditPostWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
     auto *_t = static_cast<EditPostWindow *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->closeSignal(); break;
+        case 0: _t->on_deleteFileInputButton_clicked(); break;
+        case 1: _t->on_addMediaButton_clicked(); break;
+        case 2: _t->HandleEditPost((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 3: _t->HandleEditPostFailed(); break;
+        case 4: _t->on_editPostButton_clicked(); break;
         default: ;
         }
-    }
-    if (_c == QMetaObject::IndexOfMethod) {
-        if (QtMocHelpers::indexOfMethod<void (EditPostWindow::*)()>(_a, &EditPostWindow::closeSignal, 0))
-            return;
     }
 }
 
@@ -89,30 +105,24 @@ void *EditPostWindow::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN14EditPostWindowE_t>.strings))
         return static_cast<void*>(this);
-    return QDialog::qt_metacast(_clname);
+    return BaseWindow::qt_metacast(_clname);
 }
 
 int EditPostWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QDialog::qt_metacall(_c, _id, _a);
+    _id = BaseWindow::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 5;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 5)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 1;
+        _id -= 5;
     }
     return _id;
-}
-
-// SIGNAL 0
-void EditPostWindow::closeSignal()
-{
-    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
 }
 QT_WARNING_POP
