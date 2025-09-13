@@ -1,7 +1,3 @@
-#include <QPropertyAnimation>
-#include <QGraphicsOpacityEffect>
-#include <QParallelAnimationGroup>
-#include <QPainter>
 #include "FeedWindow.h"
 #include "ui_FeedWindow.h"
 

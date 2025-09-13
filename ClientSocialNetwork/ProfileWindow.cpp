@@ -1,7 +1,3 @@
-#include <QFileDialog>
-#include <QPainter>
-#include <QBuffer>
-#include <QImageReader>
 #include "ProfileWindow.h"
 #include "ChangePhotoWindow.h"
 #include "ui_ProfileWindow.h"

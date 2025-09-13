@@ -39,26 +39,13 @@ template <> constexpr inline auto SettingsWindow::qt_create_metaobjectdata<qt_me
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "SettingsWindow",
-        "HandleUserUpdate",
-        "",
-        "UserModel",
-        "userModel",
-        "HandleUserUpdateNameFailed",
-        "HandleUserUpdateFailed",
-        "on_sendButton_clicked"
+        "on_sendButton_clicked",
+        ""
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Slot 'HandleUserUpdate'
-        QtMocHelpers::SlotData<void(const UserModel &)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { 0x80000000 | 3, 4 },
-        }}),
-        // Slot 'HandleUserUpdateNameFailed'
-        QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPublic, QMetaType::Void),
-        // Slot 'HandleUserUpdateFailed'
-        QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'on_sendButton_clicked'
-        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -82,13 +69,11 @@ void SettingsWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
     auto *_t = static_cast<SettingsWindow *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->HandleUserUpdate((*reinterpret_cast< std::add_pointer_t<UserModel>>(_a[1]))); break;
-        case 1: _t->HandleUserUpdateNameFailed(); break;
-        case 2: _t->HandleUserUpdateFailed(); break;
-        case 3: _t->on_sendButton_clicked(); break;
+        case 0: _t->on_sendButton_clicked(); break;
         default: ;
         }
     }
+    (void)_a;
 }
 
 const QMetaObject *SettingsWindow::metaObject() const
@@ -110,14 +95,14 @@ int SettingsWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 1)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 1;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 1)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 4;
+        _id -= 1;
     }
     return _id;
 }

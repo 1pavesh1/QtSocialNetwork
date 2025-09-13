@@ -23,37 +23,28 @@ class EditPostWindow;
 class EditPostWindow : public BaseWindow
 {
     Q_OBJECT
+private:
+    Ui::EditPostWindow  *ui;
+    QLayout             *layout;
+
+    PostModel           postModel;
+    UserModel           userModel;
+
+    void ConnectSlots() override;
+    void DisconnectSlots() override;
+    void HandleEditPost(const PostModel &postModel);
+    void HandleEditPostFailed();
+    void UpdateMediaPreview();
 
 public:
     explicit EditPostWindow(QWidget *parent = nullptr);
     ~EditPostWindow();
     void SetData(const PostModel &postModel);
-    void UpdateMediaPreview();
-    void PlayAudio();
-    void HandleAddPost();
-    void HandleAddPostFailed();
-    void ConnectSlots() override;
-    void DisconnectSlots() override;
+
 private slots:
     void on_deleteFileInputButton_clicked();
     void on_addMediaButton_clicked();
-    void HandleEditPost(const PostModel &postModel);
-    void HandleEditPostFailed();
-    void on_editPostButton_clicked();
-
-private:
-    Ui::EditPostWindow  *ui;
-    QMediaPlayer        *player;
-    QVideoWidget        *video;
-    QAudioOutput        *audioOutput;
-    qint32              mediaDuration;
-    bool                isPause = true;
-    bool                isMuted = false;
-
-    PostModel           postModel;
-    UserModel           userModel;
-
-    void UpdateDuration(const qint32 &duration);
+    void on_editPostButton_clicked();  
 };
 
 #endif // EDITPOSTWINDOW_H

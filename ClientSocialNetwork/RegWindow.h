@@ -1,7 +1,6 @@
 #ifndef REGWINDOW_H
 #define REGWINDOW_H
 
-#include <QDialog>
 #include "FeedWindow.h"
 #include "AuthWindow.h"
 #include "Managers/SocketManager.h"
@@ -16,22 +15,6 @@ class RegWindow;
 class RegWindow : public BaseWindow
 {
     Q_OBJECT
-
-public:
-    explicit RegWindow(QWidget *parent = nullptr);
-    ~RegWindow();
-    void ConnectSlots() override;
-    void DisconnectSlots() override;
-public slots:
-    void HandleUserReg(const UserModel &userModel);
-    void HandleUserRegRepeat();
-    void HandleUserRegFailed();
-private slots:
-    void ChangedTelephoneText(QWidget *old, QWidget *now);
-    void ChangedEye();
-    void on_regButton_clicked();
-    void on_authLink_clicked();
-
 private:
     Ui::RegWindow *ui;
 
@@ -41,6 +24,22 @@ private:
     UserModel                   userModel;
 
     ValidationManager           validationManager;
+
+    void ConnectSlots() override;
+    void DisconnectSlots() override;
+    void HandleUserReg(const UserModel &userModel);
+    void HandleUserRegRepeat();
+    void HandleUserRegFailed();
+
+public:
+    explicit RegWindow(QWidget *parent = nullptr);
+    ~RegWindow();
+
+private slots:
+    void ChangedTelephoneText(QWidget *old, QWidget *now);
+    void ChangedEye();
+    void on_regButton_clicked();
+    void on_authLink_clicked();
 };
 
 #endif // REGWINDOW_H

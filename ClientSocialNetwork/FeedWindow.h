@@ -1,9 +1,6 @@
 #ifndef FEEDWINDOW_H
 #define FEEDWINDOW_H
 
-#include <QDialog>
-#include <QCloseEvent>
-#include <QTimer>
 #include "ProfileWindow.h"
 #include "UserPostsWindow.h"
 #include "UsersWindow.h"
@@ -25,16 +22,35 @@ class FeedWindow;
 class FeedWindow : public BaseWindow
 {
     Q_OBJECT
+private:
+    Ui::FeedWindow *ui;
 
-public:
-    explicit FeedWindow(QWidget *parent = nullptr);
-    ~FeedWindow();
-    void CheckCursorPosition();
-    void CloseMenuAnimation();
-    void OpenMenuAnimation();
-    void CloseCommentAnimation();
-    void OpenCommentAnimation();
-    void SetData(const UserModel &userModel);
+    class ProfileWindow        *profileWindow;
+    class UserPostsWindow      *userPostsWindow;
+    class UsersWindow          *usersWindow;
+    class SettingsWindow       *settingsWindow;
+    class MainWindow           *mainWindow;
+    class NotificationsWindow  *notificationsWindow;
+    class AddPostWindow        *addPostWindow;
+    class EditPostWindow       *editPostWindow;
+
+    QTimer                     *timer;
+
+    PhotoUtil                  photoUtil;
+
+    UserModel                  userModel;
+
+    LikeModel                  likeModel;
+
+    CommentModel               commentModel;
+    CommentList                commentList;
+
+    bool                       menuIsOpen;
+    bool                       commentsIsOpen;
+    bool                       isEdit;
+
+    void ConnectSlots() override;
+    void DisconnectSlots() override;
     void HandlerGetPost(const PostList &postList);
     void HandlerGetPostFailed();
     void HandlerDeletePost(const PostModel &postModel);
@@ -49,8 +65,17 @@ public:
     void HandlerGetCommentPostFailed();
     void DeletePost(const PostModel &postModel);
     void EditPost(const PostModel &postModel);
-    void ConnectSlots() override;
-    void DisconnectSlots() override;
+    void CloseMenuAnimation();
+    void OpenMenuAnimation();
+    void CloseCommentAnimation();
+    void OpenCommentAnimation();
+
+public:
+    explicit FeedWindow(QWidget *parent = nullptr);
+    ~FeedWindow();
+    void CheckCursorPosition();
+    void SetData(const UserModel &userModel);
+
 private slots:
     void on_openMenuButton_clicked();
     void on_profilePinButton_clicked();
@@ -66,35 +91,9 @@ private slots:
     void onEditComment(const CommentModel &commentModel);
     void onDeleteComment(const CommentModel &commentModel);
     void on_updateFeedButton_clicked();
-
     void on_backButton_clicked();
-
     void on_sendCommentButton_clicked();
-
     void on_cancelEditComment_clicked();
-private:
-    Ui::FeedWindow *ui;
-    PhotoUtil                   photoUtil;
-    class ProfileWindow        *profileWindow;
-    class UserPostsWindow      *userPostsWindow;
-    class UsersWindow          *usersWindow;
-    class SettingsWindow       *settingsWindow;
-    class MainWindow           *mainWindow;
-    class NotificationsWindow  *notificationsWindow;
-    class AddPostWindow        *addPostWindow;
-    class EditPostWindow       *editPostWindow;
-
-    QTimer                     *timer;
-
-    UserModel                  userModel;
-    bool                       menuIsOpen;
-    bool                       commentsIsOpen;
-    bool                       isEdit;
-
-    LikeModel                  likeModel;
-
-    CommentModel               commentModel;
-    CommentList                commentList;
 };
 
 #endif // FEEDWINDOW_H

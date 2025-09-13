@@ -1,8 +1,6 @@
 #ifndef USERSWINDOW_H
 #define USERSWINDOW_H
 
-#include <QDialog>
-#include <QCloseEvent>
 #include <QListWidgetItem>
 #include "UserModel.h"
 #include "ProfileWindow.h"
@@ -17,29 +15,29 @@ class UsersWindow;
 class UsersWindow : public BaseWindow
 {
     Q_OBJECT
-
-public:
-    explicit UsersWindow(QWidget *parent = nullptr);
-    ~UsersWindow();
-    void HandlerGetUsers(const UserList &userList);
-    void HandlerGetUsersFailed();
-    void SetData(const UserModel &userModel);
-    void OnUserClicked(QListWidgetItem *item);
-    void ConnectSlots() override;
-    void DisconnectSlots() override;
-private slots:
-    void on_friendsButton_clicked();
-
-    void on_allUsersButton_clicked();
-
 private:
+    Ui::UsersWindow             *ui;
 
-    Ui::UsersWindow *ui;
     class ProfileWindow         *profileWindow;
 
     QListWidgetItem             *item;
 
     UserModel                   userModel;
+
+    void ConnectSlots() override;
+    void DisconnectSlots() override;
+    void OnUserClicked(QListWidgetItem *item);
+    void HandlerGetUsers(const UserList &userList);
+    void HandlerGetUsersFailed();
+
+public:
+    explicit UsersWindow(QWidget *parent = nullptr);
+    ~UsersWindow();
+    void SetData(const UserModel &userModel);
+
+private slots:
+    void on_friendsButton_clicked();
+    void on_allUsersButton_clicked();
 };
 
 #endif // USERSWINDOW_H

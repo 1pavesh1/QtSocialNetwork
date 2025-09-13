@@ -1,6 +1,5 @@
 #include "EditPostWindow.h"
 #include "ui_EditPostWindow.h"
-#include <QFileDialog>
 
 EditPostWindow::EditPostWindow(QWidget *parent)
     : BaseWindow(parent)
@@ -8,18 +7,6 @@ EditPostWindow::EditPostWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    player = new QMediaPlayer();
-    audioOutput = new QAudioOutput();
-
-    player->setAudioOutput(audioOutput);
-
-    ui->fileFrame->setVisible(false);
-    ui->fhotoFrame->setVisible(false);
-    ui->videoFrame->setVisible(false);
-    ui->audioFrame->setVisible(false);
-
-    ui->timeVideoSlider->setRange(0, player->duration() / 1000);
-    ui->timeAudioSlider->setRange(0, player->duration() / 1000);
     ConnectSlots();
 }
 
@@ -31,7 +18,6 @@ EditPostWindow::~EditPostWindow()
 void EditPostWindow::SetData(const PostModel &postModel)
 {
     this->postModel = postModel;
-
 }
 
 void EditPostWindow::HandleEditPost(const PostModel &postModel)
@@ -41,7 +27,8 @@ void EditPostWindow::HandleEditPost(const PostModel &postModel)
 
 void EditPostWindow::HandleEditPostFailed()
 {
-    qDebug() << "Пиздец";
+    messageWidget = new MessageWidget(this, "Не удалось отредактировать пост", DANGER);
+    messageWidget->Show();
 }
 
 void EditPostWindow::on_addMediaButton_clicked()
@@ -63,25 +50,16 @@ void EditPostWindow::on_addMediaButton_clicked()
             if (extension == "png" || extension == "jpg" || extension == "jpeg" ||
                 extension == "bmp" || extension == "gif")
             {
-                ui->fhotoViewButton->setIcon(QIcon(filePath));
+
             }
             else if (extension == "mp4" || extension == "avi" || extension == "mov")
             {
-                audioOutput->setVolume(ui->volumeVideoSlider->value());
-                video = new QVideoWidget();
-                video->setGeometry(0, 0, ui->groupBoxVideo->width(), ui->groupBoxVideo->height());
-                video->setParent(ui->groupBoxVideo);
-                player->setVideoOutput(video);
-                player->setSource(QUrl(filePath));
-                video->setVisible(true);
-                video->show();
+
             }
             else if (extension == "mp3" || extension == "wav" || extension == "ogg")
             {
-                audioOutput->setVolume(ui->volumeAudioSlider->value());
-                player->setSource(QUrl(filePath));
-            }
 
+            }
             UpdateMediaPreview();
         }
     }
@@ -94,7 +72,25 @@ void EditPostWindow::UpdateMediaPreview()
 
 void EditPostWindow::on_deleteFileInputButton_clicked()
 {
+    layout = ui->mediaFrame->layout();
 
+    if (!layout || layout->count() == 0)
+    {
+        messageWidget = new MessageWidget(this, "Нет файла для удаления", WARNING);
+        messageWidget->Show();
+        return;
+    }
+
+    while (QLayoutItem* item = layout->takeAt(0))
+    {
+        if (item->widget())
+        {
+            QWidget* widget = item->widget();
+            widget->deleteLater();
+            ui->mediaFrame->setVisible(false);
+        }
+        delete item;
+    }
 }
 
 void EditPostWindow::on_editPostButton_clicked()

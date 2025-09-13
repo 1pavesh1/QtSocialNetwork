@@ -4,6 +4,11 @@
 #include <QDialog>
 #include <QCloseEvent>
 #include <QWidget>
+#include <QCloseEvent>
+#include <QTemporaryFile>
+#include <QMouseEvent>
+#include <QTimer>
+#include <QParallelAnimationGroup>
 #include "CustomWidgets/MessageWidget.h"
 
 class BaseWindow : public QDialog
@@ -35,6 +40,7 @@ public:
 
 signals:
     void closeSignal();
+
 protected:
     void closeEvent(QCloseEvent *event) override
     {

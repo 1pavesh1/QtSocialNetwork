@@ -1,6 +1,5 @@
 #include "AddPostWindow.h"
 #include "ui_AddPostWindow.h"
-#include <QFileDialog>
 
 AddPostWindow::AddPostWindow(QWidget *parent)
     : BaseWindow(parent)
@@ -27,7 +26,8 @@ void AddPostWindow::HandleAddPost()
 
 void AddPostWindow::HandleAddPostFailed()
 {
-
+    messageWidget = new MessageWidget(this, "Не удалось добавить пост", DANGER);
+    messageWidget->Show();
 }
 
 void AddPostWindow::SetData(const UserModel &userModel)
@@ -102,7 +102,7 @@ void AddPostWindow::on_deleteFileInputButton_clicked()
 
     if (!layout || layout->count() == 0)
     {
-        messageWidget = new MessageWidget(this, "There is no file to delete", DANGER);
+        messageWidget = new MessageWidget(this, "Нет файла для удаления", WARNING);
         messageWidget->Show();
         return;
     }

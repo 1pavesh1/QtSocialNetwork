@@ -21,6 +21,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    DAOInterface/DAOInterface.h \
     Managers/DataBaseCommentManager.h \
     Managers/DataBaseConnectManager.h \
     Managers/DataBaseFileManager.h \

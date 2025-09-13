@@ -1,4 +1,3 @@
-#include <QDate>
 #include "SettingsWindow.h"
 #include "ui_SettingsWindow.h"
 

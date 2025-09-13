@@ -11,6 +11,7 @@ public:
     bool PasswordIsValidation(const QString &password)                 { return CheckPasswordValidation(password);                 }
     bool PhoneIsValidation(const QString &phone)                       { return CheckPhoneValidation(phone);                       }
     bool DataSize(const QString &tempText)                             { return CheckDataSize(tempText);                           }
+
 private:
     bool CheckLoginValidation(const QString &login)
     {
@@ -23,6 +24,7 @@ private:
         }
         return true;
     }
+
     bool CheckPasswordValidation(const QString &password)
     {
         for (int i = 0; i < password.size(); ++i)
@@ -34,6 +36,7 @@ private:
         }
         return true;
     }
+
     bool CheckPhoneValidation(const QString &phone)
     {
         if (phone.size() != 17)
@@ -42,6 +45,7 @@ private:
         }
         return true;
     }
+
     bool CheckDataSize(const QString &tempText)
     {
         if (tempText.size() < 5)

@@ -1,9 +1,5 @@
 #include "ChangePhotoWindow.h"
 #include "ui_ChangePhotoWindow.h"
-#include <QGraphicsView>
-#include <QMouseEvent>
-#include <QGraphicsEllipseItem>
-#include <QGraphicsSceneMouseEvent>
 
 ChangePhotoWindow::ChangePhotoWindow(const QPixmap &originalPixmap, QWidget *parent)
     : BaseWindow(parent), ui(new Ui::ChangePhotoWindow),

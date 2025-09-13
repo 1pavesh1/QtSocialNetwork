@@ -7,7 +7,6 @@
 *****************************************************************************/
 
 #include "../../../RegWindow.h"
-#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -40,13 +39,8 @@ template <> constexpr inline auto RegWindow::qt_create_metaobjectdata<qt_meta_ta
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "RegWindow",
-        "HandleUserReg",
-        "",
-        "UserModel",
-        "userModel",
-        "HandleUserRegRepeat",
-        "HandleUserRegFailed",
         "ChangedTelephoneText",
+        "",
         "QWidget*",
         "old",
         "now",
@@ -56,24 +50,16 @@ template <> constexpr inline auto RegWindow::qt_create_metaobjectdata<qt_meta_ta
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Slot 'HandleUserReg'
-        QtMocHelpers::SlotData<void(const UserModel &)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { 0x80000000 | 3, 4 },
-        }}),
-        // Slot 'HandleUserRegRepeat'
-        QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPublic, QMetaType::Void),
-        // Slot 'HandleUserRegFailed'
-        QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'ChangedTelephoneText'
-        QtMocHelpers::SlotData<void(QWidget *, QWidget *)>(7, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 8, 9 }, { 0x80000000 | 8, 10 },
+        QtMocHelpers::SlotData<void(QWidget *, QWidget *)>(1, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 3, 4 }, { 0x80000000 | 3, 5 },
         }}),
         // Slot 'ChangedEye'
-        QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_regButton_clicked'
-        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_authLink_clicked'
-        QtMocHelpers::SlotData<void()>(13, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -97,20 +83,17 @@ void RegWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
     auto *_t = static_cast<RegWindow *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->HandleUserReg((*reinterpret_cast< std::add_pointer_t<UserModel>>(_a[1]))); break;
-        case 1: _t->HandleUserRegRepeat(); break;
-        case 2: _t->HandleUserRegFailed(); break;
-        case 3: _t->ChangedTelephoneText((*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2]))); break;
-        case 4: _t->ChangedEye(); break;
-        case 5: _t->on_regButton_clicked(); break;
-        case 6: _t->on_authLink_clicked(); break;
+        case 0: _t->ChangedTelephoneText((*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2]))); break;
+        case 1: _t->ChangedEye(); break;
+        case 2: _t->on_regButton_clicked(); break;
+        case 3: _t->on_authLink_clicked(); break;
         default: ;
         }
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-        case 3:
+        case 0:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 1:
@@ -141,14 +124,14 @@ int RegWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 4;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 4;
     }
     return _id;
 }

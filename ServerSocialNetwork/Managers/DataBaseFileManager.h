@@ -10,7 +10,8 @@
 class DataBaseFileManager
 {
 private:
-    FileModel   fileModel;
+    FileModel fileModel;
+
 public:
     bool AddFileInPost(const PostModel &postModel, const QSqlDatabase &dataBase)
     {
@@ -31,7 +32,7 @@ public:
 
         postModel.GetFileModel().SetIdFile(query.lastInsertId().toInt());
 
-        query.prepare("INSERT INTO post-file (id_file, id_post) VALUES (?, ?);");
+        query.prepare("INSERT INTO post_file (id_file, id_post) VALUES (?, ?);");
 
         query.addBindValue(postModel.GetFileModel().GetIdFile());
         query.addBindValue(postModel.GetIdPost());
@@ -63,7 +64,7 @@ public:
 
         userModel.GetFileModel().SetIdFile(query.lastInsertId().toInt());
 
-        query.prepare("INSERT INTO user-file (id_file, id_user) VALUES (?, ?);");
+        query.prepare("INSERT INTO user_file (id_file, id_user) VALUES (?, ?);");
 
         query.addBindValue(userModel.GetFileModel().GetIdFile());
         query.addBindValue(userModel.GetIdUser());
@@ -89,7 +90,7 @@ public:
             return false;
         }
 
-        query.prepare("DELETE FROM post-file WHERE id_post = :id_post;");
+        query.prepare("DELETE FROM post_file WHERE id_post = :id_post;");
         query.bindValue(":id_post", postModel.GetIdPost());
 
         if (!query.exec())
@@ -113,7 +114,7 @@ public:
             return false;
         }
 
-        query.prepare("DELETE FROM user-file WHERE id_post = :id_user;");
+        query.prepare("DELETE FROM user_file WHERE id_post = :id_user;");
         query.bindValue(":id_user", userModel.GetIdUser());
 
         if (!query.exec())
@@ -128,7 +129,7 @@ public:
     {
         QSqlQuery query(dataBase);
 
-        query.prepare("SELECT f.* FROM file f INNER JOIN post-file pf ON f.id_file = pf.id_file WHERE pf.id_post = :id_post");
+        query.prepare("SELECT f.* FROM [file] f INNER JOIN [post_file] pf ON f.id_file = pf.id_file WHERE pf.id_post = :id_post");
 
         query.bindValue(":id_post", postModel.GetIdPost());
 
@@ -150,7 +151,7 @@ public:
     {
         QSqlQuery query(dataBase);
 
-        query.prepare("SELECT f.* FROM file f INNER JOIN user-file pf ON f.id_file = pf.id_file WHERE pf.id_user = :id_user");
+        query.prepare("SELECT f.* FROM [file] f INNER JOIN [user_file] pf ON f.id_file = pf.id_file WHERE pf.id_user = :id_user");
 
         query.bindValue(":id_user", userModel.GetIdUser());
 

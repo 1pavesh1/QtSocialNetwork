@@ -86,7 +86,7 @@ public:
                 userModel.SetIdUser(query.value(0).toInt());
                 userModel.SetEmail(query.value(4).toString());
                 userModel.SetEntryTime(timeUtil.GetDateTime());
-                userModel.SetDateBithday(query.value(7).toString());
+                userModel.SetDateBithday(query.value(6).toString());
                 userModel.SetCountNotifications(GetCountNotifications(userModel, dataBase));
                 userModel.SetCountFriends(GetCountFriends(userModel, dataBase));
                 userModel.SetStatus(true);
