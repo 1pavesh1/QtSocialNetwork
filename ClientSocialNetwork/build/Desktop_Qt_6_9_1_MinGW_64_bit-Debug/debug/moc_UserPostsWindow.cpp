@@ -7,7 +7,6 @@
 *****************************************************************************/
 
 #include "../../../UserPostsWindow.h"
-#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>

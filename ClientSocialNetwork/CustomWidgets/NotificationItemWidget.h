@@ -2,11 +2,6 @@
 #define NOTIFICATIONITEMWIDGET_H
 
 #include <QWidget>
-#include <QLabel>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QDateTime>
 #include "NotificationModel.h"
 #include "AbstractClasses/CustomWidget.h"
 #include "MediaUtil/PhotoUtil.h"
@@ -15,12 +10,13 @@ class NotificationItemWidget : public QWidget, public CustomWidget
 {
     Q_OBJECT
 private:
-    NotificationModel notificationModel;
-    QLabel *avatarLabel;
-    QLabel *messageLabel;
-    QPushButton *acceptButton;
-    QPushButton *cancelButton;
-    PhotoUtil photoUtil;
+    NotificationModel   notificationModel;
+    PhotoUtil           photoUtil;
+
+    QLabel              *avatarLabel;
+    QLabel              *messageLabel;
+    QPushButton         *acceptButton;
+    QPushButton         *cancelButton;
 
     void InitializationInterface() override
     {
@@ -28,12 +24,10 @@ private:
         mainLayout->setSpacing(12);
         mainLayout->setContentsMargins(8, 8, 8, 8);
 
-        // Аватар
         avatarLabel = new QLabel(this);
         avatarLabel->setObjectName("avatarLabel");
         avatarLabel->setFixedSize(70, 70);
 
-        // Текст уведомления и кнопки
         QVBoxLayout *contentLayout = new QVBoxLayout();
         contentLayout->setSpacing(8);
 
@@ -41,7 +35,6 @@ private:
         messageLabel->setObjectName("messageLabel");
         messageLabel->setWordWrap(true);
 
-        // Кнопки действий
         QHBoxLayout *buttonsLayout = new QHBoxLayout();
         buttonsLayout->setSpacing(8);
 
@@ -61,33 +54,33 @@ private:
         mainLayout->addWidget(avatarLabel);
         mainLayout->addLayout(contentLayout);
 
-        // Подключение сигналов
         connect(acceptButton, &QPushButton::clicked, [this]() {
-            emit acceptClicked(notificationModel);
+            emit ClickOnAcceptButton(notificationModel);
         });
 
         connect(cancelButton, &QPushButton::clicked, [this]() {
-            emit cancelClicked(notificationModel);
+            emit ClickOnCancelButton(notificationModel);
         });
     }
 
     void LoadContent() override
     {
-        // Загрузка аватара
-        if (!notificationModel.GetUserModel().GetFileModel().GetFileData().isEmpty()) {
+        if (!notificationModel.GetUserModel().GetFileModel().GetFileData().isEmpty())
             avatarLabel->setPixmap(photoUtil.GetHandlerPhoto(
                 notificationModel.GetUserModel().GetFileModel().GetFileData(), QSize(70, 70)));
-        } else {
+        else
             avatarLabel->setPixmap(QPixmap(":/IMG/IMG/DefultProfile75x75SN.png")
                                        .scaled(70, 70, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-        }
-        // Текст уведомления
+
         QString message;
-        if (notificationModel.GetQuery() == "ADD_USER") {
+        if (notificationModel.GetQuery() == "ADD_USER")
+        {
             message = QString("%1 хочет добавить вас в друзья\n%2")
                           .arg(notificationModel.GetUserModel().GetLogin())
                           .arg(notificationModel.GetDateSending());
-        } else {
+        }
+        else
+        {
             message = QString("%1: %2\n%3")
             .arg(notificationModel.GetUserModel().GetLogin())
                 .arg("хочет добваить вас в друзья")
@@ -109,7 +102,7 @@ private:
             }
             NotificationItemWidget:hover
             {
-                background: white; /* Убираем изменение фона при наведении */
+                background: white;
             }
             QLabel
             {
@@ -171,8 +164,8 @@ public:
     }
 
 signals:
-    void acceptClicked(const NotificationModel &notificationModel);
-    void cancelClicked(const NotificationModel &notificationModel);
+    void ClickOnAcceptButton(const NotificationModel &notificationModel);
+    void ClickOnCancelButton(const NotificationModel &notificationModel);
 };
 
 #endif // NOTIFICATIONITEMWIDGET_H

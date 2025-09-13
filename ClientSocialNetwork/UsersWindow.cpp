@@ -6,6 +6,7 @@ UsersWindow::UsersWindow(QWidget *parent)
     , ui(new Ui::UsersWindow)
 {
     ui->setupUi(this);
+    ConnectSlots();
 }
 
 UsersWindow::~UsersWindow()

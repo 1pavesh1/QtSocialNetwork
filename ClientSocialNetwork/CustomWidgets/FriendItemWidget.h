@@ -10,11 +10,12 @@ class FriendItemWidget : public QWidget, public CustomWidget
 {
     Q_OBJECT
 private:
-    UserModel userModel;
-    QLabel *statusLabel;
-    QLabel *loginLabel;
-    QLabel *avatarLabel;
-    PhotoUtil photoUtil;
+    UserModel   userModel;
+    PhotoUtil   photoUtil;
+
+    QLabel      *statusLabel;
+    QLabel      *loginLabel;
+    QLabel      *avatarLabel;
 
     void InitializationInterface() override
     {
@@ -56,8 +57,8 @@ private:
         }
         FriendItemWidget:hover
         {
-            background: white; /* Убираем изменение фона при наведении */
-            border: 1px solid #e7e8ec; /* Убираем изменение границы при наведении */
+            background: white;
+            border: 1px solid #e7e8ec;
         }
         QLabel
         {
@@ -89,13 +90,11 @@ private:
 
     void LoadContent() override
     {
-        if (!userModel.GetFileModel().GetFileData().isEmpty()) {
-            QPixmap avatar = photoUtil.GetHandlerPhoto(userModel.GetFileModel().GetFileData(), QSize(40, 40));
-            avatarLabel->setPixmap(avatar);
-        } else {
+        if (!userModel.GetFileModel().GetFileData().isEmpty())
+            avatarLabel->setPixmap(photoUtil.GetHandlerPhoto(userModel.GetFileModel().GetFileData(), QSize(40, 40)));
+        else
             avatarLabel->setPixmap(QPixmap(":/IMG/IMG/DefultProfilePin40x40SN.png")
                                        .scaled(40, 40, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-        }
 
         loginLabel->setText(userModel.GetLogin());
 

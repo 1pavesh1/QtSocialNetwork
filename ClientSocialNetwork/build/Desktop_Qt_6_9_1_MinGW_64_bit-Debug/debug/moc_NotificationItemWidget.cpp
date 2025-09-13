@@ -7,7 +7,6 @@
 *****************************************************************************/
 
 #include "../../../CustomWidgets/NotificationItemWidget.h"
-#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -40,19 +39,19 @@ template <> constexpr inline auto NotificationItemWidget::qt_create_metaobjectda
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "NotificationItemWidget",
-        "acceptClicked",
+        "ClickOnAcceptButton",
         "",
         "NotificationModel",
         "notificationModel",
-        "cancelClicked"
+        "ClickOnCancelButton"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Signal 'acceptClicked'
+        // Signal 'ClickOnAcceptButton'
         QtMocHelpers::SignalData<void(const NotificationModel &)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 3, 4 },
         }}),
-        // Signal 'cancelClicked'
+        // Signal 'ClickOnCancelButton'
         QtMocHelpers::SignalData<void(const NotificationModel &)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 3, 4 },
         }}),
@@ -79,15 +78,15 @@ void NotificationItemWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _
     auto *_t = static_cast<NotificationItemWidget *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->acceptClicked((*reinterpret_cast< std::add_pointer_t<NotificationModel>>(_a[1]))); break;
-        case 1: _t->cancelClicked((*reinterpret_cast< std::add_pointer_t<NotificationModel>>(_a[1]))); break;
+        case 0: _t->ClickOnAcceptButton((*reinterpret_cast< std::add_pointer_t<NotificationModel>>(_a[1]))); break;
+        case 1: _t->ClickOnCancelButton((*reinterpret_cast< std::add_pointer_t<NotificationModel>>(_a[1]))); break;
         default: ;
         }
     }
     if (_c == QMetaObject::IndexOfMethod) {
-        if (QtMocHelpers::indexOfMethod<void (NotificationItemWidget::*)(const NotificationModel & )>(_a, &NotificationItemWidget::acceptClicked, 0))
+        if (QtMocHelpers::indexOfMethod<void (NotificationItemWidget::*)(const NotificationModel & )>(_a, &NotificationItemWidget::ClickOnAcceptButton, 0))
             return;
-        if (QtMocHelpers::indexOfMethod<void (NotificationItemWidget::*)(const NotificationModel & )>(_a, &NotificationItemWidget::cancelClicked, 1))
+        if (QtMocHelpers::indexOfMethod<void (NotificationItemWidget::*)(const NotificationModel & )>(_a, &NotificationItemWidget::ClickOnCancelButton, 1))
             return;
     }
 }
@@ -126,13 +125,13 @@ int NotificationItemWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a
 }
 
 // SIGNAL 0
-void NotificationItemWidget::acceptClicked(const NotificationModel & _t1)
+void NotificationItemWidget::ClickOnAcceptButton(const NotificationModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 0, nullptr, _t1);
 }
 
 // SIGNAL 1
-void NotificationItemWidget::cancelClicked(const NotificationModel & _t1)
+void NotificationItemWidget::ClickOnCancelButton(const NotificationModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 1, nullptr, _t1);
 }

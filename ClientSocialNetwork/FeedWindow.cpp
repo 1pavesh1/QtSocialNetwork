@@ -21,6 +21,7 @@ FeedWindow::FeedWindow(QWidget *parent)
     ui->postList->setSpacing(5); // Отступ между постами
 
     timer->start(1);
+    ConnectSlots();
 }
 
 FeedWindow::~FeedWindow()
@@ -204,10 +205,10 @@ void FeedWindow::HandlerGetPost(const PostList &postList)
         ui->postList->setItemWidget(item, itemWidget);
 
         // Подключаем сигналы
-        connect(itemWidget, &PostItemWidget::likeClicked, this, &FeedWindow::OnLikeClicked);
-        connect(itemWidget, &PostItemWidget::commentClicked, this, &FeedWindow::OnCommentClicked);
-        connect(itemWidget, &PostItemWidget::editClicked, this, &FeedWindow::EditPost);
-        connect(itemWidget, &PostItemWidget::deleteClicked, this, &FeedWindow::DeletePost);
+        connect(itemWidget, &PostItemWidget::ClickOnLikeButton, this, &FeedWindow::OnLikeClicked);
+        connect(itemWidget, &PostItemWidget::ClickOnCommentButton, this, &FeedWindow::OnCommentClicked);
+        connect(itemWidget, &PostItemWidget::ClickOnEdit, this, &FeedWindow::EditPost);
+        connect(itemWidget, &PostItemWidget::ClickOnDelete, this, &FeedWindow::DeletePost);
     }
 }
 
@@ -280,8 +281,8 @@ void FeedWindow::HandlerGetCommentPost(const CommentList &commentList)
         ui->commentList->setItemWidget(item, itemWidget);
 
         // Подключаем сигналы для редактирования и удаления комментариев
-        connect(itemWidget, &CommentItemWidget::EditClicked, this, &FeedWindow::onEditComment);
-        connect(itemWidget, &CommentItemWidget::DeleteClicked, this, &FeedWindow::onDeleteComment);
+        connect(itemWidget, &CommentItemWidget::ClickOnEdit, this, &FeedWindow::onEditComment);
+        connect(itemWidget, &CommentItemWidget::ClickOnDelete, this, &FeedWindow::onDeleteComment);
     }
 }
 

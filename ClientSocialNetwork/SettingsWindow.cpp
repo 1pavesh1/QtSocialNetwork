@@ -9,6 +9,8 @@ SettingsWindow::SettingsWindow(QWidget *parent)
     ui->setupUi(this);
 
     ui->openEye->setVisible(false);
+
+    ConnectSlots();
 }
 
 SettingsWindow::~SettingsWindow()

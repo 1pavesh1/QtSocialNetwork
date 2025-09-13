@@ -6,6 +6,7 @@ NotificationsWindow::NotificationsWindow(QWidget *parent)
     , ui(new Ui::NotificationsWindow)
 {
     ui->setupUi(this);
+    ConnectSlots();
 }
 
 NotificationsWindow::~NotificationsWindow()
@@ -28,8 +29,8 @@ void NotificationsWindow::HandlerGetNotification(const NotificationList &notific
     {
         NotificationItemWidget *itemWidget = new NotificationItemWidget(notificationModel);
 
-        connect(itemWidget, &NotificationItemWidget::acceptClicked, this, &NotificationsWindow::AcceptNotification);
-        connect(itemWidget, &NotificationItemWidget::cancelClicked, this, &NotificationsWindow::CancelNotification);
+        connect(itemWidget, &NotificationItemWidget::ClickOnAcceptButton, this, &NotificationsWindow::AcceptNotification);
+        connect(itemWidget, &NotificationItemWidget::ClickOnCancelButton, this, &NotificationsWindow::CancelNotification);
 
         QListWidgetItem *item = new QListWidgetItem();
         item->setSizeHint(itemWidget->sizeHint());

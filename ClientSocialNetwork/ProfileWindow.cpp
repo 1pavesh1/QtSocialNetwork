@@ -13,6 +13,7 @@ ProfileWindow::ProfileWindow(QWidget *parent)
     ui->setupUi(this);
     timer           = new QTimer(this);
     timer->start(1);
+    ConnectSlots();
 }
 
 ProfileWindow::~ProfileWindow()

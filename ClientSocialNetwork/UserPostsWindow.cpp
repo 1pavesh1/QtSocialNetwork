@@ -6,6 +6,7 @@ UserPostsWindow::UserPostsWindow(QWidget *parent)
     , ui(new Ui::UserPostsWindow)
 {
     ui->setupUi(this);
+    ConnectSlots();
 }
 
 UserPostsWindow::~UserPostsWindow()
@@ -37,8 +38,8 @@ void UserPostsWindow::HandlerGetUserPost(const PostList &postList)
         ui->postUserList->setItemWidget(item, itemWidget);
 
         // Подключаем сигналы
-        connect(itemWidget, &PostItemWidget::likeClicked, this, &UserPostsWindow::OnLikeClicked);
-        connect(itemWidget, &PostItemWidget::commentClicked, this, &UserPostsWindow::OnCommentClicked);
+        connect(itemWidget, &PostItemWidget::ClickOnLikeButton, this, &UserPostsWindow::OnLikeClicked);
+        connect(itemWidget, &PostItemWidget::ClickOnCommentButton, this, &UserPostsWindow::OnCommentClicked);
     }
 }
 

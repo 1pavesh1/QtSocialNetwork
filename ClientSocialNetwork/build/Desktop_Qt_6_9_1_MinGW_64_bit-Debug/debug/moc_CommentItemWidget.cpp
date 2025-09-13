@@ -7,7 +7,6 @@
 *****************************************************************************/
 
 #include "../../../CustomWidgets/CommentItemWidget.h"
-#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -40,19 +39,19 @@ template <> constexpr inline auto CommentItemWidget::qt_create_metaobjectdata<qt
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "CommentItemWidget",
-        "EditClicked",
+        "ClickOnEdit",
         "",
         "CommentModel",
         "commentModel",
-        "DeleteClicked"
+        "ClickOnDelete"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Signal 'EditClicked'
+        // Signal 'ClickOnEdit'
         QtMocHelpers::SignalData<void(const CommentModel &)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 3, 4 },
         }}),
-        // Signal 'DeleteClicked'
+        // Signal 'ClickOnDelete'
         QtMocHelpers::SignalData<void(const CommentModel &)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 3, 4 },
         }}),
@@ -79,15 +78,15 @@ void CommentItemWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
     auto *_t = static_cast<CommentItemWidget *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->EditClicked((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
-        case 1: _t->DeleteClicked((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
+        case 0: _t->ClickOnEdit((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
+        case 1: _t->ClickOnDelete((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
         default: ;
         }
     }
     if (_c == QMetaObject::IndexOfMethod) {
-        if (QtMocHelpers::indexOfMethod<void (CommentItemWidget::*)(const CommentModel & )>(_a, &CommentItemWidget::EditClicked, 0))
+        if (QtMocHelpers::indexOfMethod<void (CommentItemWidget::*)(const CommentModel & )>(_a, &CommentItemWidget::ClickOnEdit, 0))
             return;
-        if (QtMocHelpers::indexOfMethod<void (CommentItemWidget::*)(const CommentModel & )>(_a, &CommentItemWidget::DeleteClicked, 1))
+        if (QtMocHelpers::indexOfMethod<void (CommentItemWidget::*)(const CommentModel & )>(_a, &CommentItemWidget::ClickOnDelete, 1))
             return;
     }
 }
@@ -126,13 +125,13 @@ int CommentItemWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void CommentItemWidget::EditClicked(const CommentModel & _t1)
+void CommentItemWidget::ClickOnEdit(const CommentModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 0, nullptr, _t1);
 }
 
 // SIGNAL 1
-void CommentItemWidget::DeleteClicked(const CommentModel & _t1)
+void CommentItemWidget::ClickOnDelete(const CommentModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 1, nullptr, _t1);
 }

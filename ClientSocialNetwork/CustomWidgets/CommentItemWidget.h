@@ -2,17 +2,6 @@
 #define COMMENTITEMWIDGET_H
 
 #include <QWidget>
-#include <QLabel>
-#include <QPushButton>
-#include <QMenu>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QSpacerItem>
-#include <QMouseEvent>
-#include <QDateTime>
-#include <QPainter>
-#include <QStyleOption>
-#include <QGridLayout>
 #include "Models/CommentModel.h"
 #include "Models/UserModel.h"
 #include "AbstractClasses/CustomWidget.h"
@@ -22,19 +11,19 @@ class CommentItemWidget : public QWidget, public CustomWidget
 {
     Q_OBJECT
 private:
-    CommentModel commentModel;
-    UserModel userModel;
+    CommentModel    commentModel;
+    UserModel       userModel;
 
-    QLabel *avatarLabel;
-    QLabel *usernameLabel;
-    QLabel *timeLabel;
-    QLabel *contentLabel;
-    QPushButton *menuButton;
+    PhotoUtil       photoUtil;
 
-    QMenu *contextMenu;
-    QAction *editAction;
-    QAction *deleteAction;
-    PhotoUtil photoUtil;
+    QLabel          *avatarLabel;
+    QLabel          *loginLabel;
+    QLabel          *timeLabel;
+    QLabel          *contentLabel;
+    QPushButton     *menuButton;
+    QMenu           *contextMenu;
+    QAction         *editAction;
+    QAction         *deleteAction;
 
     void InitializationInterface() override
     {
@@ -42,55 +31,45 @@ private:
         mainLayout->setContentsMargins(0, 0, 0, 0);
         mainLayout->setSpacing(12);
 
-        // Аватар
         avatarLabel = new QLabel(this);
         avatarLabel->setFixedSize(50, 50);
         avatarLabel->setStyleSheet("border-radius: 25px; background: transparent;");
 
-        // Основной контент
         QWidget *contentWidget = new QWidget(this);
         contentWidget->setStyleSheet("background: transparent;");
         QGridLayout *gridLayout = new QGridLayout(contentWidget);
         gridLayout->setContentsMargins(0, 0, 0, 0);
         gridLayout->setSpacing(4);
 
-        // Логин пользователя
-        usernameLabel = new QLabel(commentModel.GetUserModel().GetLogin(), contentWidget);
-        usernameLabel->setObjectName("username");
+        loginLabel = new QLabel(commentModel.GetUserModel().GetLogin(), contentWidget);
+        loginLabel->setObjectName("username");
 
-        // Кнопка меню
         menuButton = new QPushButton(contentWidget);
         menuButton->setFixedSize(20, 20);
         menuButton->setIcon(QIcon(":/IMG/IMG/MenuPostPin50x50SN.png"));
         menuButton->setIconSize(QSize(16, 16));
         menuButton->setCursor(Qt::PointingHandCursor);
 
-        if (commentModel.GetIdUser() != userModel.GetIdUser()) {
+        if (commentModel.GetIdUser() != userModel.GetIdUser())
             menuButton->setVisible(false);
-        }
 
-        // Время
         timeLabel = new QLabel(contentWidget);
         timeLabel->setObjectName("time");
 
-        if (commentModel.IsEdited()) {
+        if (commentModel.IsEdited())
             timeLabel->setText("редактирован " + commentModel.GetCreatedDate());
-        } else {
+        else
             timeLabel->setText(commentModel.GetCreatedDate());
-        }
 
-        // Текст комментария
         contentLabel = new QLabel(commentModel.GetTextContent(), contentWidget);
         contentLabel->setObjectName("content");
         contentLabel->setWordWrap(true);
         contentLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
-        // Размещаем элементы
-        gridLayout->addWidget(usernameLabel, 0, 0, 1, 1, Qt::AlignLeft | Qt::AlignTop);
+        gridLayout->addWidget(loginLabel, 0, 0, 1, 1, Qt::AlignLeft | Qt::AlignTop);
         gridLayout->addWidget(menuButton, 0, 1, 1, 1, Qt::AlignRight | Qt::AlignTop);
         gridLayout->addWidget(contentLabel, 1, 0, 1, 2);
 
-        // Нижняя строка с временем
         QHBoxLayout *bottomLayout = new QHBoxLayout();
         bottomLayout->setContentsMargins(0, 0, 0, 0);
         bottomLayout->addStretch();
@@ -118,8 +97,8 @@ private:
             contextMenu->exec(menuButton->mapToGlobal(QPoint(0, menuButton->height())));
         });
 
-        connect(editAction, &QAction::triggered, this, &CommentItemWidget::OnEditAction);
-        connect(deleteAction, &QAction::triggered, this, &CommentItemWidget::OnDeleteAction);
+        connect(editAction, &QAction::triggered, this, &CommentItemWidget::EditEvent);
+        connect(deleteAction, &QAction::triggered, this, &CommentItemWidget::DeleteEvent);
     }
 
     void SetupQCC() override
@@ -193,24 +172,22 @@ private:
 
     void LoadContent() override
     {
-        if (!commentModel.GetUserModel().GetFileModel().GetFileData().isEmpty()) {
-            QPixmap avatar = photoUtil.GetHandlerPhoto(
-                commentModel.GetUserModel().GetFileModel().GetFileData(), avatarLabel->size());
-            avatarLabel->setPixmap(avatar);
-        } else {
+        if (!commentModel.GetUserModel().GetFileModel().GetFileData().isEmpty())
+            avatarLabel->setPixmap(photoUtil.GetHandlerPhoto(
+                commentModel.GetUserModel().GetFileModel().GetFileData(), avatarLabel->size()));
+        else
             avatarLabel->setPixmap(QPixmap(":/IMG/IMG/DefultProfilePin40x40SN.png")
                                        .scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-        }
     }
 
-    void OnEditAction()
+    void EditEvent()
     {
-        emit EditClicked(commentModel);
+        emit ClickOnEdit(commentModel);
     }
 
-    void OnDeleteAction()
+    void DeleteEvent()
     {
-        emit DeleteClicked(commentModel);
+        emit ClickOnDelete(commentModel);
     }
 
     void paintEvent(QPaintEvent *event) override
@@ -226,20 +203,6 @@ private:
         QWidget::paintEvent(event);
     }
 
-public:
-    CommentItemWidget(const CommentModel &commentModel, const UserModel &userModel, QWidget *parent = nullptr)
-        : QWidget(parent), commentModel(commentModel), userModel(userModel)
-    {
-        SetupQCC();
-        InitializationInterface();
-        LoadContent();
-
-        setContentsMargins(10, 8, 10, 8);
-    }
-signals:
-    void EditClicked(const CommentModel &commentModel);
-    void DeleteClicked(const CommentModel &commentModel);
-
 protected:
     void mousePressEvent(QMouseEvent *event) override
     {
@@ -254,6 +217,21 @@ protected:
             QWidget::mousePressEvent(event);
         }
     }
+
+public:
+    CommentItemWidget(const CommentModel &commentModel, const UserModel &userModel, QWidget *parent = nullptr)
+        : QWidget(parent), commentModel(commentModel), userModel(userModel)
+    {
+        SetupQCC();
+        InitializationInterface();
+        LoadContent();
+
+        setContentsMargins(10, 8, 10, 8);
+    }
+
+signals:
+    void ClickOnEdit(const CommentModel &commentModel);
+    void ClickOnDelete(const CommentModel &commentModel);
 };
 
 #endif // COMMENTITEMWIDGET_H

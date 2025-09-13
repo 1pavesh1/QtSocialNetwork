@@ -12,7 +12,7 @@ public:
     bool PhoneIsValidation(const QString &phone)                       { return CheckPhoneValidation(phone);                       }
     bool DataSize(const QString &tempText)                             { return CheckDataSize(tempText);                           }
 private:
-    bool CheckLoginValidation(const QString &login)                    // Проверка логина
+    bool CheckLoginValidation(const QString &login)
     {
         for (int i = 0; i < login.size(); ++i)
         {

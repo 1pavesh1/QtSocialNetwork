@@ -2,19 +2,6 @@
 #define POSTITEMWIDGET_H
 
 #include <QWidget>
-#include <QLabel>
-#include <QPushButton>
-#include <QMenu>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QFileDialog>
-#include <QFrame>
-#include <QMediaPlayer>
-#include <QAudioOutput>
-#include <QVideoWidget>
-#include <QSlider>
-#include <QStyle>
-#include <QTemporaryFile>
 #include "PostModel.h"
 #include "AbstractClasses/CustomWidget.h"
 #include "MediaUtil/PhotoUtil.h"
@@ -27,27 +14,27 @@ class PostItemWidget : public QWidget, public CustomWidget
 {
     Q_OBJECT
 private:
-    PostModel postModel;
-    UserModel userModel;
-    QLabel *avatarLabel;
-    QLabel *loginLabel;
-    QLabel *postTitleLabel;
-    QLabel *contentLabel;
-    QLabel *dateCreateLabel;
-    QPushButton *menuButton;
-    QPushButton *likeButton;
-    QPushButton *commentButton;
-    QMenu *contextMenu;
-    QFrame *topSeparator;
-    QFrame *bottomSeparator;
-    PhotoUtil photoUtil;
+    PostModel       postModel;
+    UserModel       userModel;
+    PhotoUtil       photoUtil;
 
-    // Медиа виджеты
-    AudioWidget *audioWidget = nullptr;
-    VideoWidget *videoWidget = nullptr;
-    FileWidget *fileWidget = nullptr;
-    PhotoWidget *photoWidget = nullptr;
-    QWidget *mediaContainer = nullptr;
+    QLabel          *avatarLabel;
+    QLabel          *loginLabel;
+    QLabel          *postTitleLabel;
+    QLabel          *contentLabel;
+    QLabel          *dateCreateLabel;
+    QPushButton     *menuButton;
+    QPushButton     *likeButton;
+    QPushButton     *commentButton;
+    QMenu           *contextMenu;
+    QFrame          *topSeparator;
+    QFrame          *bottomSeparator;
+
+    AudioWidget     *audioWidget;
+    VideoWidget     *videoWidget;
+    FileWidget      *fileWidget;
+    PhotoWidget     *photoWidget;
+    QWidget         *mediaContainer;
 
     void InitializationInterface() override
     {
@@ -55,12 +42,10 @@ private:
         mainLayout->setSpacing(6);
         mainLayout->setContentsMargins(12, 12, 12, 12);
 
-        // Шапка поста
         QHBoxLayout *headerLayout = new QHBoxLayout();
         headerLayout->setSpacing(8);
         headerLayout->setContentsMargins(0, 0, 0, 0);
 
-        // Аватар
         avatarLabel = new QLabel(this);
         avatarLabel->setFixedSize(50, 50);
         avatarLabel->setStyleSheet("border-radius: 25px; border: 1px solid #e0e0e0;");
@@ -73,7 +58,6 @@ private:
         headerLayout->addWidget(loginLabel);
         headerLayout->addStretch();
 
-        // Кнопка меню
         menuButton = new QPushButton(this);
         menuButton->setObjectName("menuButton");
         menuButton->setIcon(QIcon(":/IMG/IMG/MenuPostPin50x50SN.png"));
@@ -82,41 +66,35 @@ private:
         menuButton->setFixedSize(30, 30);
         headerLayout->addWidget(menuButton);
 
-        // Верхняя разделительная линия
         topSeparator = new QFrame(this);
         topSeparator->setFrameShape(QFrame::HLine);
         topSeparator->setFrameShadow(QFrame::Sunken);
         topSeparator->setLineWidth(1);
         topSeparator->setMidLineWidth(0);
 
-        // Заголовок поста
         postTitleLabel = new QLabel(this);
         postTitleLabel->setObjectName("postTitle");
         postTitleLabel->setWordWrap(true);
         postTitleLabel->setStyleSheet("font-weight: bold; font-size: 16px; margin: 8px 0;");
 
-        // Контент поста
         contentLabel = new QLabel(this);
         contentLabel->setObjectName("content");
         contentLabel->setWordWrap(true);
         contentLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
         contentLabel->setStyleSheet("font-size: 14px; line-height: 1.4; margin: 8px 0;");
 
-        // Контейнер для медиа - создаем один раз!
         mediaContainer = new QWidget(this);
         mediaContainer->setVisible(false);
         QVBoxLayout *mediaLayout = new QVBoxLayout(mediaContainer);
         mediaLayout->setContentsMargins(0, 0, 0, 0);
         mediaLayout->setSpacing(8);
 
-        // Нижняя разделительная линия
         bottomSeparator = new QFrame(this);
         bottomSeparator->setFrameShape(QFrame::HLine);
         bottomSeparator->setFrameShadow(QFrame::Sunken);
         bottomSeparator->setLineWidth(1);
         bottomSeparator->setMidLineWidth(0);
 
-        // Футер
         QHBoxLayout *footerLayout = new QHBoxLayout();
         footerLayout->setSpacing(12);
         footerLayout->setContentsMargins(0, 0, 0, 0);
@@ -143,23 +121,21 @@ private:
         footerLayout->addStretch();
         footerLayout->addWidget(dateCreateLabel);
 
-        // Сборка основного layout
         mainLayout->addLayout(headerLayout);
         mainLayout->addWidget(topSeparator);
         mainLayout->addWidget(postTitleLabel);
         mainLayout->addWidget(contentLabel);
-        mainLayout->addWidget(mediaContainer); // Добавляем медиа контейнер
+        mainLayout->addWidget(mediaContainer);
         mainLayout->addWidget(bottomSeparator);
         mainLayout->addLayout(footerLayout);
 
         setLayout(mainLayout);
 
-        // Подключение сигналов
         connect(likeButton, &QPushButton::clicked, this, [this]() {
-            emit likeClicked(postModel);
+            emit ClickOnLikeButton(postModel);
         });
         connect(commentButton, &QPushButton::clicked, this, [this]() {
-            emit commentClicked(postModel);
+            emit ClickOnCommentButton(postModel);
         });
         connect(menuButton, &QPushButton::clicked, this, [this]() {
             contextMenu->exec(menuButton->mapToGlobal(QPoint(0, menuButton->height())));
@@ -168,17 +144,13 @@ private:
 
     void LoadContent() override
     {
-        // Загрузка аватара
-        if (!postModel.GetUserModel().GetFileModel().GetFileData().isEmpty()) {
-            QPixmap avatar = photoUtil.GetHandlerPhoto(
+        if (!postModel.GetUserModel().GetFileModel().GetFileData().isEmpty())
+            avatarLabel->setPixmap(photoUtil.GetHandlerPhoto(
                 postModel.GetUserModel().GetFileModel().GetFileData(),
-                QSize(50, 50)
-                );
-            avatarLabel->setPixmap(avatar);
-        } else {
+                QSize(50, 50)));
+        else
             avatarLabel->setPixmap(QPixmap(":/IMG/IMG/DefultProfilePin40x40SN.png")
                                        .scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-        }
 
         loginLabel->setText(postModel.GetUserModel().GetLogin());
         postTitleLabel->setText(postModel.GetName());
@@ -188,59 +160,62 @@ private:
         likeButton->setText(" " + QString::number(postModel.GetCountLikes()));
         commentButton->setText(" " + QString::number(postModel.GetCountComments()));
 
-        // Очищаем предыдущие медиа виджеты
         QLayoutItem* item;
-        while ((item = mediaContainer->layout()->takeAt(0)) != nullptr) {
-            if (item->widget()) {
+        while ((item = mediaContainer->layout()->takeAt(0)) != nullptr)
+        {
+            if (item->widget())
                 item->widget()->deleteLater();
-            }
             delete item;
         }
 
-        // Создаем соответствующий медиа виджет
-        if (!postModel.GetFileModel().GetFileData().isEmpty()) {
+        if (!postModel.GetFileModel().GetFileData().isEmpty())
+        {
             QString fileType = postModel.GetFileModel().GetFormat().toLower();
 
-            if (fileType == "png" || fileType == "jpg" || fileType == "jpeg") {
+            if (fileType == "png" || fileType == "jpg" || fileType == "jpeg")
+            {
                 photoWidget = new PhotoWidget(postModel.GetFileModel(), mediaContainer);
                 mediaContainer->layout()->addWidget(photoWidget);
                 mediaContainer->setVisible(true);
             }
-            else if (fileType == "mp3" || fileType == "wav") {
+            else if (fileType == "mp3" || fileType == "wav")
+            {
                 audioWidget = new AudioWidget(postModel.GetFileModel(), mediaContainer);
                 mediaContainer->layout()->addWidget(audioWidget);
                 mediaContainer->setVisible(true);
             }
-            else if (fileType == "mp4" || fileType == "avi") {
+            else if (fileType == "mp4" || fileType == "avi")
+            {
                 videoWidget = new VideoWidget(postModel.GetFileModel(), mediaContainer);
                 mediaContainer->layout()->addWidget(videoWidget);
                 mediaContainer->setVisible(true);
             }
-            else {
+            else
+            {
                 fileWidget = new FileWidget(postModel.GetFileModel(), mediaContainer);
                 mediaContainer->layout()->addWidget(fileWidget);
                 mediaContainer->setVisible(true);
             }
         }
 
-        // Создаем контекстное меню
         contextMenu = new QMenu(this);
         QAction *downloadAction = new QAction("Скачать файл", this);
         connect(downloadAction, &QAction::triggered, this, [this]() {
-            emit downloadClicked(postModel);
+            emit ClickOnDownload(postModel);
         });
         contextMenu->addAction(downloadAction);
 
-        if (userModel.GetIdUser() == postModel.GetIdUser()) {
+        if (userModel.GetIdUser() == postModel.GetIdUser())
+        {
             contextMenu->addSeparator();
             QAction *editAction = new QAction("Редактировать", this);
             connect(editAction, &QAction::triggered, this, [this]() {
-                emit editClicked(postModel);
+                emit ClickOnEdit(postModel);
             });
             contextMenu->addAction(editAction);
             QAction *deleteAction = new QAction("Удалить", this);
             connect(deleteAction, &QAction::triggered, this, [this]() {
-                emit deleteClicked(postModel);
+                emit ClickOnDelete(postModel);
             });
             contextMenu->addAction(deleteAction);
         }
@@ -300,11 +275,11 @@ public:
     }
 
 signals:
-    void likeClicked(const PostModel &postModel);
-    void commentClicked(const PostModel &postModel);
-    void downloadClicked(const PostModel &postModel);
-    void editClicked(const PostModel &postModel);
-    void deleteClicked(const PostModel &postModel);
+    void ClickOnLikeButton(const PostModel &postModel);
+    void ClickOnCommentButton(const PostModel &postModel);
+    void ClickOnDownload(const PostModel &postModel);
+    void ClickOnEdit(const PostModel &postModel);
+    void ClickOnDelete(const PostModel &postModel);
 };
 
 #endif // POSTITEMWIDGET_H

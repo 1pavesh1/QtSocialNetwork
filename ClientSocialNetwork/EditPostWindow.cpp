@@ -19,7 +19,9 @@ EditPostWindow::EditPostWindow(QWidget *parent)
     ui->audioFrame->setVisible(false);
 
     ui->timeVideoSlider->setRange(0, player->duration() / 1000);
-    ui->timeAudioSlider->setRange(0, player->duration() / 1000);}
+    ui->timeAudioSlider->setRange(0, player->duration() / 1000);
+    ConnectSlots();
+}
 
 EditPostWindow::~EditPostWindow()
 {

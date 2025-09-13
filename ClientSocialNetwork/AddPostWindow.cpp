@@ -12,6 +12,7 @@ AddPostWindow::AddPostWindow(QWidget *parent)
 
     ui->mediaFrame->layout()->setContentsMargins(0, 0, 0, 0);
     ui->mediaFrame->layout()->setSpacing(0);
+    ConnectSlots();
 }
 
 AddPostWindow::~AddPostWindow()

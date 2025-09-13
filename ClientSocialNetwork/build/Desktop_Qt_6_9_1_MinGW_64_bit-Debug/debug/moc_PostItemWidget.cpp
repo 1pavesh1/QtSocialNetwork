@@ -7,7 +7,6 @@
 *****************************************************************************/
 
 #include "../../../CustomWidgets/PostItemWidget.h"
-#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -40,34 +39,34 @@ template <> constexpr inline auto PostItemWidget::qt_create_metaobjectdata<qt_me
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "PostItemWidget",
-        "likeClicked",
+        "ClickOnLikeButton",
         "",
         "PostModel",
         "postModel",
-        "commentClicked",
-        "downloadClicked",
-        "editClicked",
-        "deleteClicked"
+        "ClickOnCommentButton",
+        "ClickOnDownload",
+        "ClickOnEdit",
+        "ClickOnDelete"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Signal 'likeClicked'
+        // Signal 'ClickOnLikeButton'
         QtMocHelpers::SignalData<void(const PostModel &)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 3, 4 },
         }}),
-        // Signal 'commentClicked'
+        // Signal 'ClickOnCommentButton'
         QtMocHelpers::SignalData<void(const PostModel &)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 3, 4 },
         }}),
-        // Signal 'downloadClicked'
+        // Signal 'ClickOnDownload'
         QtMocHelpers::SignalData<void(const PostModel &)>(6, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 3, 4 },
         }}),
-        // Signal 'editClicked'
+        // Signal 'ClickOnEdit'
         QtMocHelpers::SignalData<void(const PostModel &)>(7, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 3, 4 },
         }}),
-        // Signal 'deleteClicked'
+        // Signal 'ClickOnDelete'
         QtMocHelpers::SignalData<void(const PostModel &)>(8, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 3, 4 },
         }}),
@@ -94,24 +93,24 @@ void PostItemWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
     auto *_t = static_cast<PostItemWidget *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->likeClicked((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
-        case 1: _t->commentClicked((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
-        case 2: _t->downloadClicked((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
-        case 3: _t->editClicked((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
-        case 4: _t->deleteClicked((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 0: _t->ClickOnLikeButton((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 1: _t->ClickOnCommentButton((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 2: _t->ClickOnDownload((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 3: _t->ClickOnEdit((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 4: _t->ClickOnDelete((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
         default: ;
         }
     }
     if (_c == QMetaObject::IndexOfMethod) {
-        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::likeClicked, 0))
+        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnLikeButton, 0))
             return;
-        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::commentClicked, 1))
+        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnCommentButton, 1))
             return;
-        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::downloadClicked, 2))
+        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnDownload, 2))
             return;
-        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::editClicked, 3))
+        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnEdit, 3))
             return;
-        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::deleteClicked, 4))
+        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnDelete, 4))
             return;
     }
 }
@@ -150,31 +149,31 @@ int PostItemWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void PostItemWidget::likeClicked(const PostModel & _t1)
+void PostItemWidget::ClickOnLikeButton(const PostModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 0, nullptr, _t1);
 }
 
 // SIGNAL 1
-void PostItemWidget::commentClicked(const PostModel & _t1)
+void PostItemWidget::ClickOnCommentButton(const PostModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 1, nullptr, _t1);
 }
 
 // SIGNAL 2
-void PostItemWidget::downloadClicked(const PostModel & _t1)
+void PostItemWidget::ClickOnDownload(const PostModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 2, nullptr, _t1);
 }
 
 // SIGNAL 3
-void PostItemWidget::editClicked(const PostModel & _t1)
+void PostItemWidget::ClickOnEdit(const PostModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 3, nullptr, _t1);
 }
 
 // SIGNAL 4
-void PostItemWidget::deleteClicked(const PostModel & _t1)
+void PostItemWidget::ClickOnDelete(const PostModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 4, nullptr, _t1);
 }

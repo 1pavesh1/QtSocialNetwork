@@ -26,6 +26,7 @@ ChangePhotoWindow::ChangePhotoWindow(const QPixmap &originalPixmap, QWidget *par
 
     CreateResizableCircle();
     UpdateMask();
+    ConnectSlots();
 }
 
 void ChangePhotoWindow::CreateResizableCircle()

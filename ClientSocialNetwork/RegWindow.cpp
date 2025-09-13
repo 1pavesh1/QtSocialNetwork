@@ -8,6 +8,8 @@ RegWindow::RegWindow(QWidget *parent)
     ui->setupUi(this);
 
     ui->openEye->setVisible(false);
+
+    ConnectSlots();
 }
 
 RegWindow::~RegWindow()
