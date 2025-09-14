@@ -26,9 +26,9 @@ private:
 
     void ConnectSlots() override;
     void DisconnectSlots() override;
-    void OnUserClicked(QListWidgetItem *item);
     void HandlerGetUsers(const UserList &userList);
     void HandlerGetUsersFailed();
+    void OnUserClicked(QListWidgetItem *item);
 
 public:
     explicit UsersWindow(QWidget *parent = nullptr);

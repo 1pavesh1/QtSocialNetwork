@@ -47,14 +47,14 @@ public:
         AuthWindow->setStyleSheet(QString::fromUtf8("background-color: rgb(248, 249, 255);"));
         line = new QFrame(AuthWindow);
         line->setObjectName("line");
-        line->setGeometry(QRect(80, 390, 341, 2));
+        line->setGeometry(QRect(80, 430, 341, 2));
         line->setStyleSheet(QString::fromUtf8("background-color: black;"));
         line->setLineWidth(3);
         line->setFrameShape(QFrame::Shape::HLine);
         line->setFrameShadow(QFrame::Shadow::Sunken);
         textLogin = new QLineEdit(AuthWindow);
         textLogin->setObjectName("textLogin");
-        textLogin->setGeometry(QRect(79, 100, 341, 45));
+        textLogin->setGeometry(QRect(79, 140, 341, 45));
         QFont font;
         font.setFamilies({QString::fromUtf8("Arial")});
         font.setPointSize(14);
@@ -71,7 +71,7 @@ public:
         textLogin->setMaxLength(25);
         authLabel = new QLabel(AuthWindow);
         authLabel->setObjectName("authLabel");
-        authLabel->setGeometry(QRect(150, 25, 220, 50));
+        authLabel->setGeometry(QRect(150, 70, 220, 50));
         QFont font1;
         font1.setFamilies({QString::fromUtf8("Arial")});
         font1.setPointSize(20);
@@ -81,7 +81,7 @@ public:
         authLabel->setFont(font1);
         passwordLink = new QPushButton(AuthWindow);
         passwordLink->setObjectName("passwordLink");
-        passwordLink->setGeometry(QRect(320, 400, 131, 29));
+        passwordLink->setGeometry(QRect(320, 440, 131, 29));
         QFont font2;
         font2.setFamilies({QString::fromUtf8("Arial")});
         font2.setPointSize(11);
@@ -99,7 +99,7 @@ public:
 "QPushButton:hover { color: #9932CC; text-decoration: underline; }"));
         authButton = new QPushButton(AuthWindow);
         authButton->setObjectName("authButton");
-        authButton->setGeometry(QRect(80, 310, 341, 60));
+        authButton->setGeometry(QRect(80, 350, 341, 60));
         QFont font3;
         font3.setFamilies({QString::fromUtf8("Arial")});
         font3.setPointSize(16);
@@ -140,7 +140,7 @@ public:
 "}"));
         textPassword = new QLineEdit(AuthWindow);
         textPassword->setObjectName("textPassword");
-        textPassword->setGeometry(QRect(79, 170, 341, 45));
+        textPassword->setGeometry(QRect(79, 210, 341, 45));
         QFont font4;
         font4.setFamilies({QString::fromUtf8("Arial")});
         font4.setPointSize(14);
@@ -157,7 +157,7 @@ public:
         textPassword->setEchoMode(QLineEdit::EchoMode::Password);
         closeEye = new QPushButton(AuthWindow);
         closeEye->setObjectName("closeEye");
-        closeEye->setGeometry(QRect(370, 175, 35, 35));
+        closeEye->setGeometry(QRect(370, 215, 35, 35));
         closeEye->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         closeEye->setStyleSheet(QString::fromUtf8("QPushButton \n"
 "{\n"
@@ -172,7 +172,7 @@ public:
         closeEye->setIconSize(QSize(35, 35));
         regLink = new QPushButton(AuthWindow);
         regLink->setObjectName("regLink");
-        regLink->setGeometry(QRect(80, 400, 111, 29));
+        regLink->setGeometry(QRect(80, 440, 111, 29));
         regLink->setFont(font2);
         regLink->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         regLink->setStyleSheet(QString::fromUtf8("QPushButton \n"
@@ -186,7 +186,7 @@ public:
 "QPushButton:hover { color: #9932CC; text-decoration: underline; }"));
         openEye = new QPushButton(AuthWindow);
         openEye->setObjectName("openEye");
-        openEye->setGeometry(QRect(370, 175, 35, 35));
+        openEye->setGeometry(QRect(370, 215, 35, 35));
         openEye->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         openEye->setStyleSheet(QString::fromUtf8("QPushButton \n"
 "{\n"
@@ -201,7 +201,7 @@ public:
         openEye->setIconSize(QSize(35, 35));
         textPhone = new QLineEdit(AuthWindow);
         textPhone->setObjectName("textPhone");
-        textPhone->setGeometry(QRect(80, 240, 341, 45));
+        textPhone->setGeometry(QRect(80, 280, 341, 45));
         textPhone->setFont(font4);
         textPhone->setStyleSheet(QString::fromUtf8("QLineEdit\n"
 "{\n"

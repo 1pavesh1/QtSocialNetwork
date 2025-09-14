@@ -15,9 +15,15 @@ EditPostWindow::~EditPostWindow()
     delete ui;
 }
 
-void EditPostWindow::SetData(const PostModel &postModel)
+void EditPostWindow::ConnectSlots()
 {
-    this->postModel = postModel;
+    connect(&SocketManager::instance(), &SocketManager::EditPost, this, &EditPostWindow::HandleEditPost);
+    connect(&SocketManager::instance(), &SocketManager::EditPostFailed, this, &EditPostWindow::HandleEditPostFailed);
+}
+
+void EditPostWindow::DisconnectSlots()
+{
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }
 
 void EditPostWindow::HandleEditPost(const PostModel &postModel)
@@ -29,6 +35,16 @@ void EditPostWindow::HandleEditPostFailed()
 {
     messageWidget = new MessageWidget(this, "Не удалось отредактировать пост", DANGER);
     messageWidget->Show();
+}
+
+void EditPostWindow::UpdateMediaPreview()
+{
+
+}
+
+void EditPostWindow::SetData(const PostModel &postModel)
+{
+    this->postModel = postModel;
 }
 
 void EditPostWindow::on_addMediaButton_clicked()
@@ -65,11 +81,6 @@ void EditPostWindow::on_addMediaButton_clicked()
     }
 }
 
-void EditPostWindow::UpdateMediaPreview()
-{
-
-}
-
 void EditPostWindow::on_deleteFileInputButton_clicked()
 {
     layout = ui->mediaFrame->layout();
@@ -96,15 +107,4 @@ void EditPostWindow::on_deleteFileInputButton_clicked()
 void EditPostWindow::on_editPostButton_clicked()
 {
     SocketManager::instance().EditPost(postModel);
-}
-
-void EditPostWindow::ConnectSlots()
-{
-    connect(&SocketManager::instance(), &SocketManager::EditPost, this, &EditPostWindow::HandleEditPost);
-    connect(&SocketManager::instance(), &SocketManager::EditPostFailed, this, &EditPostWindow::HandleEditPostFailed);
-}
-
-void EditPostWindow::DisconnectSlots()
-{
-    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }

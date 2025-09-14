@@ -386,6 +386,7 @@ QPushButton:hover
     <property name="styleSheet">
      <string notr="true">QLabel
 {
+	text-align: center;
 	padding: 1px;
 }</string>
     </property>

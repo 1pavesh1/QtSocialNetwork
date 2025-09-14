@@ -16,68 +16,19 @@ AuthWindow::~AuthWindow()
     delete ui;
 }
 
-void AuthWindow::ChangedTelephoneText(QWidget *old, QWidget *now)
+void AuthWindow::ConnectSlots()
 {
-    if (now == ui->textPhone)
-    {
-        ui->textPhone->setInputMask("+7(999)-999-99-99");
-    }
-    else if (old == ui->textPhone && ui->textPhone->text() == "+7()---")
-    {
-        ui->textPhone->setInputMask("");
-    }
+    connect(qApp, &QApplication::focusChanged, this, &AuthWindow::ChangedTelephoneText);
+    connect(ui->closeEye, &QPushButton::clicked, this, &AuthWindow::ChangedEye);
+    connect(ui->openEye, &QPushButton::clicked, this, &AuthWindow::ChangedEye);
+    connect(&SocketManager::instance(), &SocketManager::UserAuth, this, &AuthWindow::HandleUserAuth);
+    connect(&SocketManager::instance(), &SocketManager::UserAuthServer, this, &AuthWindow::HandleUserAuthServer);
+    connect(&SocketManager::instance(), &SocketManager::UserAuthFailed, this, &AuthWindow::HandleUserAuthFailed);
 }
 
-void AuthWindow::ChangedEye()
+void AuthWindow::DisconnectSlots()
 {
-    if (ui->closeEye->isVisible() == true)
-    {
-        ui->openEye->setVisible(true);
-        ui->closeEye->setVisible(false);
-        ui->textPassword->setEchoMode(QLineEdit::Normal);
-    }
-    else if (ui->openEye->isVisible() == true)
-    {
-        ui->openEye->setVisible(false);
-        ui->closeEye->setVisible(true);
-        ui->textPassword->setEchoMode(QLineEdit::Password);
-    }
-}
-
-void AuthWindow::on_regLink_clicked()
-{
-    this->close();
-    this->regWindow = new class RegWindow();
-    this->regWindow->open();
-}
-
-
-void AuthWindow::on_authButton_clicked()
-{
-    this->userModel.SetLogin(ui->textLogin->text());
-    this->userModel.SetPassword(ui->textPassword->text());
-    this->userModel.SetPhone(ui->textPhone->text());
-
-    if (!this->userModel.GetLogin().isEmpty() || !this->userModel.GetPassword().isEmpty())
-    {
-        if (!validationManager.DataSize(userModel.GetLogin()) || !validationManager.DataSize(userModel.GetPassword())   ||
-            !validationManager.LoginIsValidation(userModel.GetLogin())                                                  ||
-            !validationManager.PasswordIsValidation(userModel.GetPassword())                                            ||
-            !validationManager.PhoneIsValidation(userModel.GetPhone())
-            )
-        {
-            return;
-        }
-        else
-        {
-            SocketManager::instance().AuthorizationUserQuery(this->userModel);
-        }
-    }
-    else
-    {
-        messageWidget = new MessageWidget(this, "Поля пусты", WARNING);
-        messageWidget->Show();
-    }
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }
 
 void AuthWindow::HandleUserAuth(const UserModel &userModel)
@@ -101,17 +52,73 @@ void AuthWindow::HandleUserAuthServer()
     messageWidget->Show();
 }
 
-void AuthWindow::ConnectSlots()
+void AuthWindow::ChangedTelephoneText(QWidget *old, QWidget *now)
 {
-    connect(qApp, &QApplication::focusChanged, this, &AuthWindow::ChangedTelephoneText);
-    connect(ui->closeEye, &QPushButton::clicked, this, &AuthWindow::ChangedEye);
-    connect(ui->openEye, &QPushButton::clicked, this, &AuthWindow::ChangedEye);
-    connect(&SocketManager::instance(), &SocketManager::UserAuth, this, &AuthWindow::HandleUserAuth);
-    connect(&SocketManager::instance(), &SocketManager::UserAuthServer, this, &AuthWindow::HandleUserAuthServer);
-    connect(&SocketManager::instance(), &SocketManager::UserAuthFailed, this, &AuthWindow::HandleUserAuthFailed);
+    if (now == ui->textPhone)
+        ui->textPhone->setInputMask("+7(999)-999-99-99");
+    else if (old == ui->textPhone && ui->textPhone->text() == "+7()---")
+        ui->textPhone->setInputMask("");
 }
 
-void AuthWindow::DisconnectSlots()
+void AuthWindow::ChangedEye()
 {
-    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
+    if (ui->closeEye->isVisible())
+    {
+        ui->openEye->setVisible(true);
+        ui->closeEye->setVisible(false);
+        ui->textPassword->setEchoMode(QLineEdit::Normal);
+    }
+    else if (ui->openEye->isVisible())
+    {
+        ui->openEye->setVisible(false);
+        ui->closeEye->setVisible(true);
+        ui->textPassword->setEchoMode(QLineEdit::Password);
+    }
+}
+
+void AuthWindow::on_authButton_clicked()
+{
+    this->userModel.SetLogin(ui->textLogin->text());
+    this->userModel.SetPassword(ui->textPassword->text());
+    this->userModel.SetPhone(ui->textPhone->text());
+
+    if (!this->userModel.GetLogin().isEmpty() || !this->userModel.GetPassword().isEmpty())
+    {
+        if (!validationManager.DataSize(userModel.GetLogin()) || !validationManager.DataSize(userModel.GetPassword()))
+        {
+            messageWidget = new MessageWidget(this, "Пароль и логин должны быть не менее 5 символов", WARNING);
+            messageWidget->Show();
+        }
+        else if (!validationManager.LoginIsValidation(userModel.GetLogin()))
+        {
+            messageWidget = new MessageWidget(this, "Логин должен состоять из латинских символов", WARNING);
+            messageWidget->Show();
+        }
+        else if (!validationManager.PasswordIsValidation(userModel.GetPassword()))
+        {
+            messageWidget = new MessageWidget(this, "Пароль должен состоять из латинских символов", WARNING);
+            messageWidget->Show();
+        }
+        else if (!validationManager.PhoneIsValidation(userModel.GetPhone()))
+        {
+            messageWidget = new MessageWidget(this, "Поле телефон не заполнено", WARNING);
+            messageWidget->Show();
+        }
+        else
+        {
+            SocketManager::instance().AuthorizationUserQuery(this->userModel);
+        }
+    }
+    else
+    {
+        messageWidget = new MessageWidget(this, "Поля пусты", WARNING);
+        messageWidget->Show();
+    }
+}
+
+void AuthWindow::on_regLink_clicked()
+{
+    this->close();
+    this->regWindow = new class RegWindow();
+    this->regWindow->open();
 }

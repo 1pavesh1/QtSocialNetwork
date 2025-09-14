@@ -72,6 +72,7 @@ void ServerSocialNetwork::SlotReadyRead()
 void ServerSocialNetwork::ReadQuery(QDataStream &query, QTcpSocket *socket)
 {
     query >> typeQuery;
+    qDebug() << "Вход " << typeQuery;
     switch (typeQuery)
     {
     case REG_USER_QUERY:
@@ -421,7 +422,7 @@ void ServerSocialNetwork::EditCommentPost(const CommentModel &commentModel, QTcp
 
 void ServerSocialNetwork::SendDataToClient(const TypeQuery &typeQuery, const Data &data, QTcpSocket *socket)
 {
-    qDebug() << typeQuery;
+    qDebug() << "Выход " << typeQuery;
     auto it = userServerMap.find(socket);
     arrayData.clear();
     QDataStream out(&arrayData, QIODevice::WriteOnly);

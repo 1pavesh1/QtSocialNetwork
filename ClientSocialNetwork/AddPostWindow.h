@@ -26,9 +26,9 @@ private:
 
     void ConnectSlots() override;
     void DisconnectSlots() override;
-    void UpdateMediaPreview();
     void HandleAddPost();
     void HandleAddPostFailed();
+    void UpdateMediaPreview();
 
 public:
     explicit AddPostWindow(QWidget *parent = nullptr);

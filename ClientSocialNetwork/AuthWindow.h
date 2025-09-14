@@ -38,8 +38,8 @@ public:
 private slots:
     void ChangedTelephoneText(QWidget *old, QWidget *now);
     void ChangedEye();
-    void on_regLink_clicked();
     void on_authButton_clicked();
+    void on_regLink_clicked();
 };
 
 #endif // AUTHWINDOW_H

@@ -45,8 +45,8 @@ template <> constexpr inline auto AuthWindow::qt_create_metaobjectdata<qt_meta_t
         "old",
         "now",
         "ChangedEye",
-        "on_regLink_clicked",
-        "on_authButton_clicked"
+        "on_authButton_clicked",
+        "on_regLink_clicked"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -56,9 +56,9 @@ template <> constexpr inline auto AuthWindow::qt_create_metaobjectdata<qt_meta_t
         }}),
         // Slot 'ChangedEye'
         QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_regLink_clicked'
-        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_authButton_clicked'
+        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_regLink_clicked'
         QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
@@ -85,8 +85,8 @@ void AuthWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->ChangedTelephoneText((*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2]))); break;
         case 1: _t->ChangedEye(); break;
-        case 2: _t->on_regLink_clicked(); break;
-        case 3: _t->on_authButton_clicked(); break;
+        case 2: _t->on_authButton_clicked(); break;
+        case 3: _t->on_regLink_clicked(); break;
         default: ;
         }
     }

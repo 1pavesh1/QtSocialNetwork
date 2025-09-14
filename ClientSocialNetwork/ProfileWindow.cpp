@@ -17,56 +17,30 @@ ProfileWindow::~ProfileWindow()
     delete ui;
 }
 
+void ProfileWindow::ConnectSlots()
+{
+    connect(&SocketManager::instance(), &SocketManager::UserIsMain, this, &ProfileWindow::HandleUserIsMain);
+    connect(&SocketManager::instance(), &SocketManager::UserNotMain, this, &ProfileWindow::HandleUserNotMain);
+    connect(&SocketManager::instance(), &SocketManager::CheckRelationship, this, &ProfileWindow::HandleUserRelationship);
+    connect(&SocketManager::instance(), &SocketManager::UserChangePhoto, this, &ProfileWindow::HandleUserChangePhoto);
+    connect(&SocketManager::instance(), &SocketManager::UserChangePhotoFailed, this, &ProfileWindow::HandleUserChangePhotoFailed);
+}
+
+void ProfileWindow::DisconnectSlots()
+{
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
+}
+
 void ProfileWindow::CheckCursorPosition()
 {
     if (ui->changePhotoButton->rect().contains(ui->changePhotoButton->mapFromGlobal(QCursor::pos())))
-    {
         ui->changePhotoButton->setVisible(true);
-    }
     else
-    {
         ui->changePhotoButton->setVisible(false);
-    }
-}
-
-void ProfileWindow::SetData(const UserModel &userModel)
-{
-    this->userModel = userModel;
-
-    if (!this->userModel.GetFileModel().GetFileData().isEmpty())
-    {
-        ui->profileButton->setIcon(QIcon(photoUtil.GetHandlerPhoto(this->userModel.GetFileModel().GetFileData(), ui->profileButton->size())));
-        ui->profileButton->setIconSize(ui->profileButton->size());
-    }
-
-    SocketManager::instance().CheckUserProfileQuery(this->userModel);
 }
 
 void ProfileWindow::HandleUserIsMain()
 {
-    ui->loginLabel->setText(this->userModel.GetLogin());
-    ui->loginTextLabel->setText(this->userModel.GetLogin());
-    ui->phoneTextLabel->setText(this->userModel.GetPhone());
-    ui->emailTextLabel->setText(this->userModel.GetEmail());
-    ui->dateTextLabel->setText(this->userModel.GetDateBithday());
-
-    if (!this->userModel.GetFileModel().GetFileData().isEmpty())
-    {
-        ui->profileButton->setIcon(QIcon(photoUtil.GetHandlerPhoto(this->userModel.GetFileModel().GetFileData(), ui->profileButton->size())));
-        ui->profileButton->setIconSize(ui->profileButton->size());
-    }
-
-    if (this->userModel.GetPhone().isEmpty())
-        ui->phoneTextLabel->setText("Не указано");
-    if (this->userModel.GetEmail().isEmpty())
-        ui->emailTextLabel->setText("Не указано");
-    if (this->userModel.GetDateBithday().isEmpty() || this->userModel.GetDateBithday() == "01.01.2000")
-        ui->dateTextLabel->setText("Не указано");
-    if (this->userModel.GetStatusOnline())
-        ui->statusLabel->setText("В сети");
-    else
-        ui->statusLabel->setText(this->userModel.GetEntryTime());
-
     ui->addButton->setVisible(false);
     ui->deleteButton->setVisible(false);
     ui->deleteQueryButton->setVisible(false);
@@ -76,29 +50,6 @@ void ProfileWindow::HandleUserIsMain()
 
 void ProfileWindow::HandleUserNotMain()
 {
-    ui->loginLabel->setText(this->userModel.GetLogin());
-    ui->loginTextLabel->setText(this->userModel.GetLogin());
-    ui->phoneTextLabel->setText(this->userModel.GetPhone());
-    ui->emailTextLabel->setText(this->userModel.GetEmail());
-    ui->dateTextLabel->setText(this->userModel.GetDateBithday());
-
-    if (!this->userModel.GetFileModel().GetFileData().isEmpty())
-    {
-        ui->profileButton->setIcon(QIcon(photoUtil.GetHandlerPhoto(this->userModel.GetFileModel().GetFileData(), ui->profileButton->size())));
-        ui->profileButton->setIconSize(ui->profileButton->size());
-    }
-
-    if (this->userModel.GetPhone().isEmpty())
-        ui->phoneTextLabel->setText("Не указано");
-    if (this->userModel.GetEmail().isEmpty())
-        ui->emailTextLabel->setText("Не указано");
-    if (this->userModel.GetDateBithday().isEmpty() || this->userModel.GetDateBithday() == "01.01.2000")
-        ui->dateTextLabel->setText("Не указано");
-    if (this->userModel.GetStatusOnline())
-        ui->statusLabel->setText("В сети");
-    else
-        ui->statusLabel->setText(this->userModel.GetEntryTime());
-
     ui->changePhotoButton->setVisible(false);
     ui->settingsButton->setVisible(false);
 
@@ -110,10 +61,7 @@ void ProfileWindow::HandleUserChangePhoto(const UserModel &userModel)
     this->userModel = userModel;
 
     if (!this->userModel.GetFileModel().GetFileData().isEmpty())
-    {
         ui->profileButton->setIcon(QIcon(photoUtil.GetHandlerPhoto(this->userModel.GetFileModel().GetFileData(), ui->profileButton->size())));
-        ui->profileButton->setIconSize(ui->profileButton->size());
-    }
 
     messageWidget = new MessageWidget(this, "Аватар пользователя обновлен", SUCCESS);
     messageWidget->Show();
@@ -147,6 +95,33 @@ void ProfileWindow::HandleUserRelationship(const TypeQuery &typeRelationship)
     }
 }
 
+void ProfileWindow::SetData(const UserModel &userModel)
+{
+    this->userModel = userModel;
+
+    if (!this->userModel.GetFileModel().GetFileData().isEmpty())
+        ui->profileButton->setIcon(QIcon(photoUtil.GetHandlerPhoto(this->userModel.GetFileModel().GetFileData(), ui->profileButton->size())));
+
+    ui->loginLabel->setText(this->userModel.GetLogin());
+    ui->loginTextLabel->setText(this->userModel.GetLogin());
+    ui->phoneTextLabel->setText(this->userModel.GetPhone());
+    ui->emailTextLabel->setText(this->userModel.GetEmail());
+    ui->dateTextLabel->setText(this->userModel.GetDateBithday());
+
+    if (this->userModel.GetPhone().isEmpty())
+        ui->phoneTextLabel->setText("Не указано");
+    if (this->userModel.GetEmail().isEmpty())
+        ui->emailTextLabel->setText("Не указано");
+    if (this->userModel.GetDateBithday().isEmpty() || this->userModel.GetDateBithday() == "01.01.2000")
+        ui->dateTextLabel->setText("Не указано");
+    if (this->userModel.GetStatusOnline())
+        ui->statusLabel->setText("В сети");
+    else
+        ui->statusLabel->setText(this->userModel.GetEntryTime());
+
+    SocketManager::instance().CheckUserProfileQuery(this->userModel);
+}
+
 void ProfileWindow::on_settingsButton_clicked()
 {
     this->DisableWindow();
@@ -174,10 +149,10 @@ void ProfileWindow::on_changePhotoButton_clicked()
             ChangePhotoWindow cropDialog(originalPixmap, this);
             if (cropDialog.exec() == QDialog::Accepted)
             {
-                QPixmap croppedPixmap = cropDialog.GetCroppedPixmap();
+                QPixmap     croppedPixmap = cropDialog.GetCroppedPixmap();
+                QByteArray  imageData;
+                QBuffer     buffer(&imageData);
 
-                QByteArray imageData;
-                QBuffer buffer(&imageData);
                 buffer.open(QIODevice::WriteOnly);
                 croppedPixmap.save(&buffer, "PNG");
 
@@ -207,18 +182,4 @@ void ProfileWindow::on_deleteQueryButton_clicked()
 void ProfileWindow::on_deleteButton_clicked()
 {
     SocketManager::instance().DeleteFriendQuery(this->userModel);
-}
-
-void ProfileWindow::ConnectSlots()
-{
-    connect(&SocketManager::instance(), &SocketManager::UserIsMain, this, &ProfileWindow::HandleUserIsMain);
-    connect(&SocketManager::instance(), &SocketManager::UserNotMain, this, &ProfileWindow::HandleUserNotMain);
-    connect(&SocketManager::instance(), &SocketManager::CheckRelationship, this, &ProfileWindow::HandleUserRelationship);
-    connect(&SocketManager::instance(), &SocketManager::UserChangePhoto, this, &ProfileWindow::HandleUserChangePhoto);
-    connect(&SocketManager::instance(), &SocketManager::UserChangePhotoFailed, this, &ProfileWindow::HandleUserChangePhotoFailed);
-}
-
-void ProfileWindow::DisconnectSlots()
-{
-    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }

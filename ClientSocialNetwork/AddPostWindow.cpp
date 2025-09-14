@@ -6,17 +6,30 @@ AddPostWindow::AddPostWindow(QWidget *parent)
     , ui(new Ui::AddPostWindow)
 {
     ui->setupUi(this);
+
     if (!ui->mediaFrame->layout())
         ui->mediaFrame->setLayout(new QVBoxLayout());
 
     ui->mediaFrame->layout()->setContentsMargins(0, 0, 0, 0);
     ui->mediaFrame->layout()->setSpacing(0);
+
     ConnectSlots();
 }
 
 AddPostWindow::~AddPostWindow()
 {
     delete ui;
+}
+
+void AddPostWindow::ConnectSlots()
+{
+    connect(&SocketManager::instance(), &SocketManager::AddPost, this, &AddPostWindow::HandleAddPost);
+    connect(&SocketManager::instance(), &SocketManager::AddPostFailed, this, &AddPostWindow::HandleAddPostFailed);
+}
+
+void AddPostWindow::DisconnectSlots()
+{
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }
 
 void AddPostWindow::HandleAddPost()
@@ -28,6 +41,11 @@ void AddPostWindow::HandleAddPostFailed()
 {
     messageWidget = new MessageWidget(this, "Не удалось добавить пост", DANGER);
     messageWidget->Show();
+}
+
+void AddPostWindow::UpdateMediaPreview()
+{
+    ui->mediaFrame->setVisible(true);
 }
 
 void AddPostWindow::SetData(const UserModel &userModel)
@@ -91,11 +109,6 @@ void AddPostWindow::on_addMediaButton_clicked()
     }
 }
 
-void AddPostWindow::UpdateMediaPreview()
-{
-    ui->mediaFrame->setVisible(true);
-}
-
 void AddPostWindow::on_deleteFileInputButton_clicked()
 {
     layout = ui->mediaFrame->layout();
@@ -117,15 +130,4 @@ void AddPostWindow::on_deleteFileInputButton_clicked()
         }
         delete item;
     }
-}
-
-void AddPostWindow::ConnectSlots()
-{
-    connect(&SocketManager::instance(), &SocketManager::AddPost, this, &AddPostWindow::HandleAddPost);
-    connect(&SocketManager::instance(), &SocketManager::AddPostFailed, this, &AddPostWindow::HandleAddPostFailed);
-}
-
-void AddPostWindow::DisconnectSlots()
-{
-    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }

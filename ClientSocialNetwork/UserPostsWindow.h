@@ -22,11 +22,13 @@ private:
 
     void ConnectSlots() override;
     void DisconnectSlots() override;
+    void ConnectPostSlots(const PostItemWidget *postItemWidget);
     void HandlerGetUserPost(const PostList &postList);
     void HandlerGetUserPostFailed();
     void OnLikeClicked(const PostModel &postModel);
     void OnCommentClicked(const PostModel &postModel);
-
+    void EditPost(const PostModel &postModel);
+    void DeletePost(const PostModel &postModel);
 public:
     explicit UserPostsWindow(QWidget *parent = nullptr);
     ~UserPostsWindow();

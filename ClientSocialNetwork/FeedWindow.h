@@ -49,26 +49,37 @@ private:
     bool                       commentsIsOpen;
     bool                       isEdit;
 
+    QRect                       startRect;
+    QRect                       endRect;
+
+    QGraphicsOpacityEffect      *opacityEffect;
+    QParallelAnimationGroup     *group;
+    QPropertyAnimation          *posAnimation;
+    QPropertyAnimation          *opacityAnimation;
+    QPropertyAnimation          *heightAnimation;
+
     void ConnectSlots() override;
+    void ConnectPostSlots(const PostItemWidget *postItemWidget);
+    void ConnectCommentSlots(const CommentItemWidget *commentItemWidget);
     void DisconnectSlots() override;
     void HandlerGetPost(const PostList &postList);
     void HandlerGetPostFailed();
     void HandlerDeletePost(const PostModel &postModel);
     void HandlerDeletePostFailed();
+    void HandlerGetCommentPost(const CommentList &commentList);
+    void HandlerGetCommentPostFailed();
     void HandlerAddCommentPost(const CommentModel &commentModel);
     void HandlerAddCommentPostFailed();
     void HandlerEditCommentPost(const CommentModel &commentModel);
     void HandlerEditCommentPostFailed();
     void HandlerDeleteCommentPost(const CommentModel &commentModel);
     void HandlerDeleteCommentPostFailed();
-    void HandlerGetCommentPost(const CommentList &commentList);
-    void HandlerGetCommentPostFailed();
     void DeletePost(const PostModel &postModel);
     void EditPost(const PostModel &postModel);
-    void CloseMenuAnimation();
     void OpenMenuAnimation();
-    void CloseCommentAnimation();
+    void CloseMenuAnimation();
     void OpenCommentAnimation();
+    void CloseCommentAnimation();
 
 public:
     explicit FeedWindow(QWidget *parent = nullptr);
@@ -88,8 +99,8 @@ private slots:
     void on_searchButton_clicked();
     void OnLikeClicked(const PostModel &postModel);
     void OnCommentClicked(const PostModel &postModel);
-    void onEditComment(const CommentModel &commentModel);
-    void onDeleteComment(const CommentModel &commentModel);
+    void OnEditComment(const CommentModel &commentModel);
+    void OnDeleteComment(const CommentModel &commentModel);
     void on_updateFeedButton_clicked();
     void on_backButton_clicked();
     void on_sendCommentButton_clicked();

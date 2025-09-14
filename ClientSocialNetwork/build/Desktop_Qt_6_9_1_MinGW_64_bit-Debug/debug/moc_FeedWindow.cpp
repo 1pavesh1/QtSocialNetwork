@@ -53,10 +53,10 @@ template <> constexpr inline auto FeedWindow::qt_create_metaobjectdata<qt_meta_t
         "PostModel",
         "postModel",
         "OnCommentClicked",
-        "onEditComment",
+        "OnEditComment",
         "CommentModel",
         "commentModel",
-        "onDeleteComment",
+        "OnDeleteComment",
         "on_updateFeedButton_clicked",
         "on_backButton_clicked",
         "on_sendCommentButton_clicked",
@@ -90,11 +90,11 @@ template <> constexpr inline auto FeedWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void(const PostModel &)>(14, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { 0x80000000 | 12, 13 },
         }}),
-        // Slot 'onEditComment'
+        // Slot 'OnEditComment'
         QtMocHelpers::SlotData<void(const CommentModel &)>(15, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { 0x80000000 | 16, 17 },
         }}),
-        // Slot 'onDeleteComment'
+        // Slot 'OnDeleteComment'
         QtMocHelpers::SlotData<void(const CommentModel &)>(18, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { 0x80000000 | 16, 17 },
         }}),
@@ -140,8 +140,8 @@ void FeedWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 8: _t->on_searchButton_clicked(); break;
         case 9: _t->OnLikeClicked((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
         case 10: _t->OnCommentClicked((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
-        case 11: _t->onEditComment((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
-        case 12: _t->onDeleteComment((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
+        case 11: _t->OnEditComment((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
+        case 12: _t->OnDeleteComment((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
         case 13: _t->on_updateFeedButton_clicked(); break;
         case 14: _t->on_backButton_clicked(); break;
         case 15: _t->on_sendCommentButton_clicked(); break;

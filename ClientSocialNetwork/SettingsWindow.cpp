@@ -17,21 +17,24 @@ SettingsWindow::~SettingsWindow()
     delete ui;
 }
 
-void SettingsWindow::SetData(const UserModel &userModel)
+void SettingsWindow::ConnectSlots()
 {
-    this->userModel = userModel;
-    QDate date = QDate::fromString(this->userModel.GetDateBithday(), "dd.MM.yyyy");
+    connect(ui->closeEye, &QPushButton::clicked, this, &SettingsWindow::ChangedEye);
+    connect(ui->openEye, &QPushButton::clicked, this, &SettingsWindow::ChangedEye);
+    connect(&SocketManager::instance(), &SocketManager::UserUpdateData, this, &SettingsWindow::HandleUserUpdate);
+    connect(&SocketManager::instance(), &SocketManager::UserUpdateName, this, &SettingsWindow::HandleUserUpdateNameFailed);
+    connect(&SocketManager::instance(), &SocketManager::UserUpdateFailed, this, &SettingsWindow::HandleUserUpdateFailed);
+}
 
-    ui->loginText->setText(this->userModel.GetLogin());
-    ui->emailText->setText(userModel.GetEmail());
-    ui->phoneText->setText(this->userModel.GetPhone());
-    ui->dateText->setDate(date);
-    ui->passwordText->setText(this->userModel.GetPassword());
+void SettingsWindow::DisconnectSlots()
+{
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }
 
 void SettingsWindow::HandleUserUpdate(const UserModel &userModel)
 {
     this->userModel = userModel;
+
     QDate date = QDate::fromString(this->userModel.GetDateBithday(), "dd.MM.yyyy");
 
     ui->loginText->setText(this->userModel.GetLogin());
@@ -57,18 +60,30 @@ void SettingsWindow::HandleUserUpdateFailed()
 
 void SettingsWindow::ChangedEye()
 {
-    if (ui->closeEye->isVisible() == true)
+    if (ui->closeEye->isVisible())
     {
         ui->openEye->setVisible(true);
         ui->closeEye->setVisible(false);
         ui->passwordText->setEchoMode(QLineEdit::Normal);
     }
-    else if (ui->openEye->isVisible() == true)
+    else if (ui->openEye->isVisible())
     {
         ui->openEye->setVisible(false);
         ui->closeEye->setVisible(true);
         ui->passwordText->setEchoMode(QLineEdit::Password);
     }
+}
+
+void SettingsWindow::SetData(const UserModel &userModel)
+{
+    this->userModel = userModel;
+    QDate date = QDate::fromString(this->userModel.GetDateBithday(), "dd.MM.yyyy");
+
+    ui->loginText->setText(this->userModel.GetLogin());
+    ui->emailText->setText(userModel.GetEmail());
+    ui->phoneText->setText(this->userModel.GetPhone());
+    ui->dateText->setDate(date);
+    ui->passwordText->setText(this->userModel.GetPassword());
 }
 
 void SettingsWindow::on_sendButton_clicked()
@@ -91,18 +106,4 @@ void SettingsWindow::on_sendButton_clicked()
     {
         SocketManager::instance().UpdateDataQuery(this->userModel);
     }
-}
-
-void SettingsWindow::ConnectSlots()
-{
-    connect(ui->closeEye, &QPushButton::clicked, this, &SettingsWindow::ChangedEye);
-    connect(ui->openEye, &QPushButton::clicked, this, &SettingsWindow::ChangedEye);
-    connect(&SocketManager::instance(), &SocketManager::UserUpdateData, this, &SettingsWindow::HandleUserUpdate);
-    connect(&SocketManager::instance(), &SocketManager::UserUpdateName, this, &SettingsWindow::HandleUserUpdateNameFailed);
-    connect(&SocketManager::instance(), &SocketManager::UserUpdateFailed, this, &SettingsWindow::HandleUserUpdateFailed);
-}
-
-void SettingsWindow::DisconnectSlots()
-{
-    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }

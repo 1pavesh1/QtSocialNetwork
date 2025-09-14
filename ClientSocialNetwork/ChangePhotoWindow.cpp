@@ -20,9 +20,25 @@ ChangePhotoWindow::ChangePhotoWindow(const QPixmap &originalPixmap, QWidget *par
 
     pixmapItem = scene->addPixmap(displayPixmap);
 
+    ConnectSlots();
     CreateResizableCircle();
     UpdateMask();
-    ConnectSlots();
+}
+
+ChangePhotoWindow::~ChangePhotoWindow()
+{
+    delete scene;
+    delete ui;
+}
+
+void ChangePhotoWindow::ConnectSlots()
+{
+    connect(scene, &QGraphicsScene::changed, this, &ChangePhotoWindow::UpdateMask);
+}
+
+void ChangePhotoWindow::DisconnectSlots()
+{
+
 }
 
 void ChangePhotoWindow::CreateResizableCircle()
@@ -42,6 +58,25 @@ void ChangePhotoWindow::CreateResizableCircle()
     resizeHandle->setZValue(3);
 
     ui->editPhotoGraphicsView->viewport()->installEventFilter(this);
+}
+
+QVariant ChangePhotoWindow::ItemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
+{
+    if (change == QGraphicsItem::ItemPositionChange && circleItem)
+    {
+        QPointF newPos = value.toPointF();
+
+        qreal x = qBound(0.0, newPos.x(), displayPixmap.width() - circleItem->rect().width());
+        qreal y = qBound(0.0, newPos.y(), displayPixmap.height() - circleItem->rect().height());
+
+        return QPointF(x, y);
+    }
+    return value;
+}
+
+QPixmap ChangePhotoWindow::GetCroppedPixmap() const
+{
+    return croppedPixmap;
 }
 
 bool ChangePhotoWindow::eventFilter(QObject *watched, QEvent *event)
@@ -106,56 +141,7 @@ bool ChangePhotoWindow::eventFilter(QObject *watched, QEvent *event)
             }
         }
     }
-    return QDialog::eventFilter(watched, event);
-}
-
-
-QVariant ChangePhotoWindow::ItemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
-{
-    if (change == QGraphicsItem::ItemPositionChange && circleItem)
-    {
-        QPointF newPos = value.toPointF();
-
-        qreal x = qBound(0.0, newPos.x(), displayPixmap.width() - circleItem->rect().width());
-        qreal y = qBound(0.0, newPos.y(), displayPixmap.height() - circleItem->rect().height());
-
-        return QPointF(x, y);
-    }
-    return value;
-}
-
-void ChangePhotoWindow::UpdateMask()
-{
-    scene->blockSignals(true);
-
-    if (maskItem)
-    {
-        scene->removeItem(maskItem);
-        delete maskItem;
-    }
-
-    QPixmap mask(displayPixmap.size());
-    mask.fill(Qt::transparent);
-
-    QPainter painter(&mask);
-    painter.setRenderHint(QPainter::Antialiasing);
-
-    painter.fillRect(mask.rect(), QColor(0, 0, 0, 150));
-
-    if (circleItem)
-    {
-        QPainterPath path;
-        path.addEllipse(circleItem->pos().x(), circleItem->pos().y(),
-                        circleItem->rect().width(), circleItem->rect().height());
-        painter.setCompositionMode(QPainter::CompositionMode_Clear);
-        painter.fillPath(path, Qt::transparent);
-    }
-    painter.end();
-
-    maskItem = scene->addPixmap(mask);
-    maskItem->setZValue(1);
-
-    scene->blockSignals(false);
+    return BaseWindow::eventFilter(watched, event);
 }
 
 void ChangePhotoWindow::on_applyButton_clicked()
@@ -207,24 +193,36 @@ void ChangePhotoWindow::on_applyButton_clicked()
     accept();
 }
 
-QPixmap ChangePhotoWindow::GetCroppedPixmap() const
+void ChangePhotoWindow::UpdateMask()
 {
-    return croppedPixmap;
+    scene->blockSignals(true);
+
+    if (maskItem)
+    {
+        scene->removeItem(maskItem);
+        delete maskItem;
+    }
+
+    QPixmap mask(displayPixmap.size());
+    mask.fill(Qt::transparent);
+
+    QPainter painter(&mask);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    painter.fillRect(mask.rect(), QColor(0, 0, 0, 150));
+
+    if (circleItem)
+    {
+        QPainterPath path;
+        path.addEllipse(circleItem->pos().x(), circleItem->pos().y(),
+                        circleItem->rect().width(), circleItem->rect().height());
+        painter.setCompositionMode(QPainter::CompositionMode_Clear);
+        painter.fillPath(path, Qt::transparent);
+    }
+    painter.end();
+
+    maskItem = scene->addPixmap(mask);
+    maskItem->setZValue(1);
+
+    scene->blockSignals(false);
 }
-
-ChangePhotoWindow::~ChangePhotoWindow()
-{
-    delete scene;
-    delete ui;
-}
-
-void ChangePhotoWindow::ConnectSlots()
-{
-    connect(scene, &QGraphicsScene::changed, this, &ChangePhotoWindow::UpdateMask);
-}
-
-void ChangePhotoWindow::DisconnectSlots()
-{
-
-}
-

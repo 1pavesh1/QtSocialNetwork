@@ -26,6 +26,7 @@ private:
 
     void ConnectSlots() override;
     void DisconnectSlots() override;
+    void ConnectNotificationSlots(const NotificationItemWidget *notificationItemWidget);
     void HandlerGetNotification(const NotificationList &notificationList);
     void HandlerGetNotificationFailed();
     void CancelNotification(const NotificationModel &notificationModel);

@@ -234,6 +234,7 @@ public:
         loginLabel->setFont(font);
         loginLabel->setStyleSheet(QString::fromUtf8("QLabel\n"
 "{\n"
+"	text-align: center;\n"
 "	padding: 1px;\n"
 "}"));
         searchButton = new QPushButton(FeedWindow);

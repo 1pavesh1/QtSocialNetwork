@@ -14,32 +14,39 @@ UserPostsWindow::~UserPostsWindow()
     delete ui;
 }
 
-void UserPostsWindow::SetData(const UserModel &userModel)
+void UserPostsWindow::ConnectSlots()
 {
-    this->userModel = userModel;
-    SocketManager::instance().GetUserPostQuery(userModel);
+    connect(&SocketManager::instance(), &SocketManager::GetUserPost, this, &UserPostsWindow::HandlerGetUserPost);
+    connect(&SocketManager::instance(), &SocketManager::GetUserPostFailed, this, &UserPostsWindow::HandlerGetUserPostFailed);
+}
+
+void UserPostsWindow::DisconnectSlots()
+{
+    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
+}
+
+void UserPostsWindow::ConnectPostSlots(const PostItemWidget *postItemWidget)
+{
+    connect(postItemWidget, &PostItemWidget::ClickOnLikeButton, this, &UserPostsWindow::OnLikeClicked);
+    connect(postItemWidget, &PostItemWidget::ClickOnCommentButton, this, &UserPostsWindow::OnCommentClicked);
+    connect(postItemWidget, &PostItemWidget::ClickOnEdit, this, &UserPostsWindow::EditPost);
+    connect(postItemWidget, &PostItemWidget::ClickOnDelete, this, &UserPostsWindow::DeletePost);
 }
 
 void UserPostsWindow::HandlerGetUserPost(const PostList &postList)
 {
-    ui->postUserList->clear(); // Очищаем список
-
+    ui->postUserList->clear();
     for (const PostModel &post : postList.GetPostList())
     {
-        // Создаем кастомный виджет для поста
-        PostItemWidget *itemWidget = new PostItemWidget(post.GetUserModel(), post);
+        PostItemWidget      *postItemWidget = new PostItemWidget(post.GetUserModel(), post);
+        QListWidgetItem     *item           = new QListWidgetItem();
 
-        // Создаем QListWidgetItem
-        QListWidgetItem *item = new QListWidgetItem();
-        item->setSizeHint(itemWidget->sizeHint());
+        item->setSizeHint(postItemWidget->sizeHint());
 
-        // Добавляем в список
         ui->postUserList->addItem(item);
-        ui->postUserList->setItemWidget(item, itemWidget);
+        ui->postUserList->setItemWidget(item, postItemWidget);
 
-        // Подключаем сигналы
-        connect(itemWidget, &PostItemWidget::ClickOnLikeButton, this, &UserPostsWindow::OnLikeClicked);
-        connect(itemWidget, &PostItemWidget::ClickOnCommentButton, this, &UserPostsWindow::OnCommentClicked);
+        ConnectPostSlots(postItemWidget);
     }
 }
 
@@ -59,6 +66,22 @@ void UserPostsWindow::OnCommentClicked(const PostModel &postModel)
 
 }
 
+void UserPostsWindow::EditPost(const PostModel &postModel)
+{
+
+}
+
+void UserPostsWindow::DeletePost(const PostModel &postModel)
+{
+
+}
+
+void UserPostsWindow::SetData(const UserModel &userModel)
+{
+    this->userModel = userModel;
+    SocketManager::instance().GetUserPostQuery(userModel);
+}
+
 void UserPostsWindow::on_addPostButton_clicked()
 {
     this->DisableWindow();
@@ -72,15 +95,4 @@ void UserPostsWindow::on_addPostButton_clicked()
 void UserPostsWindow::on_searchButton_clicked()
 {
 
-}
-
-void UserPostsWindow::ConnectSlots()
-{
-    connect(&SocketManager::instance(), &SocketManager::GetUserPost, this, &UserPostsWindow::HandlerGetUserPost);
-    connect(&SocketManager::instance(), &SocketManager::GetUserPostFailed, this, &UserPostsWindow::HandlerGetUserPostFailed);
-}
-
-void UserPostsWindow::DisconnectSlots()
-{
-    disconnect(&SocketManager::instance(), nullptr, this, nullptr);
 }

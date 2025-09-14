@@ -22,10 +22,10 @@ private:
 
     void ConnectSlots() override;
     void DisconnectSlots() override;
-    void ChangedEye();
     void HandleUserUpdate(const UserModel &userModel);
     void HandleUserUpdateNameFailed();
     void HandleUserUpdateFailed();
+    void ChangedEye();
 
 public:
     explicit SettingsWindow(QWidget *parent = nullptr);
