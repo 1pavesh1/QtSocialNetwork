@@ -6,6 +6,7 @@
 #include "UserModel.h"
 #include "AbstractClasses/BaseWindow.h"
 #include "MediaUtil/PhotoUtil.h"
+#include "MediaUtil/PathUtil.h"
 
 namespace Ui {
 class ProfileWindow;
@@ -22,6 +23,7 @@ private:
     QTimer                  *timer;
 
     PhotoUtil               photoUtil;
+    PathUtil                pathUtil;
     UserModel               userModel;
 
     void ConnectSlots() override;

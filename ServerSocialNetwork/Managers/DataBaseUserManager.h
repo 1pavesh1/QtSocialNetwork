@@ -13,9 +13,11 @@
 class DataBaseUserManager
 {
 private:
-    QByteArray      photoData;
-    TimeUtil        timeUtil;
+    QByteArray          photoData;
+    TimeUtil            timeUtil;
     DataBaseFileManager dbFileManager;
+    FileReader          fileReader;
+    FileWriter          fileWriter;
 
 public:
     UserModel GetUserInId(const qint16 &idUser, const QSqlDatabase &dataBase)
@@ -202,7 +204,21 @@ public:
 
     bool UpdatePhotoUser(const UserModel &userModel, const QSqlDatabase &dataBase)
     {
-        return dbFileManager.AddFileInUser(userModel, dataBase);
+        if (dbFileManager.CheckFileRecordInUser(userModel, dataBase))
+        {
+            if (fileWriter.DeleteFile(userModel.GetFileModel())
+                && fileWriter.SaveFileOnServer(userModel.GetFileModel()))
+                return true;
+            else
+                return false;
+        }
+        else
+        {
+            if (fileWriter.SaveFileOnServer(userModel.GetFileModel()))
+                return dbFileManager.AddFileInUser(userModel, dataBase);
+            else
+                return false;
+        }
     }
 
     qint32 GetCountNotifications(const UserModel &userModel, const QSqlDatabase &dataBase)

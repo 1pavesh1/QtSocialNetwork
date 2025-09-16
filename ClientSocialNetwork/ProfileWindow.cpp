@@ -156,7 +156,16 @@ void ProfileWindow::on_changePhotoButton_clicked()
                 buffer.open(QIODevice::WriteOnly);
                 croppedPixmap.save(&buffer, "PNG");
 
-                userModel.GetFileModel().SetFileData(imageData);
+                FileModel fileModel;
+
+                fileModel.SetFileData(imageData);
+                fileModel.SetName(userModel.GetLogin());
+                fileModel.SetFormat("png");
+                fileModel.SetType("photo");
+                fileModel.SetDirectoryName("UsersAvatar");
+                fileModel.SetPath(pathUtil.GetFilePath(fileModel));
+
+                this->userModel.SetFileModel(fileModel);
 
                 SocketManager::instance().ChangePhotoQuery(this->userModel);
             }

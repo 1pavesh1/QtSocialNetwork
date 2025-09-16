@@ -46,14 +46,14 @@ public:
         RegWindow->setStyleSheet(QString::fromUtf8("background-color: rgb(248, 249, 255);"));
         line = new QFrame(RegWindow);
         line->setObjectName("line");
-        line->setGeometry(QRect(80, 430, 341, 2));
+        line->setGeometry(QRect(80, 400, 341, 2));
         line->setStyleSheet(QString::fromUtf8("background-color: black;"));
         line->setLineWidth(3);
         line->setFrameShape(QFrame::Shape::HLine);
         line->setFrameShadow(QFrame::Shadow::Sunken);
         closeEye = new QPushButton(RegWindow);
         closeEye->setObjectName("closeEye");
-        closeEye->setGeometry(QRect(370, 215, 35, 35));
+        closeEye->setGeometry(QRect(370, 185, 35, 35));
         closeEye->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         closeEye->setStyleSheet(QString::fromUtf8("QPushButton \n"
 "{\n"
@@ -68,7 +68,7 @@ public:
         closeEye->setIconSize(QSize(35, 35));
         authLink = new QPushButton(RegWindow);
         authLink->setObjectName("authLink");
-        authLink->setGeometry(QRect(80, 440, 111, 29));
+        authLink->setGeometry(QRect(80, 410, 111, 29));
         QFont font;
         font.setFamilies({QString::fromUtf8("Arial")});
         font.setPointSize(11);
@@ -86,7 +86,7 @@ public:
 "QPushButton:hover { color: #9932CC; text-decoration: underline; }"));
         textLogin = new QLineEdit(RegWindow);
         textLogin->setObjectName("textLogin");
-        textLogin->setGeometry(QRect(79, 140, 341, 45));
+        textLogin->setGeometry(QRect(79, 110, 341, 45));
         QFont font1;
         font1.setFamilies({QString::fromUtf8("Arial")});
         font1.setPointSize(14);
@@ -102,7 +102,7 @@ public:
         textLogin->setMaxLength(25);
         regButton = new QPushButton(RegWindow);
         regButton->setObjectName("regButton");
-        regButton->setGeometry(QRect(80, 350, 341, 60));
+        regButton->setGeometry(QRect(80, 320, 341, 60));
         QFont font2;
         font2.setFamilies({QString::fromUtf8("Arial")});
         font2.setPointSize(16);
@@ -143,7 +143,7 @@ public:
 "}"));
         textPhone = new QLineEdit(RegWindow);
         textPhone->setObjectName("textPhone");
-        textPhone->setGeometry(QRect(80, 280, 341, 45));
+        textPhone->setGeometry(QRect(80, 250, 341, 45));
         textPhone->setFont(font1);
         textPhone->setStyleSheet(QString::fromUtf8("QLineEdit\n"
 "{\n"
@@ -156,7 +156,7 @@ public:
         textPhone->setMaxLength(25);
         textPassword = new QLineEdit(RegWindow);
         textPassword->setObjectName("textPassword");
-        textPassword->setGeometry(QRect(80, 210, 341, 45));
+        textPassword->setGeometry(QRect(80, 180, 341, 45));
         textPassword->setFont(font1);
         textPassword->setStyleSheet(QString::fromUtf8("QLineEdit\n"
 "{\n"
@@ -170,7 +170,7 @@ public:
         textPassword->setEchoMode(QLineEdit::EchoMode::Password);
         openEye = new QPushButton(RegWindow);
         openEye->setObjectName("openEye");
-        openEye->setGeometry(QRect(370, 215, 35, 35));
+        openEye->setGeometry(QRect(370, 185, 35, 35));
         openEye->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         openEye->setStyleSheet(QString::fromUtf8("QPushButton \n"
 "{\n"
@@ -185,7 +185,7 @@ public:
         openEye->setIconSize(QSize(35, 35));
         regLabel = new QLabel(RegWindow);
         regLabel->setObjectName("regLabel");
-        regLabel->setGeometry(QRect(160, 70, 220, 50));
+        regLabel->setGeometry(QRect(160, 60, 220, 41));
         QFont font3;
         font3.setFamilies({QString::fromUtf8("Arial")});
         font3.setPointSize(20);
@@ -193,6 +193,15 @@ public:
         font3.setUnderline(false);
         font3.setStrikeOut(false);
         regLabel->setFont(font3);
+        line->raise();
+        authLink->raise();
+        textLogin->raise();
+        regButton->raise();
+        textPhone->raise();
+        textPassword->raise();
+        openEye->raise();
+        regLabel->raise();
+        closeEye->raise();
 
         retranslateUi(RegWindow);
 

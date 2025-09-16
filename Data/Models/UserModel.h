@@ -24,20 +24,20 @@ private:
     {
         out << idUser << login << password << phone << email
             << entryTime << dateBithday
-            << countFriends << countNotifications << isOnline;
+            << countFriends << countNotifications << isOnline << fileModel;
     }
 
     void deserialize(QDataStream &in) override
     {
         in  >> idUser >> login >> password >> phone >> email
             >> entryTime >> dateBithday
-            >> countFriends >> countNotifications >> isOnline;
+            >> countFriends >> countNotifications >> isOnline >> fileModel;
     }
 
 public:
     UserModel() : idUser(0), login(""), password(""), phone(""), email(""),
         entryTime(""), dateBithday(""),
-        countFriends(0), countNotifications(0), isOnline(false)
+        countFriends(0), countNotifications(0), isOnline(false), fileModel()
     {
 
     }

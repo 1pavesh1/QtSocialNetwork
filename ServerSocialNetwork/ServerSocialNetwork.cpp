@@ -342,7 +342,6 @@ void ServerSocialNetwork::CancelNotification(const NotificationModel &notificati
 
 void ServerSocialNetwork::AddPost(PostModel &postModel, QTcpSocket *socket)
 {
-    postModel.GetFileModel().SetPath(dirHelper.GetFilePath(postModel.GetFileModel()));
     if (fileWriter.SaveFileOnServer(postModel.GetFileModel()))
     {
         if (dbPostManager.AddPost(postModel, dbConnectManager.GetDataBase()))

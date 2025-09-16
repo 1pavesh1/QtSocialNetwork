@@ -3,6 +3,7 @@
 
 #include <QSqlQuery>
 #include <QSqlError>
+#include "MediaHelpers/FileReader.h"
 #include "PostModel.h"
 #include "UserModel.h"
 #include "FileModel.h"
@@ -10,14 +11,16 @@
 class DataBaseFileManager
 {
 private:
-    FileModel fileModel;
+    FileReader  fileReader;
+    FileModel   fileModel;
+    qint32      idFile;
 
 public:
     bool AddFileInPost(const PostModel &postModel, const QSqlDatabase &dataBase)
     {
         QSqlQuery query(dataBase);
 
-        query.prepare("INSERT INTO file (name, path, type, format) VALUES (?, ?, ?, ?);");
+        query.prepare("INSERT INTO [file] (name, path, type, format) VALUES (?, ?, ?, ?);");
 
         query.addBindValue(postModel.GetFileModel().GetName());
         query.addBindValue(postModel.GetFileModel().GetPath());
@@ -30,12 +33,23 @@ public:
             return false;
         }
 
-        postModel.GetFileModel().SetIdFile(query.lastInsertId().toInt());
+        query.prepare("SELECT * FROM [file] WHERE path = :path");
 
-        query.prepare("INSERT INTO post_file (id_file, id_post) VALUES (?, ?);");
+        query.bindValue(":path", postModel.GetFileModel().GetPath());
 
-        query.addBindValue(postModel.GetFileModel().GetIdFile());
-        query.addBindValue(postModel.GetIdPost());
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+            return false;
+        }
+        if (query.next())
+        {
+            idFile = query.value(0).toInt();
+        }
+
+        query.prepare("INSERT INTO [post_file] (id_file, id_post) VALUES (?, ?);");
+        query.addBindValue(idFile);
+        query.addBindValue(postModel.GetIdUser());
 
         if (!query.exec())
         {
@@ -49,7 +63,7 @@ public:
     {
         QSqlQuery query(dataBase);
 
-        query.prepare("INSERT INTO file (name, path, type, format) VALUES (?, ?, ?, ?);");
+        query.prepare("INSERT INTO [file] (name, path, type, format) VALUES (?, ?, ?, ?);");
 
         query.addBindValue(userModel.GetFileModel().GetName());
         query.addBindValue(userModel.GetFileModel().GetPath());
@@ -62,12 +76,40 @@ public:
             return false;
         }
 
-        userModel.GetFileModel().SetIdFile(query.lastInsertId().toInt());
+        query.prepare("SELECT * FROM [file] WHERE path = :path");
 
-        query.prepare("INSERT INTO user_file (id_file, id_user) VALUES (?, ?);");
+        query.bindValue(":path", userModel.GetFileModel().GetPath());
 
-        query.addBindValue(userModel.GetFileModel().GetIdFile());
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+            return false;
+        }
+        if (query.next())
+        {
+            idFile = query.value(0).toInt();
+        }
+
+        query.prepare("INSERT INTO [user_file] (id_file, id_user) VALUES (?, ?);");
+        query.addBindValue(idFile);
         query.addBindValue(userModel.GetIdUser());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+            return false;
+        }
+        return true;
+    }
+
+    bool UpdateFilePathInPost(const PostModel &postModel, const QSqlDatabase &dataBase)
+    {
+        QSqlQuery query(dataBase);
+
+        query.prepare("UPDATE [file] SET path = ? WHERE id_file = ?;");
+
+        query.addBindValue(postModel.GetFileModel().GetPath());
+        query.addBindValue(postModel.GetFileModel().GetIdFile());
 
         if (!query.exec())
         {
@@ -81,7 +123,7 @@ public:
     {
         QSqlQuery query(dataBase);
 
-        query.prepare("DELETE FROM file WHERE id_file = :id_file;");
+        query.prepare("DELETE FROM [file] WHERE id_file = :id_file;");
         query.bindValue(":id_file", postModel.GetFileModel().GetIdFile());
 
         if (!query.exec())
@@ -90,7 +132,7 @@ public:
             return false;
         }
 
-        query.prepare("DELETE FROM post_file WHERE id_post = :id_post;");
+        query.prepare("DELETE FROM [post_file] WHERE id_post = :id_post;");
         query.bindValue(":id_post", postModel.GetIdPost());
 
         if (!query.exec())
@@ -105,7 +147,7 @@ public:
     {
         QSqlQuery query(dataBase);
 
-        query.prepare("DELETE FROM file WHERE id_file = :id_file;");
+        query.prepare("DELETE FROM [file] WHERE id_file = :id_file;");
         query.bindValue(":id_file", userModel.GetFileModel().GetIdFile());
 
         if (!query.exec())
@@ -114,8 +156,40 @@ public:
             return false;
         }
 
-        query.prepare("DELETE FROM user_file WHERE id_post = :id_user;");
+        query.prepare("DELETE FROM [user_file] WHERE id_post = :id_user;");
         query.bindValue(":id_user", userModel.GetIdUser());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+            return false;
+        }
+        return true;
+    }
+
+    bool CheckFileRecordInPost(const PostModel &postModel, const QSqlDatabase &dataBase)
+    {
+        QSqlQuery query(dataBase);
+
+        query.prepare("SELECT * FROM [file] WHERE path = :path");
+
+        query.bindValue(":path", postModel.GetFileModel().GetPath());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+            return false;
+        }
+        return true;
+    }
+
+    bool CheckFileRecordInUser(const UserModel &userModel, const QSqlDatabase &dataBase)
+    {
+        QSqlQuery query(dataBase);
+
+        query.prepare("SELECT * FROM [file] WHERE path = :path");
+
+        query.bindValue(":path", userModel.GetFileModel().GetPath());
 
         if (!query.exec())
         {
@@ -143,6 +217,7 @@ public:
             fileModel.SetPath(query.value(2).toString());
             fileModel.SetType(query.value(3).toString());
             fileModel.SetFormat(query.value(4).toString());
+            fileModel.SetFileData(fileReader.GetFileData(fileModel.GetPath()));
         }
         return fileModel;
     }
@@ -165,6 +240,7 @@ public:
             fileModel.SetPath(query.value(2).toString());
             fileModel.SetType(query.value(3).toString());
             fileModel.SetFormat(query.value(4).toString());
+            fileModel.SetFileData(fileReader.GetFileData(fileModel.GetPath()));
         }
         return fileModel;
     }

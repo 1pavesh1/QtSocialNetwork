@@ -1,6 +1,7 @@
 #ifndef CHANGEPHOTOWINDOW_H
 #define CHANGEPHOTOWINDOW_H
 
+#include <QDialog>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsEllipseItem>
@@ -14,7 +15,7 @@ namespace Ui {
 class ChangePhotoWindow;
 }
 
-class ChangePhotoWindow : public BaseWindow
+class ChangePhotoWindow : public QDialog
 {
     Q_OBJECT
 private:
@@ -33,8 +34,6 @@ private:
     bool                        isResizing;
     bool                        isDragging = false;
 
-    void ConnectSlots() override;
-    void DisconnectSlots() override;
     void CreateResizableCircle();
     QVariant ItemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value);
 

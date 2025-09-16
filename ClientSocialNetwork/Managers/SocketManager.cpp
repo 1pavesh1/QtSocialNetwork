@@ -86,7 +86,7 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
         dataFromServer >> userModel;
         ReadCheckUserProfileAnswer(typeQuery);
         break;
-    case CHANGE_PHOTO_USER_QUERY:
+    case CHANGE_PHOTO_USER_QUERY: case CHANGE_PHOTO_FAILED_ANSWER:
         dataFromServer >> userModel;
         ReadChangePhotoAnswer(typeQuery);
         break;

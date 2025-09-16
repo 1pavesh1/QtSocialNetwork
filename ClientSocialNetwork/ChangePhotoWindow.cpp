@@ -2,7 +2,7 @@
 #include "ui_ChangePhotoWindow.h"
 
 ChangePhotoWindow::ChangePhotoWindow(const QPixmap &originalPixmap, QWidget *parent)
-    : BaseWindow(parent), ui(new Ui::ChangePhotoWindow),
+    : QDialog(parent), ui(new Ui::ChangePhotoWindow),
     originalPixmap(originalPixmap),
     scene(new QGraphicsScene(this)),
     pixmapItem(nullptr),
@@ -20,7 +20,6 @@ ChangePhotoWindow::ChangePhotoWindow(const QPixmap &originalPixmap, QWidget *par
 
     pixmapItem = scene->addPixmap(displayPixmap);
 
-    ConnectSlots();
     CreateResizableCircle();
     UpdateMask();
 }
@@ -29,16 +28,6 @@ ChangePhotoWindow::~ChangePhotoWindow()
 {
     delete scene;
     delete ui;
-}
-
-void ChangePhotoWindow::ConnectSlots()
-{
-    connect(scene, &QGraphicsScene::changed, this, &ChangePhotoWindow::UpdateMask);
-}
-
-void ChangePhotoWindow::DisconnectSlots()
-{
-
 }
 
 void ChangePhotoWindow::CreateResizableCircle()
@@ -58,6 +47,8 @@ void ChangePhotoWindow::CreateResizableCircle()
     resizeHandle->setZValue(3);
 
     ui->editPhotoGraphicsView->viewport()->installEventFilter(this);
+
+    connect(scene, &QGraphicsScene::changed, this, &ChangePhotoWindow::UpdateMask);
 }
 
 QVariant ChangePhotoWindow::ItemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
@@ -141,7 +132,7 @@ bool ChangePhotoWindow::eventFilter(QObject *watched, QEvent *event)
             }
         }
     }
-    return BaseWindow::eventFilter(watched, event);
+    return QDialog::eventFilter(watched, event);
 }
 
 void ChangePhotoWindow::on_applyButton_clicked()

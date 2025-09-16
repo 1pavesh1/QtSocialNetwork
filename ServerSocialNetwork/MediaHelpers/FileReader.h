@@ -3,7 +3,6 @@
 
 #include <QByteArray>
 #include <QDir>
-#include "FileModel.h"
 
 class FileReader
 {
@@ -11,12 +10,12 @@ private:
     QByteArray fileData;
 
 public:
-    QByteArray GetFileData(const FileModel &fileModel)
+    QByteArray GetFileData(const QString &filePath)
     {
-        QFile file(fileModel.GetPath());
+        QFile file(filePath);
         if (!file.exists())
         {
-            qDebug() << "Файл не найден:" << fileModel.GetName();
+            qDebug() << "Файл не найден";
             return QByteArray();
         }
 

@@ -51,6 +51,7 @@ HEADERS += \
     MainWindow.h \
     Managers/SocketManager.h \
     Managers/ValidationManager.h \
+    MediaUtil/PathUtil.h \
     MediaUtil/PhotoUtil.h \
     NotificationsWindow.h \
     ProfileWindow.h \

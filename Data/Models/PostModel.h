@@ -24,19 +24,19 @@ private:
     {
         out << idPost << idUser << textContent
             << createdDate << name
-            << countLikes << countComments << userModel;
+            << countLikes << countComments << userModel << fileModel;
     }
 
     void deserialize(QDataStream &in) override
     {
         in  >> idPost >> idUser >> textContent
             >> createdDate >> name
-            >> countLikes >> countComments >> userModel;
+            >> countLikes >> countComments >> userModel >> fileModel;
     }
 
 public:
     PostModel() : idPost(0), idUser(0), textContent(""), createdDate(""), name(""),
-        countLikes(0), countComments(0), userModel()
+        countLikes(0), countComments(0), userModel(), fileModel()
     {
 
     }

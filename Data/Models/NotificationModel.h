@@ -29,7 +29,7 @@ private:
 
 public:
     NotificationModel() : idNotification(0), idUserSender(0), idUserAccepter(0),
-        query(""), dateSending("")
+        query(""), dateSending(""), userModel()
     {
 
     }
