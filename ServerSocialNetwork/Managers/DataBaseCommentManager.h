@@ -8,14 +8,10 @@
 #include <QSqlError>
 #include "CommentModel.h"
 #include "PostModel.h"
-#include "Utils/TimeUtil.h"
 #include "Managers/DataBaseUserManager.h"
 
 class DataBaseCommentManager
 {
-private:
-    TimeUtil timeUtil;
-
 public:
     QList <CommentModel> GetComments(const PostModel &postModel, const QSqlDatabase &dataBase)
     {
@@ -54,8 +50,8 @@ public:
         query.addBindValue(commentModel.GetIdPost());
         query.addBindValue(commentModel.GetIdUser());
         query.addBindValue(commentModel.GetTextContent());
-        query.addBindValue(timeUtil.GetDateTime());
-        query.addBindValue(false);
+        query.addBindValue(commentModel.GetCreatedDate());
+        query.addBindValue(commentModel.IsEdited());
 
         if (!query.exec())
         {
@@ -80,12 +76,28 @@ public:
         return true;
     }
 
+    bool DeleteAllCommentsPost(const PostModel &postModel, const QSqlDatabase &dataBase)
+    {
+        QSqlQuery query(dataBase);
+        qDebug() << "dbCommentManager: " << postModel.GetFileModel().GetIdFile() << " " << postModel.GetIdPost();
+
+        query.prepare("DELETE FROM comment WHERE id_post = :id_post;");
+        query.bindValue(":id_post", postModel.GetIdPost());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+            return false;
+        }
+        return true;
+    }
+
     bool EditComment(const CommentModel &commentModel, const QSqlDatabase &dataBase)
     {
         QSqlQuery query(dataBase);
 
         query.prepare("UPDATE comment SET text_content = ?, is_edited = ? WHERE id_comment = ?;");
-        qDebug() << commentModel.GetTextContent() << " " << commentModel.GetIdComment();
+
         query.addBindValue(commentModel.GetTextContent());
         query.addBindValue(true);
         query.addBindValue(commentModel.GetIdComment());

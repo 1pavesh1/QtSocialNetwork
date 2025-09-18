@@ -48,7 +48,7 @@ private:
 
         avatarLabel = new QLabel(this);
         avatarLabel->setFixedSize(50, 50);
-        avatarLabel->setStyleSheet("border-radius: 25px; border: 1px solid #e0e0e0;");
+        avatarLabel->setStyleSheet("border-radius: 25px;");
 
         loginLabel = new QLabel(this);
         loginLabel->setObjectName("author");
@@ -124,8 +124,8 @@ private:
         mainLayout->addLayout(headerLayout);
         mainLayout->addWidget(topSeparator);
         mainLayout->addWidget(postTitleLabel);
-        mainLayout->addWidget(contentLabel);
         mainLayout->addWidget(mediaContainer);
+        mainLayout->addWidget(contentLabel);
         mainLayout->addWidget(bottomSeparator);
         mainLayout->addLayout(footerLayout);
 
@@ -160,42 +160,35 @@ private:
         likeButton->setText(" " + QString::number(postModel.GetCountLikes()));
         commentButton->setText(" " + QString::number(postModel.GetCountComments()));
 
-        QLayoutItem* item;
-        while ((item = mediaContainer->layout()->takeAt(0)) != nullptr)
-        {
-            if (item->widget())
-                item->widget()->deleteLater();
-            delete item;
+        QLayout* layout = mediaContainer->layout();
+        if (!layout) {
+            layout = new QVBoxLayout(mediaContainer);
+            layout->setContentsMargins(0, 0, 0, 0);
         }
 
         if (!postModel.GetFileModel().GetFileData().isEmpty())
         {
-            QString fileType = postModel.GetFileModel().GetFormat().toLower();
-
-            if (fileType == "png" || fileType == "jpg" || fileType == "jpeg")
+            if (postModel.GetFileModel().GetType() == "photo")
             {
                 photoWidget = new PhotoWidget(postModel.GetFileModel(), mediaContainer);
                 mediaContainer->layout()->addWidget(photoWidget);
-                mediaContainer->setVisible(true);
             }
-            else if (fileType == "mp3" || fileType == "wav")
+            else if (postModel.GetFileModel().GetType() == "audio")
             {
                 audioWidget = new AudioWidget(postModel.GetFileModel(), mediaContainer);
                 mediaContainer->layout()->addWidget(audioWidget);
-                mediaContainer->setVisible(true);
             }
-            else if (fileType == "mp4" || fileType == "avi")
+            else if (postModel.GetFileModel().GetType() == "video")
             {
                 videoWidget = new VideoWidget(postModel.GetFileModel(), mediaContainer);
                 mediaContainer->layout()->addWidget(videoWidget);
-                mediaContainer->setVisible(true);
             }
-            else
+            else if (postModel.GetFileModel().GetType() == "file")
             {
                 fileWidget = new FileWidget(postModel.GetFileModel(), mediaContainer);
                 mediaContainer->layout()->addWidget(fileWidget);
-                mediaContainer->setVisible(true);
             }
+            mediaContainer->setVisible(true);
         }
 
         contextMenu = new QMenu(this);
@@ -224,39 +217,51 @@ private:
     void SetupQCC() override
     {
         setStyleSheet(R"(
-            PostItemWidget {
+            PostItemWidget
+            {
                 background: white;
                 border-radius: 8px;
                 border: 1px solid #e0e0e0;
                 margin: 8px;
             }
-            QLabel#author {
+            QLabel#author
+            {
                 font-weight: bold;
                 font-size: 14px;
-                color: #2a5885;
+                padding: 5px;
+                color: black;
             }
-            QLabel#postTitle {
+            QLabel#postTitle
+            {
                 font-weight: bold;
                 font-size: 16px;
                 color: black;
             }
-            QLabel#content {
+            QLabel#content
+            {
                 font-size: 14px;
-                color: #333;
+                color: black;
                 line-height: 1.4;
             }
-            QLabel#date {
+            QLabel#date
+            {
                 color: #656565;
                 font-size: 12px;
             }
-            QPushButton {
+            QPushButton
+            {
                 border: none;
                 background: transparent;
                 padding: 4px 8px;
             }
-            QPushButton:hover {
-                background: #f0f2f5;
+            QPushButton:hover
+            {
+                background: transparent;
                 border-radius: 4px;
+            }
+            QPushButton:pressed
+            {
+                background: transparent;
             }
         )");
     }
@@ -268,10 +273,6 @@ public:
         InitializationInterface();
         SetupQCC();
         LoadContent();
-    }
-
-    ~PostItemWidget() {
-        // Автоматически удалится через parent-child relationship
     }
 
 signals:

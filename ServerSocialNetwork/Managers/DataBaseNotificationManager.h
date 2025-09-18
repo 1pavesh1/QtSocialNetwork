@@ -6,7 +6,6 @@
 #include <QSqlError>
 #include "NotificationModel.h"
 #include "UserModel.h"
-#include "Utils/TimeUtil.h"
 #include "Managers/DataBaseUserManager.h"
 
 class DataBaseNotificationManager
@@ -47,14 +46,13 @@ public:
 
     bool AddNotification(const UserModel &mainUserModel, const UserModel &tempUserModel, const QSqlDatabase &dataBase)
     {
-        TimeUtil    timeUtil;
         QSqlQuery   query(dataBase);
 
         query.prepare("INSERT INTO notification (id_user_sender, id_user_accepter, query, date_sending) VALUES (?, ?, ?, ?);");
         query.addBindValue(mainUserModel.GetIdUser());
         query.addBindValue(tempUserModel.GetIdUser());
         query.addBindValue("ADD_USER");
-        query.addBindValue(timeUtil.GetDateTime());
+        query.addBindValue(QDateTime::currentDateTime().toString("HH:mm dd.MM.yyyy"));
 
         if (!query.exec())
         {

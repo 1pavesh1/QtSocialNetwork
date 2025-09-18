@@ -14,6 +14,7 @@
 #include "CustomWidgets/CommentItemWidget.h"
 #include "AbstractClasses/BaseWindow.h"
 #include "MediaUtil/PhotoUtil.h"
+#include "TimeUtil/TimeUtil.h"
 
 namespace Ui {
 class FeedWindow;
@@ -37,6 +38,7 @@ private:
     QTimer                     *timer;
 
     PhotoUtil                  photoUtil;
+    TimeUtil                   timeUtil;
 
     UserModel                  userModel;
 

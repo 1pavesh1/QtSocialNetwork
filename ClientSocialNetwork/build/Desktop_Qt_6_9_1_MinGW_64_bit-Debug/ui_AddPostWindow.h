@@ -164,12 +164,6 @@ public:
 "}"));
         mediaFrame->setFrameShape(QFrame::Shape::StyledPanel);
         mediaFrame->setFrameShadow(QFrame::Shadow::Raised);
-        deleteFileInputButton->raise();
-        contentText->raise();
-        nameText->raise();
-        mediaFrame->raise();
-        addPostButton->raise();
-        addMediaButton->raise();
 
         retranslateUi(AddPostWindow);
 

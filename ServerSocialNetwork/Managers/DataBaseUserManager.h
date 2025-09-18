@@ -4,7 +4,6 @@
 #include <QDir>
 #include <QSqlQuery>
 #include <QSqlError>
-#include "Utils/TimeUtil.h"
 #include "UserModel.h"
 #include "Managers/DataBaseFileManager.h"
 #include "MediaHelpers/FileWriter.h"
@@ -14,7 +13,6 @@ class DataBaseUserManager
 {
 private:
     QByteArray          photoData;
-    TimeUtil            timeUtil;
     DataBaseFileManager dbFileManager;
     FileReader          fileReader;
     FileWriter          fileWriter;
@@ -39,18 +37,18 @@ public:
             tempUserModel.SetPhone(query.value(3).toString());
             tempUserModel.SetEmail(query.value(4).toString());
             tempUserModel.SetDateBithday(query.value(6).toString());
+            tempUserModel.SetFileModel(dbFileManager.GetFileInUser(tempUserModel, dataBase));
+
         }
 
         return tempUserModel;
     }
 
-    bool RegUser(UserModel &userModel, const QSqlDatabase &dataBase)
+    bool RegUser(const UserModel &userModel, const QSqlDatabase &dataBase)
     {
         QSqlQuery query(dataBase);
 
         query.prepare("INSERT INTO users (login, password, phone, entry_time) VALUES (?, ?, ?, ?);");
-
-        userModel.SetEntryTime(timeUtil.GetDateTime());
 
         query.addBindValue(userModel.GetLogin());
         query.addBindValue(userModel.GetPassword());
@@ -87,7 +85,7 @@ public:
             {
                 userModel.SetIdUser(query.value(0).toInt());
                 userModel.SetEmail(query.value(4).toString());
-                userModel.SetEntryTime(timeUtil.GetDateTime());
+                userModel.SetEntryTime(userModel.GetEntryTime());
                 userModel.SetDateBithday(query.value(6).toString());
                 userModel.SetCountNotifications(GetCountNotifications(userModel, dataBase));
                 userModel.SetCountFriends(GetCountFriends(userModel, dataBase));

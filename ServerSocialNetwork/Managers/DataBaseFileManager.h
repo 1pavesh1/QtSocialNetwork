@@ -49,7 +49,7 @@ public:
 
         query.prepare("INSERT INTO [post_file] (id_file, id_post) VALUES (?, ?);");
         query.addBindValue(idFile);
-        query.addBindValue(postModel.GetIdUser());
+        query.addBindValue(postModel.GetIdPost());
 
         if (!query.exec())
         {
@@ -121,7 +121,19 @@ public:
 
     bool DeleteFileInPost(const PostModel &postModel, const QSqlDatabase &dataBase)
     {
+        qDebug() << "dbFileManager: " << postModel.GetFileModel().GetIdFile() << " " << postModel.GetIdPost();
+
         QSqlQuery query(dataBase);
+
+        query.prepare("DELETE FROM [post_file] WHERE id_post = :id_post AND id_file = :id_file;");
+        query.bindValue(":id_post", postModel.GetIdPost());
+        query.bindValue(":id_file", postModel.GetFileModel().GetIdFile());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+            return false;
+        }
 
         query.prepare("DELETE FROM [file] WHERE id_file = :id_file;");
         query.bindValue(":id_file", postModel.GetFileModel().GetIdFile());
@@ -132,38 +144,6 @@ public:
             return false;
         }
 
-        query.prepare("DELETE FROM [post_file] WHERE id_post = :id_post;");
-        query.bindValue(":id_post", postModel.GetIdPost());
-
-        if (!query.exec())
-        {
-            qDebug() << query.lastError().text();
-            return false;
-        }
-        return true;
-    }
-
-    bool DeleteFileInUser(const UserModel &userModel, const QSqlDatabase &dataBase)
-    {
-        QSqlQuery query(dataBase);
-
-        query.prepare("DELETE FROM [file] WHERE id_file = :id_file;");
-        query.bindValue(":id_file", userModel.GetFileModel().GetIdFile());
-
-        if (!query.exec())
-        {
-            qDebug() << query.lastError().text();
-            return false;
-        }
-
-        query.prepare("DELETE FROM [user_file] WHERE id_post = :id_user;");
-        query.bindValue(":id_user", userModel.GetIdUser());
-
-        if (!query.exec())
-        {
-            qDebug() << query.lastError().text();
-            return false;
-        }
         return true;
     }
 

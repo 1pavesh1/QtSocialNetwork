@@ -57,6 +57,7 @@ HEADERS += \
     ProfileWindow.h \
     RegWindow.h \
     SettingsWindow.h \
+    TimeUtil/TimeUtil.h \
     UserPostsWindow.h \
     UsersWindow.h
 

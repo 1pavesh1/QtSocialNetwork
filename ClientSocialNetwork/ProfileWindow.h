@@ -24,6 +24,7 @@ private:
 
     PhotoUtil               photoUtil;
     PathUtil                pathUtil;
+
     UserModel               userModel;
 
     void ConnectSlots() override;

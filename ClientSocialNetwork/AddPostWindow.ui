@@ -261,12 +261,6 @@ QPushButton::icon
     <enum>QFrame::Shadow::Raised</enum>
    </property>
   </widget>
-  <zorder>deleteFileInputButton</zorder>
-  <zorder>contentText</zorder>
-  <zorder>nameText</zorder>
-  <zorder>mediaFrame</zorder>
-  <zorder>addPostButton</zorder>
-  <zorder>addMediaButton</zorder>
  </widget>
  <resources>
   <include location="IMG.qrc"/>

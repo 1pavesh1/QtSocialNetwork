@@ -33,5 +33,4 @@ HEADERS += \
     MediaHelpers/DirectoryHelper.h \
     MediaHelpers/FileReader.h \
     MediaHelpers/FileWriter.h \
-    ServerSocialNetwork.h \
-    Utils/TimeUtil.h
+    ServerSocialNetwork.h

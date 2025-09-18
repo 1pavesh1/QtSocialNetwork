@@ -82,6 +82,7 @@ void RegWindow::on_regButton_clicked()
     this->userModel.SetLogin(ui->textLogin->text());
     this->userModel.SetPassword(ui->textPassword->text());
     this->userModel.SetPhone(ui->textPhone->text());
+    this->userModel.SetEntryTime(timeUtil.GetDateTime());
 
     if (!this->userModel.GetLogin().isEmpty() || !this->userModel.GetPassword().isEmpty())
     {

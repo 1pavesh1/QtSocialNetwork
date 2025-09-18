@@ -15,9 +15,9 @@ class NotificationsWindow : public BaseWindow
 {
     Q_OBJECT
 private:
-    Ui::NotificationsWindow *ui;
+    Ui::NotificationsWindow         *ui;
 
-    UserModel           userModel;
+    UserModel                       userModel;
 
     NotificationModel               notificationModel;
     NotificationList                notificationList;

@@ -38,7 +38,7 @@ public:
         headerLayout->setSpacing(12);
 
         fileIconLabel = new QLabel(headerWidget);
-        fileIconLabel->setPixmap(QIcon(":/IMG/IMG/FilePin50x50.png").pixmap(40, 40));
+        fileIconLabel->setPixmap(QIcon(":/IMG/IMG/FilePin50x50SN.png").pixmap(40, 40));
         fileIconLabel->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 
         fileNameLabel = new QLabel(headerWidget);

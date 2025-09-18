@@ -33,6 +33,7 @@ public:
     void SetData(const UserModel &userModel);
 
 private slots:
+    void ChangedTelephoneText(QWidget *old, QWidget *now);
     void on_sendButton_clicked();
 };
 

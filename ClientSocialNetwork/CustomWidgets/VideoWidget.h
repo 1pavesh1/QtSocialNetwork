@@ -161,14 +161,15 @@ public:
         player->setAudioOutput(audioOutput);
         player->setVideoOutput(videoWidget);
 
-        buffer = new QBuffer();
+        buffer = new QBuffer(this);
         buffer->setData(fileModel.GetFileData());
+
         if (buffer && !buffer->isOpen())
         {
             buffer->open(QIODevice::ReadOnly);
         }
 
-        player->setSourceDevice(buffer, QUrl::fromLocalFile(fileModel.GetPath()));
+        player->setSourceDevice(buffer);
 
         videoWidget->setVisible(true);
     }
@@ -198,7 +199,7 @@ public:
             timeLabel->setText(currentTime.toString(format));
         }
         if (duration == mediaDuration)
-            playButton->setIcon(QIcon(":/IMG/IMG/RepeatPin50x50SN.png"));
+            playButton->setIcon(QIcon(":/IMG/IMG/UpdatePin50x50SN.png"));
     }
 
     void DurationChanged(const qint64 &duration) override

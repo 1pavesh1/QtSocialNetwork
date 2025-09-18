@@ -9,6 +9,8 @@
 #include "CustomWidgets/PhotoWidget.h"
 #include "AbstractClasses/BaseWindow.h"
 #include "Managers/SocketManager.h"
+#include "MediaUtil/PathUtil.h"
+#include "TimeUtil/TimeUtil.h"
 
 namespace Ui {
 class AddPostWindow;
@@ -24,11 +26,13 @@ private:
     PostModel           postModel;
     UserModel           userModel;
 
+    PathUtil            pathUtil;
+    TimeUtil            timeUtil;
+
     void ConnectSlots() override;
     void DisconnectSlots() override;
     void HandleAddPost();
     void HandleAddPostFailed();
-    void UpdateMediaPreview();
 
 public:
     explicit AddPostWindow(QWidget *parent = nullptr);

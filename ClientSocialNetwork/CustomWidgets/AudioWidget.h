@@ -57,7 +57,7 @@ private:
 
         playButton = new QPushButton();
         playButton->setCursor(Qt::PointingHandCursor);
-        playButton->setIcon(QIcon(":/IMG/PlayPin48x48SN.png"));
+        playButton->setIcon(QIcon(":/IMG/IMG/PlayPin48x48SN.png"));
         playButton->setFixedSize(32, 32);
         playButton->setIconSize(QSize(24, 24));
 
@@ -171,7 +171,7 @@ private:
             buffer->open(QIODevice::ReadOnly);
         }
 
-        player->setSourceDevice(buffer, QUrl::fromLocalFile(fileModel.GetPath()));
+        player->setSourceDevice(buffer);
 
         fileNameLabel->setText(fileModel.GetName());
 
@@ -204,7 +204,7 @@ private:
             timeLabel->setText(currentTime.toString(format));
         }
         if (duration == mediaDuration)
-            playButton->setIcon(QIcon(":/IMG/IMG/RepeatPin50x50.png"));
+            playButton->setIcon(QIcon(":/IMG/IMG/UpdatePin50x50SN.png"));
     }
 
     void DurationChanged(const qint64 &duration) override

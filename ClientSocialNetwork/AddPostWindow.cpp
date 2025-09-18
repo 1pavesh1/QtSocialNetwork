@@ -7,6 +7,8 @@ AddPostWindow::AddPostWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->mediaFrame->setVisible(false);
+
     if (!ui->mediaFrame->layout())
         ui->mediaFrame->setLayout(new QVBoxLayout());
 
@@ -43,22 +45,33 @@ void AddPostWindow::HandleAddPostFailed()
     messageWidget->Show();
 }
 
-void AddPostWindow::UpdateMediaPreview()
-{
-    ui->mediaFrame->setVisible(true);
-}
-
 void AddPostWindow::SetData(const UserModel &userModel)
 {
     this->userModel = userModel;
+    this->postModel.GetFileModel().GetFileData().clear();
 }
 
 void AddPostWindow::on_addPostButton_clicked()
 {
     postModel.SetIdUser(userModel.GetIdUser());
-    postModel.SetName(ui->nameText->text());
-    postModel.SetTextContent(ui->contentText->toPlainText());
-    SocketManager::instance().AddPostQuery(postModel);
+    postModel.SetName(ui->nameText->text().trimmed());
+    postModel.SetTextContent(ui->contentText->toPlainText().trimmed());
+    postModel.SetCreatedDate(timeUtil.GetDateTime());
+
+    if (ui->nameText->text().isEmpty())
+    {
+        messageWidget = new MessageWidget(this, "Вы не добавили заголовок", WARNING);
+        messageWidget->Show();
+    }
+    else if (ui->contentText->toPlainText().isEmpty() && ui->mediaFrame->layout()->isEmpty())
+    {
+        messageWidget = new MessageWidget(this, "Посто должен содержать либо просто файл, либо просто контент, либо всё вместе", INFORMATION);
+        messageWidget->Show();
+    }
+    else
+    {
+        SocketManager::instance().AddPostQuery(postModel);
+    }
 }
 
 void AddPostWindow::on_addMediaButton_clicked()
@@ -72,34 +85,46 @@ void AddPostWindow::on_addMediaButton_clicked()
         QFile file(filePath);
         if (file.open(QIODevice::ReadOnly))
         {
-            postModel.GetFileModel().SetFileData(file.readAll());
+            FileModel   fileModel;
+            QFileInfo   fileInfo(filePath);
+
+            fileModel.SetDirectoryName("MediaFilesPosts");
+            fileModel.SetName(fileInfo.baseName());
+            fileModel.SetFormat(fileInfo.suffix().toLower());
+            fileModel.SetFileData(file.readAll());
+            fileModel.SetPath(pathUtil.GetFilePath(fileModel));
+
             file.close();
 
-            postModel.GetFileModel().SetPath(filePath);
-            postModel.GetFileModel().SetFormat(QFileInfo(filePath).suffix().toLower());
-            postModel.GetFileModel().SetName(QFileInfo(filePath).fileName());
-
-            if (postModel.GetFileModel().GetFormat() == "png" || postModel.GetFileModel().GetFormat() == "jpg" || postModel.GetFileModel().GetFormat() == "jpeg" ||
-                postModel.GetFileModel().GetFormat() == "bmp" || postModel.GetFileModel().GetFormat() == "gif")
+            if (fileModel.GetFormat() == "png" || fileModel.GetFormat()  == "jpg" || fileModel.GetFormat()  == "jpeg" ||
+                fileModel.GetFormat()  == "bmp" || fileModel.GetFormat()  == "gif")
             {
-                PhotoWidget *photoWidget = new PhotoWidget(postModel.GetFileModel(), ui->mediaFrame);
+                fileModel.SetType("photo");
+                PhotoWidget *photoWidget = new PhotoWidget(fileModel, ui->mediaFrame);
                 ui->mediaFrame->layout()->addWidget(photoWidget);
             }
-            else if (postModel.GetFileModel().GetFormat() == "mp4" || postModel.GetFileModel().GetFormat() == "avi" || postModel.GetFileModel().GetFormat() == "mov")
+            else if (fileModel.GetFormat() == "mp4" || fileModel.GetFormat() == "avi" || fileModel.GetFormat() == "mov")
             {
-                VideoWidget *videoWidget = new VideoWidget(postModel.GetFileModel(), ui->mediaFrame);
+                fileModel.SetType("video");
+                VideoWidget *videoWidget = new VideoWidget(fileModel, ui->mediaFrame);
                 ui->mediaFrame->layout()->addWidget(videoWidget);
             }
-            else if (postModel.GetFileModel().GetFormat() == "mp3" || postModel.GetFileModel().GetFormat() == "wav" || postModel.GetFileModel().GetFormat() == "ogg")
+            else if (fileModel.GetFormat() == "mp3" || fileModel.GetFormat() == "wav" || fileModel.GetFormat() == "ogg")
             {
-                AudioWidget *audioWidget = new AudioWidget(postModel.GetFileModel(), ui->mediaFrame);
+                fileModel.SetType("audio");
+                AudioWidget *audioWidget = new AudioWidget(fileModel, ui->mediaFrame);
                 ui->mediaFrame->layout()->addWidget(audioWidget);
             }
-            else if (postModel.GetFileModel().GetFormat() == "pdf" || postModel.GetFileModel().GetFormat() == "doc" || postModel.GetFileModel().GetFormat() == "docx")
+            else if (fileModel.GetFormat() == "pdf" || fileModel.GetFormat() == "doc" || fileModel.GetFormat() == "docx")
             {
-                FileWidget *fileWidget = new FileWidget(postModel.GetFileModel(), ui->mediaFrame);
+                fileModel.SetType("file");
+                FileWidget *fileWidget = new FileWidget(fileModel, ui->mediaFrame);
                 ui->mediaFrame->layout()->addWidget(fileWidget);
             }
+
+            postModel.SetFileModel(fileModel);
+
+            ui->mediaFrame->setVisible(true);
         }
         else
         {

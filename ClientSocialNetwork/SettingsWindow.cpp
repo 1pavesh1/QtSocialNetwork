@@ -19,6 +19,7 @@ SettingsWindow::~SettingsWindow()
 
 void SettingsWindow::ConnectSlots()
 {
+    connect(qApp, &QApplication::focusChanged, this, &SettingsWindow::ChangedTelephoneText);
     connect(ui->closeEye, &QPushButton::clicked, this, &SettingsWindow::ChangedEye);
     connect(ui->openEye, &QPushButton::clicked, this, &SettingsWindow::ChangedEye);
     connect(&SocketManager::instance(), &SocketManager::UserUpdateData, this, &SettingsWindow::HandleUserUpdate);
@@ -86,6 +87,14 @@ void SettingsWindow::SetData(const UserModel &userModel)
     ui->passwordText->setText(this->userModel.GetPassword());
 }
 
+void SettingsWindow::ChangedTelephoneText(QWidget *old, QWidget *now)
+{
+    if (now == ui->phoneText)
+        ui->phoneText->setInputMask("+7(999)-999-99-99");
+    else if (old == ui->phoneText && ui->phoneText->text() == "+7()---")
+        ui->phoneText->setInputMask("");
+}
+
 void SettingsWindow::on_sendButton_clicked()
 {
     this->userModel.SetLogin(ui->loginText->text());
@@ -94,16 +103,41 @@ void SettingsWindow::on_sendButton_clicked()
     this->userModel.SetDateBithday(ui->dateText->text());
     this->userModel.SetPassword(ui->passwordText->text());
 
-    if (!validationManager.DataSize(userModel.GetLogin()) || !validationManager.DataSize(userModel.GetPassword())   ||
-        !validationManager.LoginIsValidation(userModel.GetLogin())                                                  ||
-        !validationManager.PasswordIsValidation(userModel.GetPassword())                                            ||
-        !validationManager.PhoneIsValidation(userModel.GetPhone())
-        )
+    if (!this->userModel.GetLogin().isEmpty() || !this->userModel.GetPassword().isEmpty() || !ui->phoneText->text().isEmpty())
     {
-        return;
+        if (!validationManager.DataSize(userModel.GetLogin()) || !validationManager.DataSize(userModel.GetPassword()))
+        {
+            messageWidget = new MessageWidget(this, "Пароль и логин должны быть не менее 5 символов", WARNING);
+            messageWidget->Show();
+        }
+        else if (!validationManager.LoginIsValidation(userModel.GetLogin()))
+        {
+            messageWidget = new MessageWidget(this, "Логин должен состоять из латинских символов", WARNING);
+            messageWidget->Show();
+        }
+        else if (!validationManager.PhoneIsValidation(userModel.GetPhone()))
+        {
+            messageWidget = new MessageWidget(this, "Поле телефон не заполнено", WARNING);
+            messageWidget->Show();
+        }
+        else if (!validationManager.EmailIsValidation(userModel.GetEmail()))
+        {
+            messageWidget = new MessageWidget(this, "Поле почта неверно заполнено", WARNING);
+            messageWidget->Show();
+        }
+        else if (!validationManager.PasswordIsValidation(userModel.GetPassword()))
+        {
+            messageWidget = new MessageWidget(this, "Пароль должен состоять из латинских символов", WARNING);
+            messageWidget->Show();
+        }
+        else
+        {
+            SocketManager::instance().UpdateDataQuery(this->userModel);
+        }
     }
     else
     {
-        SocketManager::instance().UpdateDataQuery(this->userModel);
+        messageWidget = new MessageWidget(this, "Обязательные поля пусты", WARNING);
+        messageWidget->Show();
     }
 }

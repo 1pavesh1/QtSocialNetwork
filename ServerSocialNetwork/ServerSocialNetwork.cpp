@@ -342,17 +342,10 @@ void ServerSocialNetwork::CancelNotification(const NotificationModel &notificati
 
 void ServerSocialNetwork::AddPost(PostModel &postModel, QTcpSocket *socket)
 {
-    if (fileWriter.SaveFileOnServer(postModel.GetFileModel()))
-    {
-        if (dbPostManager.AddPost(postModel, dbConnectManager.GetDataBase()))
-            SendDataToClient(ADD_POST_QUERY, postModel, socket);
-        else
-            SendDataToClient(ADD_POST_FAILED_ANSWER, postModel, socket);
-    }
+    if (dbPostManager.AddPost(postModel, dbConnectManager.GetDataBase()))
+        SendDataToClient(ADD_POST_QUERY, postModel, socket);
     else
-    {
         SendDataToClient(ADD_POST_FAILED_ANSWER, postModel, socket);
-    }
 }
 
 void ServerSocialNetwork::GetPosts(QTcpSocket *socket)

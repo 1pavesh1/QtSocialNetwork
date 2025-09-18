@@ -158,12 +158,12 @@ void ProfileWindow::on_changePhotoButton_clicked()
 
                 FileModel fileModel;
 
-                fileModel.SetFileData(imageData);
+                fileModel.SetDirectoryName("UsersAvatar");
                 fileModel.SetName(userModel.GetLogin());
                 fileModel.SetFormat("png");
                 fileModel.SetType("photo");
-                fileModel.SetDirectoryName("UsersAvatar");
                 fileModel.SetPath(pathUtil.GetFilePath(fileModel));
+                fileModel.SetFileData(imageData);
 
                 this->userModel.SetFileModel(fileModel);
 

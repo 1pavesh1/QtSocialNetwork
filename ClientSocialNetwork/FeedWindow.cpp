@@ -109,6 +109,7 @@ void FeedWindow::HandlerGetCommentPost(const CommentList &commentList)
         QListWidgetItem     *item               = new QListWidgetItem();
 
         item->setSizeHint(commentItemWidget->sizeHint());
+        item->setData(Qt::UserRole, commentModel.GetIdComment());
 
         ui->commentList->addItem(item);
         ui->commentList->setItemWidget(item, commentItemWidget);
@@ -125,7 +126,16 @@ void FeedWindow::HandlerGetCommentPostFailed()
 
 void FeedWindow::HandlerAddCommentPost(const CommentModel &commentModel)
 {
+    CommentItemWidget   *commentItemWidget  = new CommentItemWidget(commentModel, userModel);
+    QListWidgetItem     *item               = new QListWidgetItem();
 
+    item->setSizeHint(commentItemWidget->sizeHint());
+    item->setData(Qt::UserRole, commentModel.GetIdComment());
+
+    ui->commentList->addItem(item);
+    ui->commentList->setItemWidget(item, commentItemWidget);
+
+    ConnectCommentSlots(commentItemWidget);
 }
 
 void FeedWindow::HandlerAddCommentPostFailed()
@@ -136,7 +146,26 @@ void FeedWindow::HandlerAddCommentPostFailed()
 
 void FeedWindow::HandlerEditCommentPost(const CommentModel &commentModel)
 {
+    for (qint32 i = 0; i < ui->commentList->count(); ++i)
+    {
+        QListWidgetItem* item = ui->commentList->item(i);
+        if (item->data(Qt::UserRole).toInt() == commentModel.GetIdComment())
+        {
+            delete ui->commentList->takeItem(i);
+            break;
+        }
+    }
 
+    CommentItemWidget   *commentItemWidget  = new CommentItemWidget(commentModel, userModel);
+    QListWidgetItem     *item               = new QListWidgetItem();
+
+    item->setSizeHint(commentItemWidget->sizeHint());
+    item->setData(Qt::UserRole, commentModel.GetIdComment());
+
+    ui->commentList->addItem(item);
+    ui->commentList->setItemWidget(item, commentItemWidget);
+
+    ConnectCommentSlots(commentItemWidget);
 }
 
 void FeedWindow::HandlerEditCommentPostFailed()
@@ -147,7 +176,15 @@ void FeedWindow::HandlerEditCommentPostFailed()
 
 void FeedWindow::HandlerDeleteCommentPost(const CommentModel &commentModel)
 {
-
+    for (qint32 i = 0; i < ui->commentList->count(); ++i)
+    {
+        QListWidgetItem* item = ui->commentList->item(i);
+        if (item->data(Qt::UserRole).toInt() == commentModel.GetIdComment())
+        {
+            delete ui->commentList->takeItem(i);
+            break;
+        }
+    }
 }
 
 void FeedWindow::HandlerDeleteCommentPostFailed()
@@ -326,9 +363,8 @@ void FeedWindow::SetData(const UserModel &userModel)
 
 void FeedWindow::OnEditComment(const CommentModel &commentModel)
 {
-    this->commentModel.SetIdComment(commentModel.GetIdComment());
-    this->commentModel.SetIdUser(userModel.GetIdUser());
-    this->commentModel.SetTextContent(ui->commentLineEdit->text());
+    this->commentModel = commentModel;
+    this->commentModel.SetTextContent(ui->commentLineEdit->text().trimmed());
 
     isEdit = true;
 
@@ -353,10 +389,15 @@ void FeedWindow::OnCommentClicked(const PostModel &postModel)
 {
     if (!commentsIsOpen)
     {
+        this->commentModel.SetIdPost(postModel.GetIdPost());
+        this->commentModel.SetIdUser(userModel.GetIdUser());
+
+        ui->commentList->clear();
+
+        SocketManager::instance().GetCommentPostQuery(postModel);
+
         ui->namePostLabel->setText(postModel.GetName());
         ui->countCommentsPostLabel->setText(QString::number(postModel.GetCountComments()) + " Комментариев");
-        commentModel.SetIdPost(postModel.GetIdPost());
-        SocketManager::instance().GetCommentPostQuery(postModel);
         commentsIsOpen = true;
         OpenCommentAnimation();
     }
@@ -455,7 +496,11 @@ void FeedWindow::on_searchButton_clicked()
 
 void FeedWindow::on_updateFeedButton_clicked()
 {
+    commentsIsOpen = false;
+    isEdit = false;
+    ui->editCommentFrame->setVisible(false);
     ui->postList->clear();
+    CloseCommentAnimation();
     SocketManager().instance().GetPostQuery(userModel);
 }
 
@@ -476,15 +521,29 @@ void FeedWindow::on_backButton_clicked()
 
 void FeedWindow::on_sendCommentButton_clicked()
 {
-    ui->commentLineEdit->clear();
-    if (isEdit)
+    if (ui->commentLineEdit->text().isEmpty())
     {
-        ui->editCommentFrame->setVisible(false);
-        SocketManager::instance().EditCommentPostQuery(commentModel);
+        messageWidget = new MessageWidget(this, "Чтобы оставить комментарий напишите что-нибудь", INFORMATION);
+        messageWidget->Show();
     }
     else
     {
-        SocketManager::instance().AddCommentPostQuery(commentModel);
+        this->commentModel.SetTextContent(ui->commentLineEdit->text());
+        this->commentModel.SetUserModel(this->userModel);
+        ui->commentLineEdit->clear();
+
+        if (isEdit)
+        {
+            ui->editCommentFrame->setVisible(false);
+            this->commentModel.SetIsEdited(true);
+            SocketManager::instance().EditCommentPostQuery(this->commentModel);
+        }
+        else
+        {
+            this->commentModel.SetCreatedDate(timeUtil.GetDateTime());
+            this->commentModel.SetIsEdited(false);
+            SocketManager::instance().AddCommentPostQuery(this->commentModel);
+        }
     }
 }
 

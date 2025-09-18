@@ -7,6 +7,7 @@
 #include "Managers/ValidationManager.h"
 #include "UserModel.h"
 #include "AbstractClasses/BaseWindow.h"
+#include "TimeUtil/TimeUtil.h"
 
 namespace Ui {
 class AuthWindow;
@@ -24,6 +25,8 @@ private:
     UserModel                   userModel;
 
     ValidationManager           validationManager;
+
+    TimeUtil                    timeUtil;
 
     void ConnectSlots() override;
     void DisconnectSlots() override;

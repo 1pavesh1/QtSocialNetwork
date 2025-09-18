@@ -153,6 +153,7 @@ DIST          =  ..\..\AbstractClasses\AnimationInterface.h \
 		..\..\ProfileWindow.h \
 		..\..\RegWindow.h \
 		..\..\SettingsWindow.h \
+		..\..\TimeUtil\TimeUtil.h \
 		..\..\UserPostsWindow.h \
 		..\..\UsersWindow.h ..\..\AddPostWindow.cpp \
 		..\..\AuthWindow.cpp \
@@ -187,7 +188,7 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist:
-	$(ZIP) ClientSocialNetwork.zip $(SOURCES) $(DIST) ..\..\..\..\ClientSocialNetwork.pro D:\Qt\6.9.1\mingw_64\mkspecs\features\spec_pre.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\device_config.prf D:\Qt\6.9.1\mingw_64\mkspecs\common\sanitize.conf D:\Qt\6.9.1\mingw_64\mkspecs\common\gcc-base.conf D:\Qt\6.9.1\mingw_64\mkspecs\common\g++-base.conf D:\Qt\6.9.1\mingw_64\mkspecs\features\win32\windows_vulkan_sdk.prf D:\Qt\6.9.1\mingw_64\mkspecs\common\windows-vulkan.conf D:\Qt\6.9.1\mingw_64\mkspecs\common\g++-win32.conf D:\Qt\6.9.1\mingw_64\mkspecs\common\windows-desktop.conf D:\Qt\6.9.1\mingw_64\mkspecs\qconfig.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_ext_freetype.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_ext_libjpeg.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_ext_libpng.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_ext_openxr_loader.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_charts.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_charts_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_chartsqml.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_chartsqml_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_concurrent.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_concurrent_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_core.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_core_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_dbus.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_dbus_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_designer.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_designer_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_designercomponents_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_entrypoint_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_example_icons_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_examples_asset_downloader_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_fb_support_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_ffmpegmediapluginimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_freetype_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_gui.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_gui_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_harfbuzz_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_help.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_help_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_jpeg_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsanimation.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsanimation_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsfolderlistmodel.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsfolderlistmodel_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsplatform.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsplatform_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsqmlmodels.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsqmlmodels_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labssettings.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labssettings_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labssharedimage.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labssharedimage_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labswavefrontmesh.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labswavefrontmesh_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_linguist.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_multimedia.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_multimedia_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_multimediaquick_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_multimediatestlibprivate_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_multimediawidgets.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_network.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_network_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_opengl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_opengl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_openglwidgets.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_openglwidgets_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_packetprotocol_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_png_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_printsupport.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_printsupport_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qdoccatch_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qdoccatchconversions_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qdoccatchgenerators_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qml.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qml_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlassetdownloader.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlassetdownloader_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlcompiler.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlcompiler_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlcore.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlcore_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmldebug_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmldom_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlformat_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlintegration.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlintegration_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmllocalstorage.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmllocalstorage_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlls_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlmeta.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlmeta_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlmodels.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlmodels_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlnetwork.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlnetwork_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmltest.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmltest_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmltoolingsettings_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmltyperegistrar_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlworkerscript.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlworkerscript_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlxmllistmodel.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlxmllistmodel_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3d.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3d_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dassetimport.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dassetimport_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dassetutils.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dassetutils_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3deffects.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3deffects_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dglslparser_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dhelpers.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dhelpers_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dhelpersimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dhelpersimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3diblbaker.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3diblbaker_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dparticleeffects.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dparticleeffects_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dparticles.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dparticles_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3druntimerender.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3druntimerender_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dspatialaudio_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dutils.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dutils_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dxr.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dxr_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basic.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basic_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basicstyleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basicstyleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fluentwinui3styleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fluentwinui3styleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusion.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusion_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusionstyleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusionstyleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imagine.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imagine_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imaginestyleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imaginestyleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2impl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2impl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2material.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2material_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2materialstyleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2materialstyleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universal.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universal_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universalstyleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universalstyleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2windowsstyleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2windowsstyleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrolstestutilsprivate_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickdialogs2.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickdialogs2_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickdialogs2quickimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickdialogs2quickimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickdialogs2utils.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickdialogs2utils_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickeffects.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickeffects_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicklayouts.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicklayouts_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickparticles_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickshapes_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktemplates2.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktestutilsprivate_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktimeline.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktimeline_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktimelineblendtrees.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktimelineblendtrees_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickvectorimage.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickvectorimage_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickvectorimagegenerator_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickwidgets.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickwidgets_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_shadertools.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_shadertools_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_spatialaudio.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_spatialaudio_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_sql.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_sql_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_svg.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_svg_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_svgwidgets.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_svgwidgets_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_testinternals_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_testlib.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_testlib_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_tools_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_uiplugin.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_uitools.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_uitools_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_widgets.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_widgets_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_xml.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_xml_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_zlib_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\features\qt_functions.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\qt_config.prf D:\Qt\6.9.1\mingw_64\mkspecs\win32-g++\qmake.conf D:\Qt\6.9.1\mingw_64\mkspecs\features\spec_post.prf .qmake.stash D:\Qt\6.9.1\mingw_64\mkspecs\features\exclusive_builds.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\toolchain.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\default_pre.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\win32\default_pre.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\resolve_config.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\exclusive_builds_post.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\default_post.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\build_pass.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\qml_debug.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\precompile_header.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\warn_on.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\permissions.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\qt.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\resources_functions.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\resources.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\moc.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\win32\opengl.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\uic.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\qmake_use.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\file_copies.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\win32\windows.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\testcase_targets.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\exceptions.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\yacc.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\lex.prf ..\..\ClientSocialNetwork.pro ..\..\IMG.qrc D:\Qt\6.9.1\mingw_64\lib\Qt6MultimediaWidgets.prl D:\Qt\6.9.1\mingw_64\lib\Qt6Multimedia.prl D:\Qt\6.9.1\mingw_64\lib\Qt6Widgets.prl D:\Qt\6.9.1\mingw_64\lib\Qt6Gui.prl D:\Qt\6.9.1\mingw_64\lib\Qt6Network.prl D:\Qt\6.9.1\mingw_64\lib\Qt6Core.prl D:\Qt\6.9.1\mingw_64\lib\Qt6EntryPoint.prl   ..\..\IMG.qrc D:\Qt\6.9.1\mingw_64\mkspecs\features\data\dummy.cpp ..\..\AbstractClasses\AnimationInterface.h ..\..\AbstractClasses\BaseWindow.h ..\..\AbstractClasses\CustomMediaWidget.h ..\..\AbstractClasses\CustomWidget.h ..\..\AddPostWindow.h ..\..\AuthWindow.h ..\..\ChangePhotoWindow.h ..\..\CustomWidgets\AudioWidget.h ..\..\CustomWidgets\CommentItemWidget.h ..\..\CustomWidgets\FileWidget.h ..\..\CustomWidgets\FriendItemWidget.h ..\..\CustomWidgets\MessageWidget.h ..\..\CustomWidgets\NotificationItemWidget.h ..\..\CustomWidgets\PhotoWidget.h ..\..\CustomWidgets\PostItemWidget.h ..\..\CustomWidgets\VideoWidget.h ..\..\EditPostWindow.h ..\..\FeedWindow.h ..\..\MainWindow.h ..\..\Managers\SocketManager.h ..\..\Managers\ValidationManager.h ..\..\MediaUtil\PathUtil.h ..\..\MediaUtil\PhotoUtil.h ..\..\NotificationsWindow.h ..\..\ProfileWindow.h ..\..\RegWindow.h ..\..\SettingsWindow.h ..\..\UserPostsWindow.h ..\..\UsersWindow.h  ..\..\AddPostWindow.cpp ..\..\AuthWindow.cpp ..\..\ChangePhotoWindow.cpp ..\..\EditPostWindow.cpp ..\..\FeedWindow.cpp ..\..\Managers\SocketManager.cpp ..\..\NotificationsWindow.cpp ..\..\ProfileWindow.cpp ..\..\RegWindow.cpp ..\..\SettingsWindow.cpp ..\..\UserPostsWindow.cpp ..\..\UsersWindow.cpp ..\..\main.cpp ..\..\MainWindow.cpp ..\..\AddPostWindow.ui ..\..\AuthWindow.ui ..\..\ChangePhotoWindow.ui ..\..\EditPostWindow.ui ..\..\FeedWindow.ui ..\..\MainWindow.ui ..\..\NotificationsWindow.ui ..\..\ProfileWindow.ui ..\..\RegWindow.ui ..\..\SettingsWindow.ui ..\..\UserPostsWindow.ui ..\..\UsersWindow.ui    
+	$(ZIP) ClientSocialNetwork.zip $(SOURCES) $(DIST) ..\..\ClientSocialNetwork.pro D:\Qt\6.9.1\mingw_64\mkspecs\features\spec_pre.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\device_config.prf D:\Qt\6.9.1\mingw_64\mkspecs\common\sanitize.conf D:\Qt\6.9.1\mingw_64\mkspecs\common\gcc-base.conf D:\Qt\6.9.1\mingw_64\mkspecs\common\g++-base.conf D:\Qt\6.9.1\mingw_64\mkspecs\features\win32\windows_vulkan_sdk.prf D:\Qt\6.9.1\mingw_64\mkspecs\common\windows-vulkan.conf D:\Qt\6.9.1\mingw_64\mkspecs\common\g++-win32.conf D:\Qt\6.9.1\mingw_64\mkspecs\common\windows-desktop.conf D:\Qt\6.9.1\mingw_64\mkspecs\qconfig.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_ext_freetype.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_ext_libjpeg.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_ext_libpng.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_ext_openxr_loader.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_charts.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_charts_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_chartsqml.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_chartsqml_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_concurrent.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_concurrent_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_core.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_core_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_dbus.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_dbus_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_designer.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_designer_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_designercomponents_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_entrypoint_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_example_icons_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_examples_asset_downloader_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_fb_support_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_ffmpegmediapluginimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_freetype_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_gui.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_gui_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_harfbuzz_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_help.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_help_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_jpeg_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsanimation.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsanimation_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsfolderlistmodel.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsfolderlistmodel_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsplatform.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsplatform_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsqmlmodels.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labsqmlmodels_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labssettings.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labssettings_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labssharedimage.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labssharedimage_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labswavefrontmesh.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_labswavefrontmesh_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_linguist.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_multimedia.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_multimedia_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_multimediaquick_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_multimediatestlibprivate_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_multimediawidgets.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_network.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_network_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_opengl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_opengl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_openglwidgets.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_openglwidgets_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_packetprotocol_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_png_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_printsupport.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_printsupport_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qdoccatch_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qdoccatchconversions_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qdoccatchgenerators_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qml.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qml_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlassetdownloader.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlassetdownloader_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlcompiler.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlcompiler_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlcore.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlcore_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmldebug_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmldom_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlformat_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlintegration.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlintegration_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmllocalstorage.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmllocalstorage_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlls_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlmeta.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlmeta_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlmodels.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlmodels_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlnetwork.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlnetwork_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmltest.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmltest_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmltoolingsettings_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmltyperegistrar_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlworkerscript.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlworkerscript_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlxmllistmodel.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_qmlxmllistmodel_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3d.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3d_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dassetimport.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dassetimport_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dassetutils.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dassetutils_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3deffects.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3deffects_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dglslparser_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dhelpers.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dhelpers_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dhelpersimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dhelpersimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3diblbaker.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3diblbaker_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dparticleeffects.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dparticleeffects_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dparticles.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dparticles_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3druntimerender.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3druntimerender_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dspatialaudio_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dutils.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dutils_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dxr.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick3dxr_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quick_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basic.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basic_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basicstyleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basicstyleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fluentwinui3styleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fluentwinui3styleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusion.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusion_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusionstyleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusionstyleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imagine.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imagine_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imaginestyleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imaginestyleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2impl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2impl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2material.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2material_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2materialstyleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2materialstyleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universal.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universal_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universalstyleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universalstyleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2windowsstyleimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrols2windowsstyleimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickcontrolstestutilsprivate_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickdialogs2.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickdialogs2_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickdialogs2quickimpl.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickdialogs2quickimpl_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickdialogs2utils.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickdialogs2utils_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickeffects.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickeffects_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicklayouts.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicklayouts_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickparticles_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickshapes_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktemplates2.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktestutilsprivate_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktimeline.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktimeline_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktimelineblendtrees.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quicktimelineblendtrees_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickvectorimage.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickvectorimage_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickvectorimagegenerator_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickwidgets.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_quickwidgets_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_shadertools.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_shadertools_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_spatialaudio.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_spatialaudio_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_sql.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_sql_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_svg.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_svg_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_svgwidgets.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_svgwidgets_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_testinternals_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_testlib.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_testlib_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_tools_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_uiplugin.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_uitools.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_uitools_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_widgets.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_widgets_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_xml.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_xml_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\modules\qt_lib_zlib_private.pri D:\Qt\6.9.1\mingw_64\mkspecs\features\qt_functions.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\qt_config.prf D:\Qt\6.9.1\mingw_64\mkspecs\win32-g++\qmake.conf D:\Qt\6.9.1\mingw_64\mkspecs\features\spec_post.prf .qmake.stash D:\Qt\6.9.1\mingw_64\mkspecs\features\exclusive_builds.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\toolchain.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\default_pre.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\win32\default_pre.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\resolve_config.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\exclusive_builds_post.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\default_post.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\build_pass.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\qml_debug.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\precompile_header.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\warn_on.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\permissions.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\qt.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\resources_functions.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\resources.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\moc.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\win32\opengl.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\uic.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\qmake_use.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\file_copies.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\win32\windows.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\testcase_targets.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\exceptions.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\yacc.prf D:\Qt\6.9.1\mingw_64\mkspecs\features\lex.prf ..\..\ClientSocialNetwork.pro ..\..\IMG.qrc D:\Qt\6.9.1\mingw_64\lib\Qt6MultimediaWidgets.prl D:\Qt\6.9.1\mingw_64\lib\Qt6Multimedia.prl D:\Qt\6.9.1\mingw_64\lib\Qt6Widgets.prl D:\Qt\6.9.1\mingw_64\lib\Qt6Gui.prl D:\Qt\6.9.1\mingw_64\lib\Qt6Network.prl D:\Qt\6.9.1\mingw_64\lib\Qt6Core.prl D:\Qt\6.9.1\mingw_64\lib\Qt6EntryPoint.prl   ..\..\IMG.qrc D:\Qt\6.9.1\mingw_64\mkspecs\features\data\dummy.cpp ..\..\AbstractClasses\AnimationInterface.h ..\..\AbstractClasses\BaseWindow.h ..\..\AbstractClasses\CustomMediaWidget.h ..\..\AbstractClasses\CustomWidget.h ..\..\AddPostWindow.h ..\..\AuthWindow.h ..\..\ChangePhotoWindow.h ..\..\CustomWidgets\AudioWidget.h ..\..\CustomWidgets\CommentItemWidget.h ..\..\CustomWidgets\FileWidget.h ..\..\CustomWidgets\FriendItemWidget.h ..\..\CustomWidgets\MessageWidget.h ..\..\CustomWidgets\NotificationItemWidget.h ..\..\CustomWidgets\PhotoWidget.h ..\..\CustomWidgets\PostItemWidget.h ..\..\CustomWidgets\VideoWidget.h ..\..\EditPostWindow.h ..\..\FeedWindow.h ..\..\MainWindow.h ..\..\Managers\SocketManager.h ..\..\Managers\ValidationManager.h ..\..\MediaUtil\PathUtil.h ..\..\MediaUtil\PhotoUtil.h ..\..\NotificationsWindow.h ..\..\ProfileWindow.h ..\..\RegWindow.h ..\..\SettingsWindow.h ..\..\TimeUtil\TimeUtil.h ..\..\UserPostsWindow.h ..\..\UsersWindow.h  ..\..\AddPostWindow.cpp ..\..\AuthWindow.cpp ..\..\ChangePhotoWindow.cpp ..\..\EditPostWindow.cpp ..\..\FeedWindow.cpp ..\..\Managers\SocketManager.cpp ..\..\NotificationsWindow.cpp ..\..\ProfileWindow.cpp ..\..\RegWindow.cpp ..\..\SettingsWindow.cpp ..\..\UserPostsWindow.cpp ..\..\UsersWindow.cpp ..\..\main.cpp ..\..\MainWindow.cpp ..\..\AddPostWindow.ui ..\..\AuthWindow.ui ..\..\ChangePhotoWindow.ui ..\..\EditPostWindow.ui ..\..\FeedWindow.ui ..\..\MainWindow.ui ..\..\NotificationsWindow.ui ..\..\ProfileWindow.ui ..\..\RegWindow.ui ..\..\SettingsWindow.ui ..\..\UserPostsWindow.ui ..\..\UsersWindow.ui    
 
 clean: compiler_clean 
 	-$(DEL_FILE) debug\AddPostWindow.o debug\AuthWindow.o debug\ChangePhotoWindow.o debug\EditPostWindow.o debug\FeedWindow.o debug\SocketManager.o debug\NotificationsWindow.o debug\ProfileWindow.o debug\RegWindow.o debug\SettingsWindow.o debug\UserPostsWindow.o debug\UsersWindow.o debug\main.o debug\MainWindow.o debug\qrc_IMG.o debug\moc_BaseWindow.o debug\moc_AddPostWindow.o debug\moc_AuthWindow.o debug\moc_ChangePhotoWindow.o debug\moc_AudioWidget.o debug\moc_CommentItemWidget.o debug\moc_FileWidget.o debug\moc_FriendItemWidget.o debug\moc_MessageWidget.o debug\moc_NotificationItemWidget.o debug\moc_PhotoWidget.o debug\moc_PostItemWidget.o debug\moc_VideoWidget.o debug\moc_EditPostWindow.o debug\moc_FeedWindow.o debug\moc_MainWindow.o debug\moc_SocketManager.o debug\moc_NotificationsWindow.o debug\moc_ProfileWindow.o debug\moc_RegWindow.o debug\moc_SettingsWindow.o debug\moc_UserPostsWindow.o debug\moc_UsersWindow.o
@@ -858,6 +859,8 @@ debug/moc_AddPostWindow.cpp: ../../AddPostWindow.h \
 		../../../Data/ModelList/PostList.h \
 		../../../Data/Models/LikeModel.h \
 		../../../Data/ModelList/CommentList.h \
+		../../MediaUtil/PathUtil.h \
+		../../TimeUtil/TimeUtil.h \
 		debug/moc_predefs.h \
 		D:/Qt/6.9.1/mingw_64/bin/moc.exe
 	D:\Qt\6.9.1\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/ClientSocialNetwork/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/debug/moc_predefs.h" -ID:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/ClientSocialNetwork" -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/Data" -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/Data/Models" -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/Data/ModelList" -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/Data/Enum" -ID:/Qt/6.9.1/mingw_64/include -ID:/Qt/6.9.1/mingw_64/include/QtMultimediaWidgets -ID:/Qt/6.9.1/mingw_64/include/QtMultimedia -ID:/Qt/6.9.1/mingw_64/include/QtWidgets -ID:/Qt/6.9.1/mingw_64/include/QtGui -ID:/Qt/6.9.1/mingw_64/include/QtNetwork -ID:/Qt/6.9.1/mingw_64/include/QtCore -I. -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++ -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32 -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed -ID:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include ..\..\AddPostWindow.h -o debug\moc_AddPostWindow.cpp
@@ -1163,6 +1166,7 @@ debug/moc_AuthWindow.cpp: ../../AuthWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		../../UserPostsWindow.h \
 		../../CustomWidgets/PostItemWidget.h \
 		../../CustomWidgets/AudioWidget.h \
@@ -1189,6 +1193,7 @@ debug/moc_AuthWindow.cpp: ../../AuthWindow.h \
 		../../CustomWidgets/FileWidget.h \
 		../../CustomWidgets/PhotoWidget.h \
 		../../AddPostWindow.h \
+		../../TimeUtil/TimeUtil.h \
 		../../UsersWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidgetItem \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistwidget.h \
@@ -4564,6 +4569,7 @@ debug/moc_FeedWindow.cpp: ../../FeedWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		../../UserPostsWindow.h \
 		../../CustomWidgets/PostItemWidget.h \
 		../../CustomWidgets/AudioWidget.h \
@@ -4590,6 +4596,7 @@ debug/moc_FeedWindow.cpp: ../../FeedWindow.h \
 		../../CustomWidgets/FileWidget.h \
 		../../CustomWidgets/PhotoWidget.h \
 		../../AddPostWindow.h \
+		../../TimeUtil/TimeUtil.h \
 		../../UsersWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidgetItem \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistwidget.h \
@@ -4926,6 +4933,7 @@ debug/moc_MainWindow.cpp: ../../MainWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		../../UserPostsWindow.h \
 		../../CustomWidgets/PostItemWidget.h \
 		../../CustomWidgets/AudioWidget.h \
@@ -4952,6 +4960,7 @@ debug/moc_MainWindow.cpp: ../../MainWindow.h \
 		../../CustomWidgets/FileWidget.h \
 		../../CustomWidgets/PhotoWidget.h \
 		../../AddPostWindow.h \
+		../../TimeUtil/TimeUtil.h \
 		../../UsersWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidgetItem \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistwidget.h \
@@ -5737,6 +5746,7 @@ debug/moc_ProfileWindow.cpp: ../../ProfileWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		debug/moc_predefs.h \
 		D:/Qt/6.9.1/mingw_64/bin/moc.exe
 	D:\Qt\6.9.1\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/ClientSocialNetwork/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/debug/moc_predefs.h" -ID:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/ClientSocialNetwork" -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/Data" -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/Data/Models" -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/Data/ModelList" -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/Data/Enum" -ID:/Qt/6.9.1/mingw_64/include -ID:/Qt/6.9.1/mingw_64/include/QtMultimediaWidgets -ID:/Qt/6.9.1/mingw_64/include/QtMultimedia -ID:/Qt/6.9.1/mingw_64/include/QtWidgets -ID:/Qt/6.9.1/mingw_64/include/QtGui -ID:/Qt/6.9.1/mingw_64/include/QtNetwork -ID:/Qt/6.9.1/mingw_64/include/QtCore -I. -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++ -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32 -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed -ID:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include ..\..\ProfileWindow.h -o debug\moc_ProfileWindow.cpp
@@ -6042,6 +6052,7 @@ debug/moc_RegWindow.cpp: ../../RegWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		../../UserPostsWindow.h \
 		../../CustomWidgets/PostItemWidget.h \
 		../../CustomWidgets/AudioWidget.h \
@@ -6068,6 +6079,7 @@ debug/moc_RegWindow.cpp: ../../RegWindow.h \
 		../../CustomWidgets/FileWidget.h \
 		../../CustomWidgets/PhotoWidget.h \
 		../../AddPostWindow.h \
+		../../TimeUtil/TimeUtil.h \
 		../../UsersWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidgetItem \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistwidget.h \
@@ -6722,6 +6734,8 @@ debug/moc_UserPostsWindow.cpp: ../../UserPostsWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
+		../../MediaUtil/PathUtil.h \
+		../../TimeUtil/TimeUtil.h \
 		debug/moc_predefs.h \
 		D:/Qt/6.9.1/mingw_64/bin/moc.exe
 	D:\Qt\6.9.1\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/ClientSocialNetwork/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/debug/moc_predefs.h" -ID:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/ClientSocialNetwork" -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/Data" -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/Data/Models" -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/Data/ModelList" -I"C:/Users/sheva/OneDrive/Рабочий стол/QtSocialNetwork/Data/Enum" -ID:/Qt/6.9.1/mingw_64/include -ID:/Qt/6.9.1/mingw_64/include/QtMultimediaWidgets -ID:/Qt/6.9.1/mingw_64/include/QtMultimedia -ID:/Qt/6.9.1/mingw_64/include/QtWidgets -ID:/Qt/6.9.1/mingw_64/include/QtGui -ID:/Qt/6.9.1/mingw_64/include/QtNetwork -ID:/Qt/6.9.1/mingw_64/include/QtCore -I. -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++ -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32 -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include -ID:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed -ID:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include ..\..\UserPostsWindow.h -o debug\moc_UserPostsWindow.cpp
@@ -7033,6 +7047,7 @@ debug/moc_UsersWindow.cpp: ../../UsersWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		../../CustomWidgets/FriendItemWidget.h \
 		debug/moc_predefs.h \
 		D:/Qt/6.9.1/mingw_64/bin/moc.exe
@@ -7424,18 +7439,9 @@ debug/AddPostWindow.o: ../../AddPostWindow.cpp ../../AddPostWindow.h \
 		../../../Data/ModelList/PostList.h \
 		../../../Data/Models/LikeModel.h \
 		../../../Data/ModelList/CommentList.h \
-		ui_AddPostWindow.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/QVariant \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/QIcon \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextformat.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QTextEdit \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qtextedit.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h
+		../../MediaUtil/PathUtil.h \
+		../../TimeUtil/TimeUtil.h \
+		ui_AddPostWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\AddPostWindow.o ..\..\AddPostWindow.cpp
 
 debug/AuthWindow.o: ../../AuthWindow.cpp ../../AuthWindow.h \
@@ -7739,6 +7745,7 @@ debug/AuthWindow.o: ../../AuthWindow.cpp ../../AuthWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		../../UserPostsWindow.h \
 		../../CustomWidgets/PostItemWidget.h \
 		../../CustomWidgets/AudioWidget.h \
@@ -7765,6 +7772,7 @@ debug/AuthWindow.o: ../../AuthWindow.cpp ../../AuthWindow.h \
 		../../CustomWidgets/FileWidget.h \
 		../../CustomWidgets/PhotoWidget.h \
 		../../AddPostWindow.h \
+		../../TimeUtil/TimeUtil.h \
 		../../UsersWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidgetItem \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistwidget.h \
@@ -7791,15 +7799,7 @@ debug/AuthWindow.o: ../../AuthWindow.cpp ../../AuthWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtCore/QUuid \
 		D:/Qt/6.9.1/mingw_64/include/QtCore/quuid.h \
 		../../CustomWidgets/CommentItemWidget.h \
-		ui_AuthWindow.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/QVariant \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/QIcon \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextformat.h
+		ui_AuthWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\AuthWindow.o ..\..\AuthWindow.cpp
 
 debug/ChangePhotoWindow.o: ../../ChangePhotoWindow.cpp ../../ChangePhotoWindow.h \
@@ -8085,11 +8085,7 @@ debug/ChangePhotoWindow.o: ../../ChangePhotoWindow.cpp ../../ChangePhotoWindow.h
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
-		ui_ChangePhotoWindow.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/QVariant \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/QIcon \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h
+		ui_ChangePhotoWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\ChangePhotoWindow.o ..\..\ChangePhotoWindow.cpp
 
 debug/EditPostWindow.o: ../../EditPostWindow.cpp ../../EditPostWindow.h \
@@ -8410,18 +8406,7 @@ debug/EditPostWindow.o: ../../EditPostWindow.cpp ../../EditPostWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
-		ui_EditPostWindow.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/QVariant \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/QIcon \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextformat.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QTextEdit \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qtextedit.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h
+		ui_EditPostWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\EditPostWindow.o ..\..\EditPostWindow.cpp
 
 debug/FeedWindow.o: ../../FeedWindow.cpp ../../FeedWindow.h \
@@ -8724,6 +8709,7 @@ debug/FeedWindow.o: ../../FeedWindow.cpp ../../FeedWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		../../UserPostsWindow.h \
 		../../CustomWidgets/PostItemWidget.h \
 		../../CustomWidgets/AudioWidget.h \
@@ -8750,6 +8736,7 @@ debug/FeedWindow.o: ../../FeedWindow.cpp ../../FeedWindow.h \
 		../../CustomWidgets/FileWidget.h \
 		../../CustomWidgets/PhotoWidget.h \
 		../../AddPostWindow.h \
+		../../TimeUtil/TimeUtil.h \
 		../../UsersWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidgetItem \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistwidget.h \
@@ -8777,16 +8764,7 @@ debug/FeedWindow.o: ../../FeedWindow.cpp ../../FeedWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtCore/QUuid \
 		D:/Qt/6.9.1/mingw_64/include/QtCore/quuid.h \
 		../../CustomWidgets/CommentItemWidget.h \
-		ui_FeedWindow.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/QVariant \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/QIcon \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextformat.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidget
+		ui_FeedWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\FeedWindow.o ..\..\FeedWindow.cpp
 
 debug/SocketManager.o: ../../Managers/SocketManager.cpp ../../Managers/SocketManager.h \
@@ -9241,18 +9219,7 @@ debug/NotificationsWindow.o: ../../NotificationsWindow.cpp ../../NotificationsWi
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
-		ui_NotificationsWindow.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/QVariant \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/QIcon \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidget \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistwidget.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistview.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractitemview.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/qitemselectionmodel.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractitemdelegate.h
+		ui_NotificationsWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\NotificationsWindow.o ..\..\NotificationsWindow.cpp
 
 debug/ProfileWindow.o: ../../ProfileWindow.cpp ../../ProfileWindow.h \
@@ -9554,6 +9521,7 @@ debug/ProfileWindow.o: ../../ProfileWindow.cpp ../../ProfileWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		../../ChangePhotoWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGraphicsScene \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicsscene.h \
@@ -9566,11 +9534,7 @@ debug/ProfileWindow.o: ../../ProfileWindow.cpp ../../ProfileWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGraphicsSceneMouseEvent \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicssceneevent.h \
-		ui_ProfileWindow.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/QVariant \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/QIcon \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h
+		ui_ProfileWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\ProfileWindow.o ..\..\ProfileWindow.cpp
 
 debug/RegWindow.o: ../../RegWindow.cpp ../../RegWindow.h \
@@ -9874,6 +9838,7 @@ debug/RegWindow.o: ../../RegWindow.cpp ../../RegWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		../../UserPostsWindow.h \
 		../../CustomWidgets/PostItemWidget.h \
 		../../CustomWidgets/AudioWidget.h \
@@ -9900,6 +9865,7 @@ debug/RegWindow.o: ../../RegWindow.cpp ../../RegWindow.h \
 		../../CustomWidgets/FileWidget.h \
 		../../CustomWidgets/PhotoWidget.h \
 		../../AddPostWindow.h \
+		../../TimeUtil/TimeUtil.h \
 		../../UsersWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidgetItem \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistwidget.h \
@@ -9926,15 +9892,7 @@ debug/RegWindow.o: ../../RegWindow.cpp ../../RegWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtCore/QUuid \
 		D:/Qt/6.9.1/mingw_64/include/QtCore/quuid.h \
 		../../CustomWidgets/CommentItemWidget.h \
-		ui_RegWindow.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/QVariant \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/QIcon \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextformat.h
+		ui_RegWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\RegWindow.o ..\..\RegWindow.cpp
 
 debug/SettingsWindow.o: ../../SettingsWindow.cpp ../../SettingsWindow.h \
@@ -10234,17 +10192,7 @@ debug/SettingsWindow.o: ../../SettingsWindow.cpp ../../SettingsWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
-		ui_SettingsWindow.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/QVariant \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/QIcon \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QDateEdit \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qdatetimeedit.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextformat.h
+		ui_SettingsWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\SettingsWindow.o ..\..\SettingsWindow.cpp
 
 debug/UserPostsWindow.o: ../../UserPostsWindow.cpp ../../UserPostsWindow.h \
@@ -10569,22 +10517,9 @@ debug/UserPostsWindow.o: ../../UserPostsWindow.cpp ../../UserPostsWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
-		ui_UserPostsWindow.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/QVariant \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/QIcon \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextformat.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidget \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistwidget.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistview.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractitemview.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/qitemselectionmodel.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractitemdelegate.h
+		../../MediaUtil/PathUtil.h \
+		../../TimeUtil/TimeUtil.h \
+		ui_UserPostsWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\UserPostsWindow.o ..\..\UserPostsWindow.cpp
 
 debug/UsersWindow.o: ../../UsersWindow.cpp ../../UsersWindow.h \
@@ -10894,17 +10829,9 @@ debug/UsersWindow.o: ../../UsersWindow.cpp ../../UsersWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		../../CustomWidgets/FriendItemWidget.h \
-		ui_UsersWindow.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/QVariant \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/QIcon \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QLineEdit \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextcursor.h \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/qtextformat.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidget
+		ui_UsersWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\UsersWindow.o ..\..\UsersWindow.cpp
 
 debug/main.o: ../../main.cpp ../../MainWindow.h \
@@ -11211,6 +11138,7 @@ debug/main.o: ../../main.cpp ../../MainWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		../../UserPostsWindow.h \
 		../../CustomWidgets/PostItemWidget.h \
 		../../CustomWidgets/AudioWidget.h \
@@ -11237,6 +11165,7 @@ debug/main.o: ../../main.cpp ../../MainWindow.h \
 		../../CustomWidgets/FileWidget.h \
 		../../CustomWidgets/PhotoWidget.h \
 		../../AddPostWindow.h \
+		../../TimeUtil/TimeUtil.h \
 		../../UsersWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidgetItem \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistwidget.h \
@@ -11568,6 +11497,7 @@ debug/MainWindow.o: ../../MainWindow.cpp ../../MainWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Data/Enum/TypeMessage.h \
 		../../MediaUtil/PhotoUtil.h \
+		../../MediaUtil/PathUtil.h \
 		../../UserPostsWindow.h \
 		../../CustomWidgets/PostItemWidget.h \
 		../../CustomWidgets/AudioWidget.h \
@@ -11594,6 +11524,7 @@ debug/MainWindow.o: ../../MainWindow.cpp ../../MainWindow.h \
 		../../CustomWidgets/FileWidget.h \
 		../../CustomWidgets/PhotoWidget.h \
 		../../AddPostWindow.h \
+		../../TimeUtil/TimeUtil.h \
 		../../UsersWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidgetItem \
 		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistwidget.h \
@@ -11617,15 +11548,7 @@ debug/MainWindow.o: ../../MainWindow.cpp ../../MainWindow.h \
 		D:/Qt/6.9.1/mingw_64/include/QtCore/quuid.h \
 		../../CustomWidgets/CommentItemWidget.h \
 		../../RegWindow.h \
-		ui_MainWindow.h \
-		D:/Qt/6.9.1/mingw_64/include/QtCore/QVariant \
-		D:/Qt/6.9.1/mingw_64/include/QtGui/QIcon \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QMenuBar \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qmenubar.h \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/QStatusBar \
-		D:/Qt/6.9.1/mingw_64/include/QtWidgets/qstatusbar.h
+		ui_MainWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\MainWindow.o ..\..\MainWindow.cpp
 
 debug/qrc_IMG.o: debug/qrc_IMG.cpp 
