@@ -375,10 +375,20 @@ void ServerSocialNetwork::EditPost(const PostModel &postModel, QTcpSocket *socke
 
 void ServerSocialNetwork::LikePost(const LikeModel &likeModel, QTcpSocket *socket)
 {
-    if (dbLikeManager.AddLikePost(likeModel, dbConnectManager.GetDataBase()))
-        SendDataToClient(LIKE_POST_QUERY, postModel, socket);
+    if (!dbLikeManager.CheckLikePost(likeModel, dbConnectManager.GetDataBase()))
+    {
+        if (dbLikeManager.AddLikePost(likeModel, dbConnectManager.GetDataBase()))
+            SendDataToClient(LIKE_POST_QUERY, postModel, socket);
+        else
+            SendDataToClient(LIKE_POST_FAILED, postModel, socket);
+    }
     else
-        SendDataToClient(LIKE_POST_FAILED, postModel, socket);
+    {
+        if (dbLikeManager.DeleteLikePost(likeModel, dbConnectManager.GetDataBase()))
+            SendDataToClient(LIKE_POST_QUERY, postModel, socket);
+        else
+            SendDataToClient(LIKE_POST_FAILED, postModel, socket);
+    }
 }
 
 void ServerSocialNetwork::AddCommentPost(const CommentModel &commentModel, QTcpSocket *socket)

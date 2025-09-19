@@ -121,8 +121,6 @@ public:
 
     bool DeleteFileInPost(const PostModel &postModel, const QSqlDatabase &dataBase)
     {
-        qDebug() << "dbFileManager: " << postModel.GetFileModel().GetIdFile() << " " << postModel.GetIdPost();
-
         QSqlQuery query(dataBase);
 
         query.prepare("DELETE FROM [post_file] WHERE id_post = :id_post AND id_file = :id_file;");
@@ -190,6 +188,8 @@ public:
         if (!query.exec())
             qDebug() << query.lastError().text();
 
+        FileModel fileModel;
+
         if (query.next())
         {
             fileModel.SetIdFile(query.value(0).toInt());
@@ -199,6 +199,7 @@ public:
             fileModel.SetFormat(query.value(4).toString());
             fileModel.SetFileData(fileReader.GetFileData(fileModel.GetPath()));
         }
+
         return fileModel;
     }
 

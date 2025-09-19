@@ -46,8 +46,8 @@ public:
             tempPostModel.SetName(query.value(2).toString());
             tempPostModel.SetTextContent(query.value(3).toString());
             tempPostModel.SetCreatedDate(query.value(4).toString());
-            tempPostModel.SetCountLikes(GetCountLikes(tempPostModel, dataBase));
-            tempPostModel.SetCountComments(GetCountComments(tempPostModel, dataBase));
+            tempPostModel.SetLikesList(GetLikesList(tempPostModel, dataBase));
+            tempPostModel.SetCommentsList(GetCommentsList(tempPostModel, dataBase));
             tempPostModel.SetUserModel(dbUserManager.GetUserInId(tempPostModel.GetIdUser(), dataBase));
             tempPostModel.SetFileModel(dbFileManager.GetFileInPost(tempPostModel, dataBase));
 
@@ -80,14 +80,65 @@ public:
             tempPostModel.SetName(query.value(2).toString());
             tempPostModel.SetTextContent(query.value(3).toString());
             tempPostModel.SetCreatedDate(query.value(4).toString());
-            tempPostModel.SetCountLikes(GetCountLikes(tempPostModel, dataBase));
-            tempPostModel.SetCountComments(GetCountComments(tempPostModel, dataBase));
+            tempPostModel.SetLikesList(GetLikesList(tempPostModel, dataBase));
+            tempPostModel.SetCommentsList(GetCommentsList(tempPostModel, dataBase));
             tempPostModel.SetFileModel(dbFileManager.GetFileInPost(tempPostModel, dataBase));
 
             postList.push_back(tempPostModel);
         }
 
         return postList;
+    }
+
+    QList <LikeModel> GetLikesList(const PostModel &postModel, const QSqlDatabase &dataBase)
+    {
+        QSqlQuery           query(dataBase);
+        LikeModel           likeModel;
+        QList <LikeModel>   likesList;
+
+        query.prepare("SELECT * FROM likes WHERE id_post = :id_post;");
+        query.bindValue(":id_post", postModel.GetIdPost());
+
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        while (query.next())
+        {
+            likeModel.SetIdLike(query.value(0).toInt());
+            likeModel.SetIdUser(query.value(1).toInt());
+            likeModel.SetIdPost(query.value(2).toInt());
+
+            likesList.push_back(likeModel);
+        }
+
+        return likesList;
+    }
+
+    QList <CommentModel> GetCommentsList(const PostModel &postModel, const QSqlDatabase &dataBase)
+    {
+        QSqlQuery               query(dataBase);
+        CommentModel            commentModel;
+        QList <CommentModel>    commentList;
+
+        query.prepare("SELECT * FROM comment WHERE id_post = :id_post;");
+        query.bindValue(":id_post", postModel.GetIdPost());
+
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        while (query.next())
+        {
+            commentModel.SetIdComment(query.value(0).toInt());
+            commentModel.SetIdPost(query.value(1).toInt());
+            commentModel.SetIdUser(query.value(2).toInt());
+            commentModel.SetTextContent(query.value(3).toString());
+            commentModel.SetCreatedDate(query.value(4).toString());
+            commentModel.SetIsEdited(query.value(5).toBool());
+
+            commentList.push_back(commentModel);
+        }
+
+        return commentList;
     }
 
     bool EditPost(const PostModel &postModel, const QSqlDatabase &dataBase)
@@ -114,10 +165,11 @@ public:
             return false;
         }
 
-        query.prepare("SELECT * FROM post WHERE id_user = :id_user AND created_date = :created_date");
+        query.prepare("SELECT * FROM post WHERE id_user = :id_user AND created_date = :created_date AND name = :name");
 
         query.bindValue(":id_user", tempPostModel.GetIdUser());
         query.bindValue(":created_date", tempPostModel.GetCreatedDate());
+        query.bindValue(":name", tempPostModel.GetName());
 
         if (!query.exec())
         {
@@ -142,12 +194,13 @@ public:
     {
         if (!postModel.GetFileModel().GetFileData().isEmpty())
         {
-            fileWriter.DeleteFile(postModel.GetFileModel());
-            dbFileManager.DeleteFileInPost(postModel, dataBase);
+            if (!fileWriter.DeleteFile(postModel.GetFileModel()) || !dbFileManager.DeleteFileInPost(postModel, dataBase))
+                return false;
         }
 
-        dbCommentManager.DeleteAllCommentsPost(postModel, dataBase);
-        dbLikeManager.DeleteAllLikesPost(postModel, dataBase);
+        if (!dbCommentManager.DeleteAllCommentsPost(postModel, dataBase) || !dbLikeManager.DeleteAllLikesPost(postModel, dataBase))
+            return false;
+
 
         QSqlQuery query(dataBase);
 
@@ -161,42 +214,6 @@ public:
         }
 
         return true;
-    }
-
-    qint32 GetCountLikes(const PostModel &postModel, const QSqlDatabase &dataBase)
-    {
-        QSqlQuery query(dataBase);
-
-        query.prepare("SELECT COUNT(*) FROM likes WHERE id_post = :id_post");
-        query.bindValue(":id_post", postModel.GetIdPost());
-
-        if (!query.exec())
-        {
-            qDebug() << query.lastError().text();
-        }
-        if (query.next())
-        {
-            return query.value(0).toInt();
-        }
-        return 0;
-    }
-
-    qint32 GetCountComments(const PostModel &postModel, const QSqlDatabase &dataBase)
-    {
-        QSqlQuery query(dataBase);
-
-        query.prepare("SELECT COUNT(*) FROM comment WHERE id_post = :id_post");
-        query.bindValue(":id_post", postModel.GetIdPost());
-
-        if (!query.exec())
-        {
-            qDebug() << query.lastError().text();
-        }
-        if (query.next())
-        {
-            return query.value(0).toInt();
-        }
-        return 0;
     }
 };
 

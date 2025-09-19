@@ -79,7 +79,6 @@ public:
     bool DeleteAllCommentsPost(const PostModel &postModel, const QSqlDatabase &dataBase)
     {
         QSqlQuery query(dataBase);
-        qDebug() << "dbCommentManager: " << postModel.GetFileModel().GetIdFile() << " " << postModel.GetIdPost();
 
         query.prepare("DELETE FROM comment WHERE id_post = :id_post;");
         query.bindValue(":id_post", postModel.GetIdPost());

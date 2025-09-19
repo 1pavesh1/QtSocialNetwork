@@ -100,7 +100,6 @@ private:
         footerLayout->setContentsMargins(0, 0, 0, 0);
 
         likeButton = new QPushButton("0", this);
-        likeButton->setIcon(QIcon(":/IMG/IMG/LikePin50x50SN.png"));
         likeButton->setIconSize(QSize(20, 20));
         likeButton->setCursor(Qt::PointingHandCursor);
         likeButton->setStyleSheet("QPushButton { border: none; padding: 4px 8px; }");
@@ -157,8 +156,18 @@ private:
         dateCreateLabel->setText(postModel.GetCreatedDate());
         contentLabel->setText(postModel.GetTextContent().replace("\n", "<br>"));
 
-        likeButton->setText(" " + QString::number(postModel.GetCountLikes()));
-        commentButton->setText(" " + QString::number(postModel.GetCountComments()));
+        likeButton->setIcon(QIcon(":/IMG/IMG/LikePin50x50SN.png"));
+        for (const LikeModel &likeModel : postModel.GetLikesList())
+        {
+            if (userModel.GetIdUser() == likeModel.GetIdUser())
+            {
+                likeButton->setIcon(QIcon(":/IMG/IMG/LikeFullPin50x50SN.png"));
+                break;
+            }
+        }
+
+        likeButton->setText(" " + QString::number(postModel.GetLikesList().size()));
+        commentButton->setText(" " + QString::number(postModel.GetCommentsList().size()));
 
         QLayout* layout = mediaContainer->layout();
         if (!layout) {

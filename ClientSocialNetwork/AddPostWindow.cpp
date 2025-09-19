@@ -48,7 +48,6 @@ void AddPostWindow::HandleAddPostFailed()
 void AddPostWindow::SetData(const UserModel &userModel)
 {
     this->userModel = userModel;
-    this->postModel.GetFileModel().GetFileData().clear();
 }
 
 void AddPostWindow::on_addPostButton_clicked()
@@ -65,13 +64,15 @@ void AddPostWindow::on_addPostButton_clicked()
     }
     else if (ui->contentText->toPlainText().isEmpty() && ui->mediaFrame->layout()->isEmpty())
     {
-        messageWidget = new MessageWidget(this, "Посто должен содержать либо просто файл, либо просто контент, либо всё вместе", INFORMATION);
+        messageWidget = new MessageWidget(this, "Пост должен содержать либо просто файл, либо просто контент, либо всё вместе", INFORMATION);
         messageWidget->Show();
     }
     else
     {
         SocketManager::instance().AddPostQuery(postModel);
     }
+
+    fileModel.SetFileData(0);
 }
 
 void AddPostWindow::on_addMediaButton_clicked()
@@ -85,7 +86,6 @@ void AddPostWindow::on_addMediaButton_clicked()
         QFile file(filePath);
         if (file.open(QIODevice::ReadOnly))
         {
-            FileModel   fileModel;
             QFileInfo   fileInfo(filePath);
 
             fileModel.SetDirectoryName("MediaFilesPosts");
@@ -155,4 +155,6 @@ void AddPostWindow::on_deleteFileInputButton_clicked()
         }
         delete item;
     }
+
+    fileModel.SetFileData(0);
 }

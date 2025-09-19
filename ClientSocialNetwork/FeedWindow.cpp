@@ -76,6 +76,7 @@ void FeedWindow::HandlerGetPost(const PostList &postList)
         QListWidgetItem     *item           = new QListWidgetItem();
 
         item->setSizeHint(postItemWidget->sizeHint());
+        item->setData(Qt::UserRole, postModel.GetIdPost());
 
         ui->postList->addItem(item);
         ui->postList->setItemWidget(item, postItemWidget);
@@ -92,7 +93,15 @@ void FeedWindow::HandlerGetPostFailed()
 
 void FeedWindow::HandlerDeletePost(const PostModel &postModel)
 {
-
+    for (qint32 i = 0; i < ui->postList->count(); ++i)
+    {
+        QListWidgetItem* item = ui->postList->item(i);
+        if (item->data(Qt::UserRole).toInt() == postModel.GetIdPost())
+        {
+            delete ui->postList->takeItem(i);
+            break;
+        }
+    }
 }
 
 void FeedWindow::HandlerDeletePostFailed()
@@ -397,7 +406,7 @@ void FeedWindow::OnCommentClicked(const PostModel &postModel)
         SocketManager::instance().GetCommentPostQuery(postModel);
 
         ui->namePostLabel->setText(postModel.GetName());
-        ui->countCommentsPostLabel->setText(QString::number(postModel.GetCountComments()) + " Комментариев");
+        ui->countCommentsPostLabel->setText(QString::number(postModel.GetCommentsList().size()) + " Комментариев");
         commentsIsOpen = true;
         OpenCommentAnimation();
     }

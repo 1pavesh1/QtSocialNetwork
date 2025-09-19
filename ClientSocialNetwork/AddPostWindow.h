@@ -25,6 +25,7 @@ private:
 
     PostModel           postModel;
     UserModel           userModel;
+    FileModel           fileModel;
 
     PathUtil            pathUtil;
     TimeUtil            timeUtil;
