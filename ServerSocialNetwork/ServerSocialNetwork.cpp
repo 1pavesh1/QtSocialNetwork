@@ -101,7 +101,7 @@ void ServerSocialNetwork::ReadQuery(QDataStream &query, QTcpSocket *socket)
         break;
     case GET_USERS_QUERY:
         query >> userModel;
-        GetUsers(socket);
+        GetUsers(userModel, socket);
         break;
     case GET_FRIENDS_QUERY:
         query >> userModel;
@@ -174,6 +174,14 @@ void ServerSocialNetwork::ReadQuery(QDataStream &query, QTcpSocket *socket)
     case GET_COMMENTS_QUERY:
         query >> postModel;
         GetCommentsPost(postModel, socket);
+        break;
+    case SEARCH_POSTS_QUERY:
+        query >> postModel;
+        SearchPostsInName(postModel, socket);
+        break;
+    case SEARCH_USERS_QUERY:
+        query >> userModel;
+        SearchUsersInLogin(userModel, socket);
         break;
     default:
         break;
@@ -262,15 +270,18 @@ void ServerSocialNetwork::ChangePhotoUser(UserModel &userModel, QTcpSocket *sock
         SendDataToClient(CHANGE_PHOTO_FAILED_ANSWER, userModel, socket);
 }
 
-void ServerSocialNetwork::GetUsers(QTcpSocket *socket)
+void ServerSocialNetwork::GetUsers(const UserModel &userModel, QTcpSocket *socket)
 {
-    userList.SetUserList(dbFriendsManager.GetUsers(dbConnectManager.GetDataBase()));
+    userList.SetUserList(dbFriendsManager.GetUsers(userModel, dbConnectManager.GetDataBase()));
     for (auto userModel : userList.GetUserList())
     {
         if (userServerManager.CheckUserOnServer(userServerMap, socket))
             userModel.SetStatus(true);
     }
-    SendDataToClient(GET_USERS_QUERY, userList, socket);
+    if (userList.GetUserList().isEmpty())
+        SendDataToClient(GET_USERS_FAILED_ANSWER, userList, socket);
+    else
+        SendDataToClient(GET_USERS_QUERY, userList, socket);
 }
 
 void ServerSocialNetwork::GetFriends(const UserModel &userModel, QTcpSocket *socket)
@@ -281,7 +292,10 @@ void ServerSocialNetwork::GetFriends(const UserModel &userModel, QTcpSocket *soc
         if (userServerManager.CheckUserOnServer(userServerMap, socket))
             userModel.SetStatus(true);
     }
-    SendDataToClient(GET_FRIENDS_QUERY, userList, socket);
+    if (userList.GetUserList().isEmpty())
+        SendDataToClient(GET_FRIENDS_FAILED_ANSWER, userList, socket);
+    else
+        SendDataToClient(GET_FRIENDS_QUERY, userList, socket);
 }
 
 void ServerSocialNetwork::GetRelationShipUser(const UserModel &userModel, QTcpSocket *socket)
@@ -370,7 +384,10 @@ void ServerSocialNetwork::DeletePost(const PostModel &postModel, QTcpSocket *soc
 
 void ServerSocialNetwork::EditPost(const PostModel &postModel, QTcpSocket *socket)
 {
-
+    if (dbPostManager.EditPost(postModel, dbConnectManager.GetDataBase()))
+        SendDataToClient(EDIT_POST_QUERY, postModel, socket);
+    else
+        SendDataToClient(EDIT_POST_FAILED, postModel, socket);
 }
 
 void ServerSocialNetwork::LikePost(const LikeModel &likeModel, QTcpSocket *socket)
@@ -420,6 +437,24 @@ void ServerSocialNetwork::EditCommentPost(const CommentModel &commentModel, QTcp
         SendDataToClient(EDIT_COMMENT_QUERY, commentModel, socket);
     else
         SendDataToClient(EDIT_COMMENT_FAILED, commentModel, socket);
+}
+
+void ServerSocialNetwork::SearchPostsInName(const PostModel &postModel, QTcpSocket *socket)
+{
+    postList.SetPostList(dbPostManager.GetPostsInName(postModel, dbConnectManager.GetDataBase()));
+    if (postList.GetPostList().isEmpty())
+        SendDataToClient(SEARCH_POSTS_FAILED, postList, socket);
+    else
+        SendDataToClient(SEARCH_POSTS_QUERY, postList, socket);
+}
+
+void ServerSocialNetwork::SearchUsersInLogin(const UserModel &userModel, QTcpSocket *socket)
+{
+    userList.SetUserList(dbFriendsManager.GetUsersInLogin(userModel, dbConnectManager.GetDataBase()));
+    if (userList.GetUserList().isEmpty())
+        SendDataToClient(SEARCH_USERS_FAILED, userList, socket);
+    else
+        SendDataToClient(SEARCH_USERS_QUERY, userList, socket);
 }
 
 void ServerSocialNetwork::SendDataToClient(const TypeQuery &typeQuery, const Data &data, QTcpSocket *socket)

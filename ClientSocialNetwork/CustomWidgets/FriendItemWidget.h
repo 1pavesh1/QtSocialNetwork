@@ -98,7 +98,8 @@ private:
 
         loginLabel->setText(userModel.GetLogin());
 
-        if (userModel.GetStatusOnline()) {
+        if (userModel.GetStatusOnline())
+        {
             statusLabel->setText("в сети");
             statusLabel->setStyleSheet("color: green; font-size: 12px;");
         }

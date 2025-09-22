@@ -18,14 +18,15 @@ private:
     DataBaseFileManager dbFileManager;
 
 public:
-    QList <UserModel> GetUsers(const QSqlDatabase &dataBase)  // Функция получения массива пользователей
+    QList <UserModel> GetUsers(const UserModel &userModel, const QSqlDatabase &dataBase)
     {
         QSqlQuery query(dataBase);
 
         if (!userList.isEmpty())
             userList.clear();
 
-        query.prepare("SELECT * FROM users;");
+        query.prepare("SELECT * FROM users WHERE id_user != :id_user;");
+        query.bindValue(":id_user", userModel.GetIdUser());
 
         if (!query.exec())
         {
@@ -58,7 +59,7 @@ public:
             indexUserList.clear();
         }
 
-        query.prepare("SELECT * FROM friends WHERE id_first_user = :id_user;");
+        query.prepare("SELECT * FROM friends WHERE id_first_user = :id_user AND id_second_user != :id_user;");
         query.bindValue(":id_user", userModel.GetIdUser());
 
         if (!query.exec())
@@ -70,7 +71,7 @@ public:
             indexUserList.push_back(query.value(1).toInt());
         }
 
-        query.prepare("SELECT * FROM friends WHERE id_second_user = :id_user;");
+        query.prepare("SELECT * FROM friends WHERE id_second_user = :id_user AND id_first_user != :id_user;");
         query.bindValue(":id_user", userModel.GetIdUser());
 
         if (!query.exec())
@@ -79,7 +80,7 @@ public:
         }
         while (query.next())
         {
-            indexUserList.push_back(query.value(1).toInt());
+            indexUserList.push_back(query.value(0).toInt());
         }
 
         query.prepare("SELECT * FROM users WHERE id_user = :id_user;");
@@ -105,7 +106,37 @@ public:
                 userList.push_back(tempUserModel);
             }
         }
-        qDebug() << "Размер вектора друзей: " << userList.size();
+
+        return userList;
+    }
+
+    QList <UserModel> GetUsersInLogin(const UserModel &userModel, const QSqlDatabase &dataBase)
+    {
+        QSqlQuery query(dataBase);
+
+        if (!userList.isEmpty())
+            userList.clear();
+
+        query.prepare("SELECT * FROM users WHERE login = :login;");
+        query.bindValue(":login", userModel.GetLogin());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+        }
+        while (query.next())
+        {
+            tempUserModel.SetIdUser(query.value(0).toInt());
+            tempUserModel.SetLogin(query.value(1).toString());
+            tempUserModel.SetPhone(query.value(3).toString());
+            tempUserModel.SetEmail(query.value(4).toString());
+            tempUserModel.SetEntryTime(query.value(5).toString());
+            tempUserModel.SetDateBithday(query.value(6).toString());
+            tempUserModel.SetFileModel(dbFileManager.GetFileInUser(tempUserModel, dataBase));
+
+            userList.push_back(tempUserModel);
+        }
+
         return userList;
     }
 

@@ -26,6 +26,7 @@ public:
         }
 
         fileData = file.readAll();
+
         file.close();
 
         return fileData;

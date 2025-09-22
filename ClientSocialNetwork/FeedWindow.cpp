@@ -10,6 +10,7 @@ FeedWindow::FeedWindow(QWidget *parent)
     ui->editCommentFrame->setVisible(false);
     ui->menuTableFrame->setVisible(false);
     ui->commentPostFrame->setVisible(false);
+    ui->searchMessage->setVisible(false);
 
     ui->postList->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     ui->postList->setSelectionMode(QAbstractItemView::NoSelection);
@@ -47,6 +48,8 @@ void FeedWindow::ConnectSlots()
     connect(&SocketManager::instance(), &SocketManager::DeleteCommentPostFailed, this, &FeedWindow::HandlerDeleteCommentPostFailed);
     connect(&SocketManager::instance(), &SocketManager::GetCommentPost, this, &FeedWindow::HandlerGetCommentPost);
     connect(&SocketManager::instance(), &SocketManager::GetCommentPostFailed, this, &FeedWindow::HandlerGetCommentPostFailed);
+    connect(&SocketManager::instance(), &SocketManager::SearchPosts, this, &FeedWindow::HandlerSearchPosts);
+    connect(&SocketManager::instance(), &SocketManager::SearchPostsFailed, this, &FeedWindow::HandlerSearchPostsFailed);
 }
 
 void FeedWindow::ConnectPostSlots(const PostItemWidget *postItemWidget)
@@ -70,6 +73,7 @@ void FeedWindow::DisconnectSlots()
 
 void FeedWindow::HandlerGetPost(const PostList &postList)
 {
+    ui->searchMessage->setVisible(false);
     for (const PostModel &postModel : postList.GetPostList())
     {
         PostItemWidget      *postItemWidget = new PostItemWidget(postModel.GetUserModel(), postModel);
@@ -202,6 +206,30 @@ void FeedWindow::HandlerDeleteCommentPostFailed()
     messageWidget->Show();
 }
 
+void FeedWindow::HandlerSearchPosts(const PostList &postList)
+{
+    ui->searchMessage->setVisible(false);
+    ui->postList->clear();
+    for (const PostModel &postModel : postList.GetPostList())
+    {
+        PostItemWidget      *postItemWidget = new PostItemWidget(postModel.GetUserModel(), postModel);
+        QListWidgetItem     *item           = new QListWidgetItem();
+
+        item->setSizeHint(postItemWidget->sizeHint());
+        item->setData(Qt::UserRole, postModel.GetIdPost());
+
+        ui->postList->addItem(item);
+        ui->postList->setItemWidget(item, postItemWidget);
+
+        ConnectPostSlots(postItemWidget);
+    }
+}
+
+void FeedWindow::HandlerSearchPostsFailed()
+{
+    ui->searchMessage->setVisible(true);
+}
+
 void FeedWindow::DeletePost(const PostModel &postModel)
 {
     SocketManager::instance().DeletePostQuery(postModel);
@@ -215,7 +243,7 @@ void FeedWindow::EditPost(const PostModel &postModel)
     this->editPostWindow->SetData(postModel);
     this->editPostWindow->show();
 
-    connect(editPostWindow, &EditPostWindow::closeSignal, this, FeedWindow::EnableWindow);
+    connect(editPostWindow, &EditPostWindow::closeSignal, this, &FeedWindow::EnableWindow);
 }
 
 void FeedWindow::OpenMenuAnimation()
@@ -429,7 +457,7 @@ void FeedWindow::on_profilePinButton_clicked()
     this->profileWindow->SetData(this->userModel);
     this->profileWindow->show();
 
-    connect(profileWindow, &ProfileWindow::closeSignal, this, FeedWindow::EnableWindow);
+    connect(profileWindow, &ProfileWindow::closeSignal, this, &FeedWindow::EnableWindow);
 }
 
 void FeedWindow::on_myPostPinButton_clicked()
@@ -440,7 +468,7 @@ void FeedWindow::on_myPostPinButton_clicked()
     this->userPostsWindow->SetData(userModel);
     this->userPostsWindow->show();
 
-    connect(userPostsWindow, &UserPostsWindow::closeSignal, this, FeedWindow::EnableWindow);
+    connect(userPostsWindow, &UserPostsWindow::closeSignal, this, &FeedWindow::EnableWindow);
 }
 
 void FeedWindow::on_usersPinButton_clicked()
@@ -451,7 +479,7 @@ void FeedWindow::on_usersPinButton_clicked()
     this->usersWindow->SetData(this->userModel);
     this->usersWindow->show();
 
-    connect(usersWindow, &UsersWindow::closeSignal, this, FeedWindow::EnableWindow);
+    connect(usersWindow, &UsersWindow::closeSignal, this, &FeedWindow::EnableWindow);
 }
 
 void FeedWindow::on_settingsPinButton_clicked()
@@ -462,7 +490,7 @@ void FeedWindow::on_settingsPinButton_clicked()
     this->settingsWindow->SetData(this->userModel);
     this->settingsWindow->show();
 
-    connect(settingsWindow, &SettingsWindow::closeSignal, this, FeedWindow::EnableWindow);
+    connect(settingsWindow, &SettingsWindow::closeSignal, this, &FeedWindow::EnableWindow);
 }
 
 void FeedWindow::on_exitPinButton_clicked()
@@ -484,7 +512,7 @@ void FeedWindow::on_addPostButton_clicked()
     this->addPostWindow->SetData(this->userModel);
     this->addPostWindow->show();
 
-    connect(addPostWindow, &AddPostWindow::closeSignal, this, FeedWindow::EnableWindow);
+    connect(addPostWindow, &AddPostWindow::closeSignal, this, &FeedWindow::EnableWindow);
 }
 
 void FeedWindow::on_notificationButton_clicked()
@@ -495,12 +523,18 @@ void FeedWindow::on_notificationButton_clicked()
     this->notificationsWindow->SetData(this->userModel);
     this->notificationsWindow->show();
 
-    connect(notificationsWindow, &NotificationsWindow::closeSignal, this, FeedWindow::EnableWindow);
+    connect(notificationsWindow, &NotificationsWindow::closeSignal, this, &FeedWindow::EnableWindow);
 }
 
 void FeedWindow::on_searchButton_clicked()
 {
-
+    if (ui->searchText->text().size() >= 5)
+    {
+        ui->postList->clear();
+        PostModel postModel;
+        postModel.SetName(ui->searchText->text());
+        SocketManager::instance().SearchPostsQuery(postModel);
+    }
 }
 
 void FeedWindow::on_updateFeedButton_clicked()

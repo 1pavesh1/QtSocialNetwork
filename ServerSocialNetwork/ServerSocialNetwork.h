@@ -74,7 +74,7 @@ private:
     void LogoutUser(const UserModel &userModel, QTcpSocket *socket);
     void CheckUser(UserModel &userModel, QTcpSocket *socket);
     void ChangePhotoUser(UserModel &userModel, QTcpSocket *socket);
-    void GetUsers(QTcpSocket *socket);
+    void GetUsers(const UserModel &userModel, QTcpSocket *socket);
     void GetFriends(const UserModel &userModel, QTcpSocket *socket);
     void GetRelationShipUser(const UserModel &userModel, QTcpSocket *socket);
     void AddUser(const UserModel &userModel, QTcpSocket *socket);
@@ -93,6 +93,8 @@ private:
     void DeleteCommentPost(const CommentModel &commentModel, QTcpSocket *socket);
     void EditCommentPost(const CommentModel &commentModel, QTcpSocket *socket);
     void GetCommentsPost(const PostModel &postModel, QTcpSocket *socket);
+    void SearchPostsInName(const PostModel &postModel, QTcpSocket *socket);
+    void SearchUsersInLogin(const UserModel &userModel, QTcpSocket *socket);
     void SendDataToClient(const TypeQuery &typeQuery, const Data &data, QTcpSocket *socket);
 public:
     ServerSocialNetwork();

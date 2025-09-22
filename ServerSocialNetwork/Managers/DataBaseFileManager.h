@@ -12,7 +12,6 @@ class DataBaseFileManager
 {
 private:
     FileReader  fileReader;
-    FileModel   fileModel;
     qint32      idFile;
 
 public:
@@ -116,6 +115,7 @@ public:
             qDebug() << query.lastError().text();
             return false;
         }
+
         return true;
     }
 
@@ -198,6 +198,7 @@ public:
             fileModel.SetType(query.value(3).toString());
             fileModel.SetFormat(query.value(4).toString());
             fileModel.SetFileData(fileReader.GetFileData(fileModel.GetPath()));
+            fileModel.SetDirectoryName("MediaFilesPosts");
         }
 
         return fileModel;
@@ -206,6 +207,7 @@ public:
     FileModel GetFileInUser(const UserModel &userModel, const QSqlDatabase &dataBase)
     {
         QSqlQuery query(dataBase);
+        FileModel   fileModel;
 
         query.prepare("SELECT f.* FROM [file] f INNER JOIN [user_file] pf ON f.id_file = pf.id_file WHERE pf.id_user = :id_user");
 
@@ -215,7 +217,7 @@ public:
             qDebug() << query.lastError().text();
 
         if (query.next())
-        {
+        {            
             fileModel.SetIdFile(query.value(0).toInt());
             fileModel.SetName(query.value(1).toString());
             fileModel.SetPath(query.value(2).toString());
@@ -223,6 +225,7 @@ public:
             fileModel.SetFormat(query.value(4).toString());
             fileModel.SetFileData(fileReader.GetFileData(fileModel.GetPath()));
         }
+
         return fileModel;
     }
 };

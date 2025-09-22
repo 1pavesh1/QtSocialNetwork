@@ -366,6 +366,60 @@ QPushButton:pressed
     <string>Мои друзья</string>
    </property>
   </widget>
+  <widget class="QLabel" name="friendsMessage">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>390</y>
+     <width>181</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>15</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel
+{
+	background-color: white;
+	color: black;
+}</string>
+   </property>
+   <property name="text">
+    <string>У вас нет друзей</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="searchMessage">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>390</y>
+     <width>281</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>15</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel
+{
+	background-color: white;
+	color: black;
+}</string>
+   </property>
+   <property name="text">
+    <string>Пользователей не найдено</string>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="IMG.qrc"/>

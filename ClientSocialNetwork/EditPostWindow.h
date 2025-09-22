@@ -2,19 +2,18 @@
 #define EDITPOSTWINDOW_H
 
 #include <QDialog>
-#include <QCloseEvent>
-#include <QTemporaryFile>
-#include <QMediaPlayer>
-#include <QVideoWidget>
-#include <QAudioOutput>
-#include <QVideoSink>
-#include <QImageCapture>
-#include <QTimer>
-#include <QUuid>
 #include "PostModel.h"
 #include "UserModel.h"
+#include "FileModel.h"
+#include "CustomWidgets/AudioWidget.h"
+#include "CustomWidgets/VideoWidget.h"
+#include "CustomWidgets/FileWidget.h"
+#include "CustomWidgets/PhotoWidget.h"
 #include "Managers/SocketManager.h"
 #include "AbstractClasses/BaseWindow.h"
+#include "Managers/SocketManager.h"
+#include "TimeUtil/TimeUtil.h"
+#include "MediaUtil/PathUtil.h"
 
 namespace Ui {
 class EditPostWindow;
@@ -29,6 +28,10 @@ private:
 
     PostModel           postModel;
     UserModel           userModel;
+    FileModel           fileModel;
+
+    PathUtil            pathUtil;
+    TimeUtil            timeUtil;
 
     void ConnectSlots() override;
     void DisconnectSlots() override;

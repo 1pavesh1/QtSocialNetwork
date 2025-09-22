@@ -90,6 +90,41 @@ public:
         return postList;
     }
 
+    QList<PostModel> GetPostsInName(const PostModel &postModel, const QSqlDatabase &dataBase)
+    {
+        DataBaseUserManager dbUserManager;
+        QSqlQuery           query(dataBase);
+
+        if (!postList.isEmpty())
+            postList.clear();
+
+        query.prepare("SELECT * FROM post WHERE name = :name;");
+        query.bindValue(":name", postModel.GetName());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+        }
+        while (query.next())
+        {
+            PostModel tempPostModel;
+
+            tempPostModel.SetIdPost(query.value(0).toInt());
+            tempPostModel.SetIdUser(query.value(1).toInt());
+            tempPostModel.SetName(query.value(2).toString());
+            tempPostModel.SetTextContent(query.value(3).toString());
+            tempPostModel.SetCreatedDate(query.value(4).toString());
+            tempPostModel.SetLikesList(GetLikesList(tempPostModel, dataBase));
+            tempPostModel.SetCommentsList(GetCommentsList(tempPostModel, dataBase));
+            tempPostModel.SetUserModel(dbUserManager.GetUserInId(tempPostModel.GetIdUser(), dataBase));
+            tempPostModel.SetFileModel(dbFileManager.GetFileInPost(tempPostModel, dataBase));
+
+            postList.push_back(tempPostModel);
+        }
+
+        return postList;
+    }
+
     QList <LikeModel> GetLikesList(const PostModel &postModel, const QSqlDatabase &dataBase)
     {
         QSqlQuery           query(dataBase);
@@ -143,7 +178,32 @@ public:
 
     bool EditPost(const PostModel &postModel, const QSqlDatabase &dataBase)
     {
+        if (postModel.GetFileModel().GetFileData().isEmpty())
+        {
+            if (!fileWriter.DeleteFile(postModel.GetFileModel()) || !dbFileManager.DeleteFileInPost(postModel, dataBase))
+                return false;
+        }
+        else
+        {
+            if (!fileWriter.DeleteFile(postModel.GetFileModel()) || !fileWriter.SaveFileOnServer(postModel.GetFileModel()) || !dbFileManager.UpdateFilePathInPost(postModel, dataBase))
+                return false;
+        }
 
+        QSqlQuery query(dataBase);
+
+        query.prepare("UPDATE post SET name = ?, text_content = ? WHERE id_post = ?;");
+
+        query.addBindValue(postModel.GetName());
+        query.addBindValue(postModel.GetTextContent());
+        query.addBindValue(postModel.GetIdPost());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+            return false;
+        }
+
+        return true;
     }
 
     bool AddPost(const PostModel &postModel, const QSqlDatabase &dataBase)

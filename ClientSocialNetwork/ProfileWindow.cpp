@@ -130,7 +130,7 @@ void ProfileWindow::on_settingsButton_clicked()
     this->settingsWindow->SetData(this->userModel);
     this->settingsWindow->show();
 
-    connect(settingsWindow, &SettingsWindow::closeSignal, this, ProfileWindow::EnableWindow);
+    connect(settingsWindow, &SettingsWindow::closeSignal, this, &ProfileWindow::EnableWindow);
 }
 
 void ProfileWindow::on_changePhotoButton_clicked()

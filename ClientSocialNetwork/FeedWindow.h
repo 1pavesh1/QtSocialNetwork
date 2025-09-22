@@ -76,6 +76,8 @@ private:
     void HandlerEditCommentPostFailed();
     void HandlerDeleteCommentPost(const CommentModel &commentModel);
     void HandlerDeleteCommentPostFailed();
+    void HandlerSearchPosts(const PostList &postList);
+    void HandlerSearchPostsFailed();
     void DeletePost(const PostModel &postModel);
     void EditPost(const PostModel &postModel);
     void OpenMenuAnimation();

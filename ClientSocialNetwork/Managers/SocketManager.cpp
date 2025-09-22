@@ -91,11 +91,11 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
         ReadChangePhotoAnswer(typeQuery);
         break;
     case GET_USERS_QUERY: case GET_USERS_FAILED_ANSWER:
-        dataFromServer >> userList;
+        dataFromServer >> userModelList;
         ReadGetUsers(typeQuery);
         break;
     case GET_FRIENDS_QUERY: case GET_FRIENDS_FAILED_ANSWER:
-        dataFromServer >> userList;
+        dataFromServer >> userModelList;
         ReadGetFriends(typeQuery);
         break;
     case RELATIONSHIP_FRIEND_ANSWER: case RELATIONSHIP_NOT_FRIEND_ANSWER: case RELATIONSHIP_WAIT_NOTIFICATION_ANSWER:
@@ -119,11 +119,11 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
         ReadAddPostAnswer(typeQuery);
         break;
     case GET_POSTS_QUERY: case GET_POSTS_FAILED_ANSWER:
-        dataFromServer >> postModelVector;
+        dataFromServer >> postModelList;
         ReadGetPostAnswer(typeQuery);
         break;
     case GET_USER_POSTS_QUERY: case GET_USER_POSTS_FAILED:
-        dataFromServer >> postModelVector;
+        dataFromServer >> postModelList;
         ReadGetUserPostAnswer(typeQuery);
         break;
     case DELETE_USER_POST_QUERY: case DELETE_USER_POST_FAILED:
@@ -153,6 +153,14 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
     case GET_COMMENTS_QUERY: case GET_COMMENTS_FAILED:
         dataFromServer >> commentList;
         ReadGetCommentPostAnswer(typeQuery);
+        break;
+    case SEARCH_POSTS_QUERY: case SEARCH_POSTS_FAILED:
+        dataFromServer >> postModelList;
+        ReadSearchPostsAnswer(typeQuery);
+        break;
+    case SEARCH_USERS_QUERY: case SEARCH_USERS_FAILED:
+        dataFromServer >> userModelList;
+        ReadSearchUsersAnswer(typeQuery);
         break;
     default:
         break;
@@ -284,6 +292,16 @@ void SocketManager::GetCommentPostQuery(const PostModel &postModel)
     SendDataToServer(GET_COMMENTS_QUERY, postModel);
 }
 
+void SocketManager::SearchPostsQuery(const PostModel &postModel)
+{
+    SendDataToServer(SEARCH_POSTS_QUERY, postModel);
+}
+
+void SocketManager::SearchUsersQuery(const UserModel &userModel)
+{
+    SendDataToServer(SEARCH_USERS_QUERY, userModel);
+}
+
 void SocketManager::ReadRegAnswer(const TypeQuery &typeQuery)
 {
     if (typeQuery == REG_USER_QUERY)
@@ -333,7 +351,7 @@ void SocketManager::ReadCheckUserProfileAnswer(const TypeQuery &typeQuery)
 void SocketManager::ReadGetUsers(const TypeQuery &typeQuery)
 {
     if (typeQuery == GET_USERS_QUERY)
-        emit GetUsers(userList);
+        emit GetUsers(userModelList);
     else
         emit GetUsersFailed();
 }
@@ -341,9 +359,9 @@ void SocketManager::ReadGetUsers(const TypeQuery &typeQuery)
 void SocketManager::ReadGetFriends(const TypeQuery &typeQuery)
 {
     if (typeQuery == GET_FRIENDS_QUERY)
-        emit GetUsers(userList);
+        emit GetFriends(userModelList);
     else
-        emit GetUsersFailed();
+        emit GetFriendsFailed();
 }
 
 void SocketManager::ReadGetRelationship(const TypeQuery &typeQuery)
@@ -383,7 +401,7 @@ void SocketManager::ReadAddPostAnswer(const TypeQuery &typeQuery)
 void SocketManager::ReadGetPostAnswer(const TypeQuery &typeQuery)
 {
     if (typeQuery == GET_POSTS_QUERY)
-        emit GetPost(postModelVector);
+        emit GetPost(postModelList);
     else
         emit GetPostFailed();
 }
@@ -391,7 +409,7 @@ void SocketManager::ReadGetPostAnswer(const TypeQuery &typeQuery)
 void SocketManager::ReadGetUserPostAnswer(const TypeQuery &typeQuery)
 {
     if (typeQuery == GET_USER_POSTS_QUERY)
-        emit GetUserPost(postModelVector);
+        emit GetUserPost(postModelList);
     else
         emit GetUserPostFailed();
 }
@@ -450,4 +468,20 @@ void SocketManager::ReadGetCommentPostAnswer(const TypeQuery &typeQuery)
         emit GetCommentPost(commentList);
     else
         emit GetCommentPostFailed();
+}
+
+void SocketManager::ReadSearchPostsAnswer(const TypeQuery &typeQuery)
+{
+    if (typeQuery == SEARCH_POSTS_QUERY)
+        emit SearchPosts(postModelList);
+    else
+        emit SearchPostsFailed();
+}
+
+void SocketManager::ReadSearchUsersAnswer(const TypeQuery &typeQuery)
+{
+    if (typeQuery == SEARCH_USERS_QUERY)
+        emit SearchUsers(userModelList);
+    else
+        emit SearchUsersFailed();
 }

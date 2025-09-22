@@ -105,7 +105,11 @@ template <> constexpr inline auto SocketManager::qt_create_metaobjectdata<qt_met
         "GetCommentPost",
         "CommentList",
         "commentList",
-        "GetCommentPostFailed"
+        "GetCommentPostFailed",
+        "SearchPosts",
+        "SearchPostsFailed",
+        "SearchUsers",
+        "SearchUsersFailed"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -243,6 +247,18 @@ template <> constexpr inline auto SocketManager::qt_create_metaobjectdata<qt_met
         }}),
         // Signal 'GetCommentPostFailed'
         QtMocHelpers::SignalData<void()>(67, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'SearchPosts'
+        QtMocHelpers::SignalData<void(const PostList &)>(68, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 41, 42 },
+        }}),
+        // Signal 'SearchPostsFailed'
+        QtMocHelpers::SignalData<void()>(69, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'SearchUsers'
+        QtMocHelpers::SignalData<void(const UserList &)>(70, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 18, 19 },
+        }}),
+        // Signal 'SearchUsersFailed'
+        QtMocHelpers::SignalData<void()>(71, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -311,6 +327,10 @@ void SocketManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 42: _t->DeleteCommentPostFailed(); break;
         case 43: _t->GetCommentPost((*reinterpret_cast< std::add_pointer_t<CommentList>>(_a[1]))); break;
         case 44: _t->GetCommentPostFailed(); break;
+        case 45: _t->SearchPosts((*reinterpret_cast< std::add_pointer_t<PostList>>(_a[1]))); break;
+        case 46: _t->SearchPostsFailed(); break;
+        case 47: _t->SearchUsers((*reinterpret_cast< std::add_pointer_t<UserList>>(_a[1]))); break;
+        case 48: _t->SearchUsersFailed(); break;
         default: ;
         }
     }
@@ -405,6 +425,14 @@ void SocketManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
             return;
         if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::GetCommentPostFailed, 44))
             return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const PostList & )>(_a, &SocketManager::SearchPosts, 45))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::SearchPostsFailed, 46))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const UserList & )>(_a, &SocketManager::SearchUsers, 47))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::SearchUsersFailed, 48))
+            return;
     }
 }
 
@@ -427,14 +455,14 @@ int SocketManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 45)
+        if (_id < 49)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 45;
+        _id -= 49;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 45)
+        if (_id < 49)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 45;
+        _id -= 49;
     }
     return _id;
 }
@@ -707,5 +735,29 @@ void SocketManager::GetCommentPost(const CommentList & _t1)
 void SocketManager::GetCommentPostFailed()
 {
     QMetaObject::activate(this, &staticMetaObject, 44, nullptr);
+}
+
+// SIGNAL 45
+void SocketManager::SearchPosts(const PostList & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 45, nullptr, _t1);
+}
+
+// SIGNAL 46
+void SocketManager::SearchPostsFailed()
+{
+    QMetaObject::activate(this, &staticMetaObject, 46, nullptr);
+}
+
+// SIGNAL 47
+void SocketManager::SearchUsers(const UserList & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 47, nullptr, _t1);
+}
+
+// SIGNAL 48
+void SocketManager::SearchUsersFailed()
+{
+    QMetaObject::activate(this, &staticMetaObject, 48, nullptr);
 }
 QT_WARNING_POP

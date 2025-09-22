@@ -89,7 +89,7 @@ void UserPostsWindow::on_addPostButton_clicked()
     this->addPostWindow = new class AddPostWindow();
     this->addPostWindow->show();
 
-    connect(addPostWindow, &AddPostWindow::closeSignal, this, UserPostsWindow::EnableWindow);
+    connect(addPostWindow, &AddPostWindow::closeSignal, this, &UserPostsWindow::EnableWindow);
 }
 
 void UserPostsWindow::on_searchButton_clicked()

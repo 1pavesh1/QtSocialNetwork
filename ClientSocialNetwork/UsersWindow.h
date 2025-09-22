@@ -28,6 +28,10 @@ private:
     void DisconnectSlots() override;
     void HandlerGetUsers(const UserList &userList);
     void HandlerGetUsersFailed();
+    void HandlerGetFriends(const UserList &userList);
+    void HandlerGetFriendsFailed();
+    void HandlerSearchUsers(const UserList &userList);
+    void HandlerSearchUsersFailed();
     void OnUserClicked(QListWidgetItem *item);
 
 public:
@@ -38,6 +42,7 @@ public:
 private slots:
     void on_friendsButton_clicked();
     void on_allUsersButton_clicked();
+    void on_searchButton_clicked();
 };
 
 #endif // USERSWINDOW_H

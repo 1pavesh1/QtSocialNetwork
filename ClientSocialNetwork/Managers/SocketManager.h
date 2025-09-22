@@ -28,13 +28,13 @@ private:
 
     UserModel                       userModel;
     UserModel                       tempUser;
-    UserList                        userList;
+    UserList                        userModelList;
 
     NotificationModel               notificationModel;
     NotificationList                notificationList;
 
     PostModel                       postModel;
-    PostList                        postModelVector;
+    PostList                        postModelList;
 
     LikeModel                       likeModel;
 
@@ -76,6 +76,8 @@ public:
     void EditCommentPostQuery(const CommentModel &commentModel);
     void DeleteCommentPostQuery(const CommentModel &commentModel);
     void GetCommentPostQuery(const PostModel &postModel);
+    void SearchPostsQuery(const PostModel &postModel);
+    void SearchUsersQuery(const UserModel &userModel);
 
     void ReadRegAnswer(const TypeQuery &typeQuery);
     void ReadAuthAnswer(const TypeQuery &typeQuery);
@@ -98,6 +100,8 @@ public:
     void ReadEditCommentPostAnswer(const TypeQuery &typeQuery);
     void ReadDeleteCommentPostAnswer(const TypeQuery &typeQuery);
     void ReadGetCommentPostAnswer(const TypeQuery &typeQuery);
+    void ReadSearchPostsAnswer(const TypeQuery &typeQuery);
+    void ReadSearchUsersAnswer(const TypeQuery &typeQuery);
 
 signals:
     // Регистрация
@@ -157,6 +161,11 @@ signals:
     void DeleteCommentPostFailed();
     void GetCommentPost(const CommentList &commentList);
     void GetCommentPostFailed();
+    // Поиск
+    void SearchPosts(const PostList &postList);
+    void SearchPostsFailed();
+    void SearchUsers(const UserList &userList);
+    void SearchUsersFailed();
 };
 
 #endif // SOCKETMANAGER_H

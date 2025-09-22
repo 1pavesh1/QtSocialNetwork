@@ -2,6 +2,12 @@
 #define POSTITEMWIDGET_H
 
 #include <QWidget>
+#include <QFrame>
+#include <QLabel>
+#include <QPushButton>
+#include <QMenu>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include "PostModel.h"
 #include "AbstractClasses/CustomWidget.h"
 #include "MediaUtil/PhotoUtil.h"
@@ -34,7 +40,7 @@ private:
     VideoWidget     *videoWidget;
     FileWidget      *fileWidget;
     PhotoWidget     *photoWidget;
-    QWidget         *mediaContainer;
+    QFrame          *mediaContainer;
 
     void InitializationInterface() override
     {
@@ -83,8 +89,9 @@ private:
         contentLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
         contentLabel->setStyleSheet("font-size: 14px; line-height: 1.4; margin: 8px 0;");
 
-        mediaContainer = new QWidget(this);
+        mediaContainer = new QFrame(this);
         mediaContainer->setVisible(false);
+        mediaContainer->setFrameShape(QFrame::NoFrame);
         QVBoxLayout *mediaLayout = new QVBoxLayout(mediaContainer);
         mediaLayout->setContentsMargins(0, 0, 0, 0);
         mediaLayout->setSpacing(8);
@@ -168,12 +175,6 @@ private:
 
         likeButton->setText(" " + QString::number(postModel.GetLikesList().size()));
         commentButton->setText(" " + QString::number(postModel.GetCommentsList().size()));
-
-        QLayout* layout = mediaContainer->layout();
-        if (!layout) {
-            layout = new QVBoxLayout(mediaContainer);
-            layout->setContentsMargins(0, 0, 0, 0);
-        }
 
         if (!postModel.GetFileModel().GetFileData().isEmpty())
         {

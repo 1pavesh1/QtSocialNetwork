@@ -29,6 +29,8 @@ public:
     QPushButton *allUsersButton;
     QPushButton *searchButton;
     QPushButton *friendsButton;
+    QLabel *friendsMessage;
+    QLabel *searchMessage;
 
     void setupUi(QDialog *UsersWindow)
     {
@@ -256,6 +258,28 @@ public:
 "{\n"
 "    background-color: rgb(218, 188, 255);\n"
 "}"));
+        friendsMessage = new QLabel(UsersWindow);
+        friendsMessage->setObjectName("friendsMessage");
+        friendsMessage->setGeometry(QRect(220, 390, 181, 51));
+        QFont font2;
+        font2.setFamilies({QString::fromUtf8("Arial")});
+        font2.setPointSize(15);
+        font2.setBold(true);
+        friendsMessage->setFont(font2);
+        friendsMessage->setStyleSheet(QString::fromUtf8("QLabel\n"
+"{\n"
+"	background-color: white;\n"
+"	color: black;\n"
+"}"));
+        searchMessage = new QLabel(UsersWindow);
+        searchMessage->setObjectName("searchMessage");
+        searchMessage->setGeometry(QRect(180, 390, 281, 51));
+        searchMessage->setFont(font2);
+        searchMessage->setStyleSheet(QString::fromUtf8("QLabel\n"
+"{\n"
+"	background-color: white;\n"
+"	color: black;\n"
+"}"));
 
         retranslateUi(UsersWindow);
 
@@ -272,6 +296,8 @@ public:
         allUsersButton->setText(QCoreApplication::translate("UsersWindow", "\320\222\321\201\320\265 \320\277\320\276\320\273\321\214\320\267\320\276\320\262\320\260\321\202\320\265\320\273\320\270", nullptr));
         searchButton->setText(QCoreApplication::translate("UsersWindow", "\320\235\320\260\320\271\321\202\320\270", nullptr));
         friendsButton->setText(QCoreApplication::translate("UsersWindow", "\320\234\320\276\320\270 \320\264\321\200\321\203\320\267\321\214\321\217", nullptr));
+        friendsMessage->setText(QCoreApplication::translate("UsersWindow", "\320\243 \320\262\320\260\321\201 \320\275\320\265\321\202 \320\264\321\200\321\203\320\267\320\265\320\271", nullptr));
+        searchMessage->setText(QCoreApplication::translate("UsersWindow", "\320\237\320\276\320\273\321\214\320\267\320\276\320\262\320\260\321\202\320\265\320\273\320\265\320\271 \320\275\320\265 \320\275\320\260\320\271\320\264\320\265\320\275\320\276", nullptr));
     } // retranslateUi
 
 };

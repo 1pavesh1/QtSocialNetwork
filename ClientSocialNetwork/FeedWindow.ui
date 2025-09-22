@@ -1123,17 +1123,45 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
     </widget>
    </widget>
   </widget>
+  <widget class="QLabel" name="searchMessage">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>420</y>
+     <width>391</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>15</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel
+{
+	background-color: white;
+	color: black;
+}</string>
+   </property>
+   <property name="text">
+    <string>Постов с таким заголовком не найдено</string>
+   </property>
+  </widget>
+  <zorder>postList</zorder>
   <zorder>openMenuButton</zorder>
   <zorder>notificationButton</zorder>
   <zorder>updateFeedButton</zorder>
   <zorder>searchButton</zorder>
-  <zorder>postList</zorder>
   <zorder>addPostButton</zorder>
   <zorder>searchText</zorder>
   <zorder>line</zorder>
   <zorder>menuTableFrame</zorder>
   <zorder>line_2</zorder>
   <zorder>commentPostFrame</zorder>
+  <zorder>searchMessage</zorder>
  </widget>
  <resources>
   <include location="IMG.qrc"/>

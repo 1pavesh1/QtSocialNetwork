@@ -52,6 +52,7 @@ public:
     QLabel *editCommentLabel;
     QPushButton *cancelEditComment;
     QPushButton *editButton;
+    QLabel *searchMessage;
 
     void setupUi(QDialog *FeedWindow)
     {
@@ -679,17 +680,27 @@ public:
         icon13.addFile(QString::fromUtf8(":/IMG/IMG/EditMsg512x512SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
         editButton->setIcon(icon13);
         editButton->setIconSize(QSize(40, 40));
+        searchMessage = new QLabel(FeedWindow);
+        searchMessage->setObjectName("searchMessage");
+        searchMessage->setGeometry(QRect(320, 420, 391, 51));
+        searchMessage->setFont(font);
+        searchMessage->setStyleSheet(QString::fromUtf8("QLabel\n"
+"{\n"
+"	background-color: white;\n"
+"	color: black;\n"
+"}"));
+        postList->raise();
         openMenuButton->raise();
         notificationButton->raise();
         updateFeedButton->raise();
         searchButton->raise();
-        postList->raise();
         addPostButton->raise();
         searchText->raise();
         line->raise();
         menuTableFrame->raise();
         line_2->raise();
         commentPostFrame->raise();
+        searchMessage->raise();
 
         retranslateUi(FeedWindow);
 
@@ -726,6 +737,7 @@ public:
         editCommentLabel->setText(QString());
         cancelEditComment->setText(QString());
         editButton->setText(QString());
+        searchMessage->setText(QCoreApplication::translate("FeedWindow", "\320\237\320\276\321\201\321\202\320\276\320\262 \321\201 \321\202\320\260\320\272\320\270\320\274 \320\267\320\260\320\263\320\276\320\273\320\276\320\262\320\272\320\276\320\274 \320\275\320\265 \320\275\320\260\320\271\320\264\320\265\320\275\320\276", nullptr));
     } // retranslateUi
 
 };
