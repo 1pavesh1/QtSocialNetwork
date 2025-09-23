@@ -38,7 +38,7 @@ void UserPostsWindow::HandlerGetUserPost(const PostList &postList)
     ui->postUserList->clear();
     for (const PostModel &post : postList.GetPostList())
     {
-        PostItemWidget      *postItemWidget = new PostItemWidget(post.GetUserModel(), post);
+        PostItemWidget      *postItemWidget = new PostItemWidget(post, userModel);
         QListWidgetItem     *item           = new QListWidgetItem();
 
         item->setSizeHint(postItemWidget->sizeHint());

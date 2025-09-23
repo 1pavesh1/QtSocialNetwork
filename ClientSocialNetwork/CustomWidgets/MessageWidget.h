@@ -99,8 +99,8 @@ private:
         messageLabel = new QLabel(this);
         messageLabel->setWordWrap(true);
         messageLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-        messageLabel->setMinimumWidth(message.size() * 10);
-        messageLabel->setMaximumWidth(message.size() * 15);
+        messageLabel->setFixedWidth(message.size() * 8 + 10);
+        messageLabel->adjustSize();
 
         contentLayout->addWidget(iconLabel);
         contentLayout->addWidget(messageLabel, 1);

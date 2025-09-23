@@ -76,7 +76,7 @@ void FeedWindow::HandlerGetPost(const PostList &postList)
     ui->searchMessage->setVisible(false);
     for (const PostModel &postModel : postList.GetPostList())
     {
-        PostItemWidget      *postItemWidget = new PostItemWidget(postModel.GetUserModel(), postModel);
+        PostItemWidget      *postItemWidget = new PostItemWidget(postModel, userModel);
         QListWidgetItem     *item           = new QListWidgetItem();
 
         item->setSizeHint(postItemWidget->sizeHint());
@@ -212,7 +212,7 @@ void FeedWindow::HandlerSearchPosts(const PostList &postList)
     ui->postList->clear();
     for (const PostModel &postModel : postList.GetPostList())
     {
-        PostItemWidget      *postItemWidget = new PostItemWidget(postModel.GetUserModel(), postModel);
+        PostItemWidget      *postItemWidget = new PostItemWidget(postModel, userModel);
         QListWidgetItem     *item           = new QListWidgetItem();
 
         item->setSizeHint(postItemWidget->sizeHint());

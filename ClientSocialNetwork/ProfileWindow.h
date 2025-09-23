@@ -7,6 +7,7 @@
 #include "AbstractClasses/BaseWindow.h"
 #include "MediaUtil/PhotoUtil.h"
 #include "MediaUtil/PathUtil.h"
+#include "TimeUtil/TimeUtil.h"
 
 namespace Ui {
 class ProfileWindow;
@@ -24,6 +25,7 @@ private:
 
     PhotoUtil               photoUtil;
     PathUtil                pathUtil;
+    TimeUtil                timeUtil;
 
     UserModel               userModel;
 

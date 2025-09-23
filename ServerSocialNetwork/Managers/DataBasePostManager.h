@@ -31,7 +31,7 @@ public:
         if (!postList.isEmpty())
             postList.clear();
 
-        query.prepare("SELECT * FROM post;");
+        query.prepare("SELECT TOP 5 * FROM post ORDER BY created_date DESC;");
 
         if (!query.exec())
         {
@@ -64,7 +64,7 @@ public:
         if (!postList.isEmpty())
             postList.clear();
 
-        query.prepare("SELECT * FROM post WHERE id_user = :id_user;");
+        query.prepare("SELECT TOP 5 * FROM post WHERE id_user = :id_user ORDER BY created_date DESC;");
         query.bindValue(":id_user", userModel.GetIdUser());
 
         if (!query.exec())
@@ -98,7 +98,7 @@ public:
         if (!postList.isEmpty())
             postList.clear();
 
-        query.prepare("SELECT * FROM post WHERE name = :name;");
+        query.prepare("SELECT * FROM post WHERE name = :name ORDER BY created_date DESC;");
         query.bindValue(":name", postModel.GetName());
 
         if (!query.exec())

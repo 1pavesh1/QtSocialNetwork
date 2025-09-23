@@ -56,8 +56,7 @@ void UsersWindow::HandlerGetUsers(const UserList &userList)
 
 void UsersWindow::HandlerGetUsersFailed()
 {
-    messageWidget = new MessageWidget(this, "Не получилось доставить данные", DANGER);
-    messageWidget->Show();
+
 }
 
 void UsersWindow::HandlerGetFriends(const UserList &userList)

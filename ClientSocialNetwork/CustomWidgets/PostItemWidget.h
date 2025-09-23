@@ -11,6 +11,7 @@
 #include "PostModel.h"
 #include "AbstractClasses/CustomWidget.h"
 #include "MediaUtil/PhotoUtil.h"
+#include "TimeUtil/TimeUtil.h"
 #include "CustomWidgets/AudioWidget.h"
 #include "CustomWidgets/VideoWidget.h"
 #include "CustomWidgets/FileWidget.h"
@@ -22,7 +23,9 @@ class PostItemWidget : public QWidget, public CustomWidget
 private:
     PostModel       postModel;
     UserModel       userModel;
+
     PhotoUtil       photoUtil;
+    TimeUtil        timeUtil;
 
     QLabel          *avatarLabel;
     QLabel          *loginLabel;
@@ -137,7 +140,7 @@ private:
 
         setLayout(mainLayout);
 
-        connect(likeButton, &QPushButton::clicked, this, [this]() {
+        connect(likeButton, &QPushButton::clicked, this, [this]() {       
             emit ClickOnLikeButton(postModel);
         });
         connect(commentButton, &QPushButton::clicked, this, [this]() {
@@ -160,7 +163,7 @@ private:
 
         loginLabel->setText(postModel.GetUserModel().GetLogin());
         postTitleLabel->setText(postModel.GetName());
-        dateCreateLabel->setText(postModel.GetCreatedDate());
+        dateCreateLabel->setText(timeUtil.FormatDateForDisplay(postModel.GetCreatedDate()));
         contentLabel->setText(postModel.GetTextContent().replace("\n", "<br>"));
 
         likeButton->setIcon(QIcon(":/IMG/IMG/LikePin50x50SN.png"));
@@ -277,8 +280,8 @@ private:
     }
 
 public:
-    PostItemWidget(const UserModel &userModel, const PostModel &postModel, QWidget *parent = nullptr)
-        : QWidget(parent), userModel(userModel), postModel(postModel)
+    PostItemWidget(const PostModel &postModel, const UserModel &userModel, QWidget *parent = nullptr)
+        : QWidget(parent), postModel(postModel), userModel(userModel)
     {
         InitializationInterface();
         SetupQCC();

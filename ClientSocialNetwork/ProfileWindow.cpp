@@ -117,7 +117,7 @@ void ProfileWindow::SetData(const UserModel &userModel)
     if (this->userModel.GetStatusOnline())
         ui->statusLabel->setText("В сети");
     else
-        ui->statusLabel->setText(this->userModel.GetEntryTime());
+        ui->statusLabel->setText(timeUtil.FormatDateForDisplay(this->userModel.GetEntryTime()));
 
     SocketManager::instance().CheckUserProfileQuery(this->userModel);
 }

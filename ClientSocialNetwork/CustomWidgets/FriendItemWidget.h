@@ -5,13 +5,16 @@
 #include "AbstractClasses/CustomWidget.h"
 #include "UserModel.h"
 #include "MediaUtil/PhotoUtil.h"
+#include "TimeUtil/TimeUtil.h"
 
 class FriendItemWidget : public QWidget, public CustomWidget
 {
     Q_OBJECT
 private:
     UserModel   userModel;
+
     PhotoUtil   photoUtil;
+    TimeUtil    timeUtil;
 
     QLabel      *statusLabel;
     QLabel      *loginLabel;
@@ -105,7 +108,7 @@ private:
         }
         else
         {
-            statusLabel->setText(userModel.GetEntryTime());
+            statusLabel->setText(timeUtil.FormatDateForDisplay(userModel.GetEntryTime()));
             statusLabel->setStyleSheet("color: black; font-size: 12px;");
         }
     }

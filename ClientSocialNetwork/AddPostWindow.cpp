@@ -96,35 +96,43 @@ void AddPostWindow::on_addMediaButton_clicked()
 
             file.close();
 
-            if (fileModel.GetFormat() == "png" || fileModel.GetFormat()  == "jpg" || fileModel.GetFormat()  == "jpeg" ||
-                fileModel.GetFormat()  == "bmp" || fileModel.GetFormat()  == "gif")
+            if (fileModel.GetFileData().isEmpty())
             {
-                fileModel.SetType("photo");
-                PhotoWidget *photoWidget = new PhotoWidget(fileModel, ui->mediaFrame);
-                ui->mediaFrame->layout()->addWidget(photoWidget);
+                messageWidget = new MessageWidget(this, "Файл пуст", WARNING);
+                messageWidget->Show();
             }
-            else if (fileModel.GetFormat() == "mp4" || fileModel.GetFormat() == "avi" || fileModel.GetFormat() == "mov")
+            else
             {
-                fileModel.SetType("video");
-                VideoWidget *videoWidget = new VideoWidget(fileModel, ui->mediaFrame);
-                ui->mediaFrame->layout()->addWidget(videoWidget);
-            }
-            else if (fileModel.GetFormat() == "mp3" || fileModel.GetFormat() == "wav" || fileModel.GetFormat() == "ogg")
-            {
-                fileModel.SetType("audio");
-                AudioWidget *audioWidget = new AudioWidget(fileModel, ui->mediaFrame);
-                ui->mediaFrame->layout()->addWidget(audioWidget);
-            }
-            else if (fileModel.GetFormat() == "pdf" || fileModel.GetFormat() == "doc" || fileModel.GetFormat() == "docx")
-            {
-                fileModel.SetType("file");
-                FileWidget *fileWidget = new FileWidget(fileModel, ui->mediaFrame);
-                ui->mediaFrame->layout()->addWidget(fileWidget);
-            }
+                if (fileModel.GetFormat() == "png" || fileModel.GetFormat()  == "jpg" || fileModel.GetFormat()  == "jpeg" ||
+                    fileModel.GetFormat()  == "bmp" || fileModel.GetFormat()  == "gif")
+                {
+                    fileModel.SetType("photo");
+                    PhotoWidget *photoWidget = new PhotoWidget(fileModel, ui->mediaFrame);
+                    ui->mediaFrame->layout()->addWidget(photoWidget);
+                }
+                else if (fileModel.GetFormat() == "mp4" || fileModel.GetFormat() == "avi" || fileModel.GetFormat() == "mov")
+                {
+                    fileModel.SetType("video");
+                    VideoWidget *videoWidget = new VideoWidget(fileModel, ui->mediaFrame);
+                    ui->mediaFrame->layout()->addWidget(videoWidget);
+                }
+                else if (fileModel.GetFormat() == "mp3" || fileModel.GetFormat() == "wav" || fileModel.GetFormat() == "ogg")
+                {
+                    fileModel.SetType("audio");
+                    AudioWidget *audioWidget = new AudioWidget(fileModel, ui->mediaFrame);
+                    ui->mediaFrame->layout()->addWidget(audioWidget);
+                }
+                else if (fileModel.GetFormat() == "pdf" || fileModel.GetFormat() == "doc" || fileModel.GetFormat() == "docx")
+                {
+                    fileModel.SetType("file");
+                    FileWidget *fileWidget = new FileWidget(fileModel, ui->mediaFrame);
+                    ui->mediaFrame->layout()->addWidget(fileWidget);
+                }
 
-            postModel.SetFileModel(fileModel);
+                postModel.SetFileModel(fileModel);
 
-            ui->mediaFrame->setVisible(true);
+                ui->mediaFrame->setVisible(true);
+            }
         }
         else
         {

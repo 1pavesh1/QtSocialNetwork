@@ -38,7 +38,6 @@ public:
             tempUserModel.SetEmail(query.value(4).toString());
             tempUserModel.SetDateBithday(query.value(6).toString());
             tempUserModel.SetFileModel(dbFileManager.GetFileInUser(tempUserModel, dataBase));
-
         }
 
         return tempUserModel;
@@ -202,7 +201,7 @@ public:
 
     bool UpdatePhotoUser(const UserModel &userModel, const QSqlDatabase &dataBase)
     {
-        if (dbFileManager.CheckFileRecordInUser(userModel, dataBase))
+        if (!dbFileManager.CheckFileRecordInUser(userModel, dataBase))
         {
             if (fileWriter.DeleteFile(userModel.GetFileModel())
                 && fileWriter.SaveFileOnServer(userModel.GetFileModel()))

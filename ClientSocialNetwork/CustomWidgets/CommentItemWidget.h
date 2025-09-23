@@ -6,6 +6,7 @@
 #include "Models/UserModel.h"
 #include "AbstractClasses/CustomWidget.h"
 #include "MediaUtil/PhotoUtil.h"
+#include "TimeUtil/TimeUtil.h"
 
 class CommentItemWidget : public QWidget, public CustomWidget
 {
@@ -15,6 +16,7 @@ private:
     UserModel       userModel;
 
     PhotoUtil       photoUtil;
+    TimeUtil        timeUtil;
 
     QLabel          *avatarLabel;
     QLabel          *loginLabel;
@@ -57,7 +59,7 @@ private:
         timeLabel->setObjectName("time");
 
         if (commentModel.IsEdited())
-            timeLabel->setText("редактирован " + commentModel.GetCreatedDate());
+            timeLabel->setText("редактирован " + timeUtil.FormatDateForDisplay(commentModel.GetCreatedDate()));
         else
             timeLabel->setText(commentModel.GetCreatedDate());
 

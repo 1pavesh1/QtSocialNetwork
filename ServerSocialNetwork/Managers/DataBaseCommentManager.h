@@ -20,7 +20,7 @@ public:
         QList <CommentModel>            commentList;
         QSqlQuery                       query(dataBase);
 
-        query.prepare("SELECT * FROM comment WHERE id_post = :id_post;");
+        query.prepare("SELECT * FROM comment WHERE id_post = :id_post ORDER BY created_date DESC;");
         query.bindValue(":id_post", postModel.GetIdPost());
 
         if (!query.exec())
