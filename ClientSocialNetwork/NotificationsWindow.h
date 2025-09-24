@@ -31,7 +31,7 @@ private:
     void HandlerGetNotificationFailed();
     void CancelNotification(const NotificationModel &notificationModel);
     void AcceptNotification(const NotificationModel &notificationModel);
-    void DeleteNotififcationFromTable(const NotificationModel &notificationModel);
+    void DeleteNotififcationFromTable(const UserModel &userModel);
 
 public:
     explicit NotificationsWindow(QWidget *parent = nullptr);

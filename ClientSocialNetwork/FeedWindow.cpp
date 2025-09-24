@@ -36,6 +36,7 @@ void FeedWindow::ConnectSlots()
     connect(timer, &QTimer::timeout, this, &FeedWindow::CheckCursorPosition);
     connect(&SocketManager::instance(), &SocketManager::UserUpdateData, this, &FeedWindow::SetData);
     connect(&SocketManager::instance(), &SocketManager::UserChangePhoto, this, &FeedWindow::SetData);
+    connect(&SocketManager::instance(), &SocketManager::ChangeCountFriends, this, &FeedWindow::SetData);
     connect(&SocketManager::instance(), &SocketManager::GetPost, this, &FeedWindow::HandlerGetPost);
     connect(&SocketManager::instance(), &SocketManager::GetPostFailed, this, &FeedWindow::HandlerGetPostFailed);
     connect(&SocketManager::instance(), &SocketManager::DeletePost, this, &FeedWindow::HandlerDeletePost);

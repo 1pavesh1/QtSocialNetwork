@@ -46,7 +46,7 @@ void NotificationsWindow::HandlerGetNotification(const NotificationList &notific
         QListWidgetItem         *item                   = new QListWidgetItem();
 
         item->setSizeHint(notificationItemWidget->sizeHint());
-        item->setData(Qt::UserRole, notificationModel.GetIdNotification());
+        item->setData(Qt::UserRole, notificationModel.GetIdUserAccepter());
 
         ui->notificationsList->addItem(item);
         ui->notificationsList->setItemWidget(item, notificationItemWidget);
@@ -71,12 +71,12 @@ void NotificationsWindow::AcceptNotification(const NotificationModel &notificati
     SocketManager::instance().AcceptNotificationQuery(notificationModel);
 }
 
-void NotificationsWindow::DeleteNotififcationFromTable(const NotificationModel &notificationModel)
+void NotificationsWindow::DeleteNotififcationFromTable(const UserModel &userModel)
 {
     for (qint32 i = 0; i < ui->notificationsList->count(); ++i)
     {
         QListWidgetItem* item = ui->notificationsList->item(i);
-        if (item->data(Qt::UserRole).toInt() == notificationModel.GetIdNotification())
+        if (item->data(Qt::UserRole).toInt() == userModel.GetIdUser())
         {
             delete ui->notificationsList->takeItem(i);
             break;

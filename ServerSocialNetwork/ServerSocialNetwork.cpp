@@ -310,9 +310,7 @@ void ServerSocialNetwork::AddUser(const UserModel &userModel, QTcpSocket *socket
     dbNotificationManager.AddNotification(userServerManager.GetUserInSocket(userServerMap, socket),
                                           userModel,
                                           dbConnectManager.GetDataBase());
-    SendDataToClient(dbFriendsManager.GetRelationship(userServerManager.GetUserInSocket(userServerMap, socket),
-                                                      userModel,
-                                                      dbConnectManager.GetDataBase()), userModel, socket);
+    SendDataToClient(ADD_FRIEND_ANSWER, userModel, socket);
 }
 
 void ServerSocialNetwork::CancelUser(const UserModel &userModel, QTcpSocket *socket)
@@ -320,19 +318,18 @@ void ServerSocialNetwork::CancelUser(const UserModel &userModel, QTcpSocket *soc
     dbNotificationManager.DeleteNotificationInUser(userServerManager.GetUserInSocket(userServerMap, socket),
                                                    userModel,
                                                    dbConnectManager.GetDataBase());
-    SendDataToClient(dbFriendsManager.GetRelationship(userServerManager.GetUserInSocket(userServerMap, socket),
-                                                      userModel,
-                                                      dbConnectManager.GetDataBase()), userModel, socket);
+    SendDataToClient(CANCEL_FRIEND_ANSWER, userModel, socket);
 }
 
 void ServerSocialNetwork::DeleteUser(const UserModel &userModel, QTcpSocket *socket)
 {
-    dbFriendsManager.DeleteFriend(userServerManager.GetUserInSocket(userServerMap, socket),
+    UserModel tempUserModel = userServerManager.GetUserInSocket(userServerMap, socket);
+    tempUserModel.SetCountFriends(tempUserModel.GetCountFriends() - 1);
+    userServerManager.ReplaceUser(userServerMap, socket, tempUserModel);
+    dbFriendsManager.DeleteFriend(tempUserModel,
                                   userModel,
                                   dbConnectManager.GetDataBase());
-    SendDataToClient(dbFriendsManager.GetRelationship(userServerManager.GetUserInSocket(userServerMap, socket),
-                                                      userModel,
-                                                      dbConnectManager.GetDataBase()), userModel, socket);
+    SendDataToClient(DELETE_FRIEND_ANSWER, tempUserModel, socket);
 }
 
 void ServerSocialNetwork::GetNotifications(const UserModel &userModel, QTcpSocket *socket)
@@ -345,7 +342,10 @@ void ServerSocialNetwork::GetNotifications(const UserModel &userModel, QTcpSocke
 void ServerSocialNetwork::AcceptNotification(const NotificationModel &notificationModel, QTcpSocket *socket)
 {
     dbNotificationManager.AcceptNotifciation(notificationModel, dbConnectManager.GetDataBase());
-    SendDataToClient(ACCEPT_NOTIIFICATION_QUERY, notificationModel, socket);
+    UserModel userModel = userServerManager.GetUserInSocket(userServerMap, socket);
+    userModel.SetCountFriends(userModel.GetCountFriends() + 1);
+    userServerManager.ReplaceUser(userServerMap, socket, userModel);
+    SendDataToClient(ACCEPT_NOTIIFICATION_QUERY, userModel, socket);
 }
 
 void ServerSocialNetwork::CancelNotification(const NotificationModel &notificationModel, QTcpSocket *socket)

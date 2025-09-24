@@ -35,7 +35,9 @@ private:
     void HandleUserNotMain();
     void HandleUserChangePhoto(const UserModel &userModel);
     void HandleUserChangePhotoFailed();
-    void HandleUserRelationship(const TypeQuery &typeRelationship);
+    void HandleUserRelationshipFriend();
+    void HandleUserRelationshipNotFriend();
+    void HandleUserRelationshipWaitFriend();
 
 public:
     explicit ProfileWindow(QWidget *parent = nullptr);

@@ -128,13 +128,16 @@ signals:
     void GetFriends(const UserList &userList);
     void GetFriendsFailed();
     // Получение статуса отношений пользователя
-    void CheckRelationship(const TypeQuery &relationship);
+    void RelationshipFriend();
+    void RelationshipNotFriend();
+    void RelationshipWaitFriend();
     // Получение уведомлений
     void GetNotifications(const NotificationList &notificationList);
     void GetNotificationsFailed();
     // Принятие и отказ от уведомлений
-    void AcceptNotification(const NotificationModel &notificationModel);
-    void CancelNotification(const NotificationModel &notificationModel);
+    void AcceptNotification(const UserModel &userModel);
+    void CancelNotification(const UserModel &userModel);
+    void ChangeCountFriends(const UserModel userModel);
     // Удаление, добавлений и отмена запроса в друзья
     void AddFriend(const TypeQuery &typeQuery);
     void CancelFriend(const TypeQuery &typeQuery);

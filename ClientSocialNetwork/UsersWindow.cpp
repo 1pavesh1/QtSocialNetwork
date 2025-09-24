@@ -28,6 +28,7 @@ void UsersWindow::ConnectSlots()
     connect(&SocketManager::instance(), &SocketManager::GetFriendsFailed, this, &UsersWindow::HandlerGetFriendsFailed);
     connect(&SocketManager::instance(), &SocketManager::SearchUsers, this, &UsersWindow::HandlerSearchUsers);
     connect(&SocketManager::instance(), &SocketManager::SearchUsersFailed, this, &UsersWindow::HandlerSearchUsersFailed);
+    connect(&SocketManager::instance(), &SocketManager::ChangeCountFriends, this, &UsersWindow::SetData);
     connect(ui->usersList, &QListWidget::itemClicked, this, &UsersWindow::OnUserClicked);
 }
 

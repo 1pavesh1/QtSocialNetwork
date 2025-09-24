@@ -43,7 +43,7 @@ public:
         return tempUserModel;
     }
 
-    bool RegUser(const UserModel &userModel, const QSqlDatabase &dataBase)
+    bool RegUser(UserModel &userModel, const QSqlDatabase &dataBase)
     {
         QSqlQuery query(dataBase);
 
@@ -58,6 +58,28 @@ public:
         {
             qDebug() << query.lastError().text();
             return false;
+        }
+
+        query.prepare("SELECT * FROM users WHERE login = :login AND password = :password AND phone = :phone;");
+        query.bindValue(":login", userModel.GetLogin());
+        query.bindValue(":password", userModel.GetPassword());
+        query.bindValue(":phone", userModel.GetPhone());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+            return false;
+        }
+        if (query.next())
+        {
+            if (userModel.GetLogin() == query.value(1).toString() && userModel.GetPassword() == query.value(2).toString()
+                && userModel.GetPhone() == query.value(3).toString())
+            {
+                userModel.SetIdUser(query.value(0).toInt());
+                userModel.SetStatus(true);
+
+                return true;
+            }
         }
 
         return true;

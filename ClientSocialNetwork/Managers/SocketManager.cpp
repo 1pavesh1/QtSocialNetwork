@@ -107,11 +107,11 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
         ReadGetNotification(typeQuery);
         break;
     case ACCEPT_NOTIIFICATION_QUERY: case CANCEL_NOTIIFICATION_QUERY:
-        dataFromServer >> notificationModel;
+        dataFromServer >> userModel;
         ReadNotificationAnswer(typeQuery);
         break;
     case ADD_FRIEND_ANSWER: case CANCEL_FRIEND_ANSWER: case DELETE_FRIEND_ANSWER:
-        dataFromServer >> tempUser;
+        dataFromServer >> userModel;
         ReadFriendAnswer(typeQuery);
         break;
     case ADD_POST_QUERY: case ADD_POST_FAILED_ANSWER:
@@ -366,7 +366,12 @@ void SocketManager::ReadGetFriends(const TypeQuery &typeQuery)
 
 void SocketManager::ReadGetRelationship(const TypeQuery &typeQuery)
 {
-    emit CheckRelationship(typeQuery);
+    if (typeQuery == RELATIONSHIP_FRIEND_ANSWER)
+        emit RelationshipFriend();
+    else if (typeQuery == RELATIONSHIP_NOT_FRIEND_ANSWER)
+        emit RelationshipNotFriend();
+    else if (typeQuery == RELATIONSHIP_WAIT_NOTIFICATION_ANSWER)
+        emit RelationshipWaitFriend();
 }
 
 void SocketManager::ReadGetNotification(const TypeQuery &typeQuery)
@@ -380,14 +385,27 @@ void SocketManager::ReadGetNotification(const TypeQuery &typeQuery)
 void SocketManager::ReadNotificationAnswer(const TypeQuery &typeQuery)
 {
     if (typeQuery == ACCEPT_NOTIIFICATION_QUERY)
-        emit AcceptNotification(notificationModel);
+    {
+        qDebug() << userModel.GetLogin() << " " << userModel.GetCountFriends();
+        emit AcceptNotification(userModel);
+        emit ChangeCountFriends(userModel);
+    }
     else
-        emit CancelNotification(notificationModel);
+        emit CancelNotification(userModel);
 }
 
 void SocketManager::ReadFriendAnswer(const TypeQuery &typeQuery)
 {
-    emit CheckRelationship(typeQuery);
+    if (typeQuery == ADD_FRIEND_ANSWER)
+        emit RelationshipWaitFriend();
+    else if (typeQuery == DELETE_FRIEND_ANSWER)
+    {
+        qDebug() << userModel.GetLogin() << " " << userModel.GetCountFriends();
+        emit ChangeCountFriends(userModel);
+        emit RelationshipNotFriend();
+    }
+    else if (typeQuery == CANCEL_FRIEND_ANSWER)
+        emit RelationshipNotFriend();
 }
 
 void SocketManager::ReadAddPostAnswer(const TypeQuery &typeQuery)
