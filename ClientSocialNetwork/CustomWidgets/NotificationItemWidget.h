@@ -13,7 +13,7 @@ private:
     NotificationModel   notificationModel;
     PhotoUtil           photoUtil;
 
-    QLabel              *avatarLabel;
+    QPushButton         *avatarButton;
     QLabel              *messageLabel;
     QPushButton         *acceptButton;
     QPushButton         *cancelButton;
@@ -24,9 +24,11 @@ private:
         mainLayout->setSpacing(12);
         mainLayout->setContentsMargins(8, 8, 8, 8);
 
-        avatarLabel = new QLabel(this);
-        avatarLabel->setObjectName("avatarLabel");
-        avatarLabel->setFixedSize(70, 70);
+        avatarButton = new QPushButton(this);
+        avatarButton->setCursor(Qt::PointingHandCursor);
+        avatarButton->setFixedSize(70, 70);
+        avatarButton->setIconSize(QSize(70, 70));
+        avatarButton->setStyleSheet("border-radius: 25px; background: transparent;");
 
         QVBoxLayout *contentLayout = new QVBoxLayout();
         contentLayout->setSpacing(8);
@@ -51,9 +53,12 @@ private:
         contentLayout->addWidget(messageLabel);
         contentLayout->addLayout(buttonsLayout);
 
-        mainLayout->addWidget(avatarLabel);
+        mainLayout->addWidget(avatarButton);
         mainLayout->addLayout(contentLayout);
 
+        connect(avatarButton, &QPushButton::clicked, this, [this]() {
+            emit ClickOnAvatarButton(notificationModel.GetUserModel());
+        });
         connect(acceptButton, &QPushButton::clicked, [this]() {
             emit ClickOnAcceptButton(notificationModel);
         });
@@ -66,11 +71,10 @@ private:
     void LoadContent() override
     {
         if (!notificationModel.GetUserModel().GetFileModel().GetFileData().isEmpty())
-            avatarLabel->setPixmap(photoUtil.GetHandlerPhoto(
-                notificationModel.GetUserModel().GetFileModel().GetFileData(), QSize(70, 70)));
+            avatarButton->setIcon(QIcon(photoUtil.GetHandlerPhoto(notificationModel.GetUserModel().GetFileModel().GetFileData(), avatarButton->size())));
         else
-            avatarLabel->setPixmap(QPixmap(":/IMG/IMG/DefultProfile75x75SN.png")
-                                       .scaled(70, 70, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            avatarButton->setIcon(QPixmap(":/IMG/IMG/DefultProfile75x75SN.png")
+                                      .scaled(70, 70, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
         QString message;
         if (notificationModel.GetQuery() == "ADD_USER")
@@ -164,6 +168,7 @@ public:
     }
 
 signals:
+    void ClickOnAvatarButton(const UserModel &userModel);
     void ClickOnAcceptButton(const NotificationModel &notificationModel);
     void ClickOnCancelButton(const NotificationModel &notificationModel);
 };

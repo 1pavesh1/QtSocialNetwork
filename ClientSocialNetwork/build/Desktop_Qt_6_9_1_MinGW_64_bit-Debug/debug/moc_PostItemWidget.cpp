@@ -40,8 +40,11 @@ template <> constexpr inline auto PostItemWidget::qt_create_metaobjectdata<qt_me
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "PostItemWidget",
-        "ClickOnLikeButton",
+        "ClickOnAvatarButton",
         "",
+        "UserModel",
+        "userModel",
+        "ClickOnLikeButton",
         "PostModel",
         "postModel",
         "ClickOnCommentButton",
@@ -51,25 +54,29 @@ template <> constexpr inline auto PostItemWidget::qt_create_metaobjectdata<qt_me
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Signal 'ClickOnLikeButton'
-        QtMocHelpers::SignalData<void(const PostModel &)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
+        // Signal 'ClickOnAvatarButton'
+        QtMocHelpers::SignalData<void(const UserModel &)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 3, 4 },
+        }}),
+        // Signal 'ClickOnLikeButton'
+        QtMocHelpers::SignalData<void(const PostModel &)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 6, 7 },
         }}),
         // Signal 'ClickOnCommentButton'
-        QtMocHelpers::SignalData<void(const PostModel &)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { 0x80000000 | 3, 4 },
+        QtMocHelpers::SignalData<void(const PostModel &)>(8, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 6, 7 },
         }}),
         // Signal 'ClickOnDownload'
-        QtMocHelpers::SignalData<void(const PostModel &)>(6, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { 0x80000000 | 3, 4 },
+        QtMocHelpers::SignalData<void(const PostModel &)>(9, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 6, 7 },
         }}),
         // Signal 'ClickOnEdit'
-        QtMocHelpers::SignalData<void(const PostModel &)>(7, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { 0x80000000 | 3, 4 },
+        QtMocHelpers::SignalData<void(const PostModel &)>(10, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 6, 7 },
         }}),
         // Signal 'ClickOnDelete'
-        QtMocHelpers::SignalData<void(const PostModel &)>(8, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { 0x80000000 | 3, 4 },
+        QtMocHelpers::SignalData<void(const PostModel &)>(11, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 6, 7 },
         }}),
     };
     QtMocHelpers::UintData qt_properties {
@@ -94,24 +101,27 @@ void PostItemWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
     auto *_t = static_cast<PostItemWidget *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->ClickOnLikeButton((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
-        case 1: _t->ClickOnCommentButton((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
-        case 2: _t->ClickOnDownload((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
-        case 3: _t->ClickOnEdit((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
-        case 4: _t->ClickOnDelete((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 0: _t->ClickOnAvatarButton((*reinterpret_cast< std::add_pointer_t<UserModel>>(_a[1]))); break;
+        case 1: _t->ClickOnLikeButton((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 2: _t->ClickOnCommentButton((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 3: _t->ClickOnDownload((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 4: _t->ClickOnEdit((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 5: _t->ClickOnDelete((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
         default: ;
         }
     }
     if (_c == QMetaObject::IndexOfMethod) {
-        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnLikeButton, 0))
+        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const UserModel & )>(_a, &PostItemWidget::ClickOnAvatarButton, 0))
             return;
-        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnCommentButton, 1))
+        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnLikeButton, 1))
             return;
-        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnDownload, 2))
+        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnCommentButton, 2))
             return;
-        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnEdit, 3))
+        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnDownload, 3))
             return;
-        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnDelete, 4))
+        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnEdit, 4))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (PostItemWidget::*)(const PostModel & )>(_a, &PostItemWidget::ClickOnDelete, 5))
             return;
     }
 }
@@ -137,45 +147,51 @@ int PostItemWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 6;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 6)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
 }
 
 // SIGNAL 0
-void PostItemWidget::ClickOnLikeButton(const PostModel & _t1)
+void PostItemWidget::ClickOnAvatarButton(const UserModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 0, nullptr, _t1);
 }
 
 // SIGNAL 1
-void PostItemWidget::ClickOnCommentButton(const PostModel & _t1)
+void PostItemWidget::ClickOnLikeButton(const PostModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 1, nullptr, _t1);
 }
 
 // SIGNAL 2
-void PostItemWidget::ClickOnDownload(const PostModel & _t1)
+void PostItemWidget::ClickOnCommentButton(const PostModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 2, nullptr, _t1);
 }
 
 // SIGNAL 3
-void PostItemWidget::ClickOnEdit(const PostModel & _t1)
+void PostItemWidget::ClickOnDownload(const PostModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 3, nullptr, _t1);
 }
 
 // SIGNAL 4
-void PostItemWidget::ClickOnDelete(const PostModel & _t1)
+void PostItemWidget::ClickOnEdit(const PostModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 4, nullptr, _t1);
+}
+
+// SIGNAL 5
+void PostItemWidget::ClickOnDelete(const PostModel & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 5, nullptr, _t1);
 }
 QT_WARNING_POP

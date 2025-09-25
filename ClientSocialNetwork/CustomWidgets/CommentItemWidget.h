@@ -18,7 +18,7 @@ private:
     PhotoUtil       photoUtil;
     TimeUtil        timeUtil;
 
-    QLabel          *avatarLabel;
+    QPushButton     *avatarButton;
     QLabel          *loginLabel;
     QLabel          *timeLabel;
     QLabel          *contentLabel;
@@ -33,9 +33,11 @@ private:
         mainLayout->setContentsMargins(0, 0, 0, 0);
         mainLayout->setSpacing(12);
 
-        avatarLabel = new QLabel(this);
-        avatarLabel->setFixedSize(50, 50);
-        avatarLabel->setStyleSheet("border-radius: 25px; background: transparent;");
+        avatarButton = new QPushButton(this);
+        avatarButton->setCursor(Qt::PointingHandCursor);
+        avatarButton->setFixedSize(50, 50);
+        avatarButton->setIconSize(QSize(50, 50));
+        avatarButton->setStyleSheet("border-radius: 25px; background: transparent;");
 
         QWidget *contentWidget = new QWidget(this);
         contentWidget->setStyleSheet("background: transparent;");
@@ -61,7 +63,7 @@ private:
         if (commentModel.IsEdited())
             timeLabel->setText("редактирован " + timeUtil.FormatDateForDisplay(commentModel.GetCreatedDate()));
         else
-            timeLabel->setText(commentModel.GetCreatedDate());
+            timeLabel->setText(timeUtil.FormatDateForDisplay(commentModel.GetCreatedDate()));
 
         contentLabel = new QLabel(commentModel.GetTextContent(), contentWidget);
         contentLabel->setObjectName("content");
@@ -82,7 +84,7 @@ private:
         gridLayout->setColumnStretch(0, 1);
         gridLayout->setRowStretch(1, 1);
 
-        mainLayout->addWidget(avatarLabel);
+        mainLayout->addWidget(avatarButton);
         mainLayout->addWidget(contentWidget, 1);
 
         setLayout(mainLayout);
@@ -95,6 +97,9 @@ private:
         contextMenu->addAction(editAction);
         contextMenu->addAction(deleteAction);
 
+        connect(avatarButton, &QPushButton::clicked, this, [this]() {
+            emit ClickOnAvatarButton(commentModel.GetUserModel());
+        });
         connect(menuButton, &QPushButton::clicked, [this]() {
             contextMenu->exec(menuButton->mapToGlobal(QPoint(0, menuButton->height())));
         });
@@ -175,10 +180,9 @@ private:
     void LoadContent() override
     {
         if (!commentModel.GetUserModel().GetFileModel().GetFileData().isEmpty())
-            avatarLabel->setPixmap(photoUtil.GetHandlerPhoto(
-                commentModel.GetUserModel().GetFileModel().GetFileData(), avatarLabel->size()));
+            avatarButton->setIcon(QIcon(photoUtil.GetHandlerPhoto(commentModel.GetUserModel().GetFileModel().GetFileData(), avatarButton->size())));
         else
-            avatarLabel->setPixmap(QPixmap(":/IMG/IMG/DefultProfilePin40x40SN.png")
+            avatarButton->setIcon(QPixmap(":/IMG/IMG/DefultProfilePin40x40SN.png")
                                        .scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
 
@@ -232,6 +236,7 @@ public:
     }
 
 signals:
+    void ClickOnAvatarButton(const UserModel &userModel);
     void ClickOnEdit(const CommentModel &commentModel);
     void ClickOnDelete(const CommentModel &commentModel);
 };

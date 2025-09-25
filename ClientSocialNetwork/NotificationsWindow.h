@@ -1,6 +1,7 @@
 #ifndef NOTIFICATIONSWINDOW_H
 #define NOTIFICATIONSWINDOW_H
 
+#include "ProfileWindow.h"
 #include "UserModel.h"
 #include "ModelList/NotificationList.h"
 #include "Managers/SocketManager.h"
@@ -17,6 +18,8 @@ class NotificationsWindow : public BaseWindow
 private:
     Ui::NotificationsWindow         *ui;
 
+    class ProfileWindow             *profileWindow;
+
     UserModel                       userModel;
 
     NotificationModel               notificationModel;
@@ -29,6 +32,7 @@ private:
     void ConnectNotificationSlots(const NotificationItemWidget *notificationItemWidget);
     void HandlerGetNotification(const NotificationList &notificationList);
     void HandlerGetNotificationFailed();
+    void OnAvatarClicked(const UserModel &userModel);
     void CancelNotification(const NotificationModel &notificationModel);
     void AcceptNotification(const NotificationModel &notificationModel);
     void DeleteNotififcationFromTable(const UserModel &userModel);

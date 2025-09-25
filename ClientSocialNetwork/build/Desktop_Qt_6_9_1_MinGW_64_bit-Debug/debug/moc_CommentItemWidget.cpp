@@ -39,21 +39,28 @@ template <> constexpr inline auto CommentItemWidget::qt_create_metaobjectdata<qt
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "CommentItemWidget",
-        "ClickOnEdit",
+        "ClickOnAvatarButton",
         "",
+        "UserModel",
+        "userModel",
+        "ClickOnEdit",
         "CommentModel",
         "commentModel",
         "ClickOnDelete"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Signal 'ClickOnEdit'
-        QtMocHelpers::SignalData<void(const CommentModel &)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
+        // Signal 'ClickOnAvatarButton'
+        QtMocHelpers::SignalData<void(const UserModel &)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 3, 4 },
         }}),
-        // Signal 'ClickOnDelete'
+        // Signal 'ClickOnEdit'
         QtMocHelpers::SignalData<void(const CommentModel &)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { 0x80000000 | 3, 4 },
+            { 0x80000000 | 6, 7 },
+        }}),
+        // Signal 'ClickOnDelete'
+        QtMocHelpers::SignalData<void(const CommentModel &)>(8, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 6, 7 },
         }}),
     };
     QtMocHelpers::UintData qt_properties {
@@ -78,15 +85,18 @@ void CommentItemWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
     auto *_t = static_cast<CommentItemWidget *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->ClickOnEdit((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
-        case 1: _t->ClickOnDelete((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
+        case 0: _t->ClickOnAvatarButton((*reinterpret_cast< std::add_pointer_t<UserModel>>(_a[1]))); break;
+        case 1: _t->ClickOnEdit((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
+        case 2: _t->ClickOnDelete((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
         default: ;
         }
     }
     if (_c == QMetaObject::IndexOfMethod) {
-        if (QtMocHelpers::indexOfMethod<void (CommentItemWidget::*)(const CommentModel & )>(_a, &CommentItemWidget::ClickOnEdit, 0))
+        if (QtMocHelpers::indexOfMethod<void (CommentItemWidget::*)(const UserModel & )>(_a, &CommentItemWidget::ClickOnAvatarButton, 0))
             return;
-        if (QtMocHelpers::indexOfMethod<void (CommentItemWidget::*)(const CommentModel & )>(_a, &CommentItemWidget::ClickOnDelete, 1))
+        if (QtMocHelpers::indexOfMethod<void (CommentItemWidget::*)(const CommentModel & )>(_a, &CommentItemWidget::ClickOnEdit, 1))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (CommentItemWidget::*)(const CommentModel & )>(_a, &CommentItemWidget::ClickOnDelete, 2))
             return;
     }
 }
@@ -112,27 +122,33 @@ int CommentItemWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 3)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }
 
 // SIGNAL 0
-void CommentItemWidget::ClickOnEdit(const CommentModel & _t1)
+void CommentItemWidget::ClickOnAvatarButton(const UserModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 0, nullptr, _t1);
 }
 
 // SIGNAL 1
-void CommentItemWidget::ClickOnDelete(const CommentModel & _t1)
+void CommentItemWidget::ClickOnEdit(const CommentModel & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 1, nullptr, _t1);
+}
+
+// SIGNAL 2
+void CommentItemWidget::ClickOnDelete(const CommentModel & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 2, nullptr, _t1);
 }
 QT_WARNING_POP

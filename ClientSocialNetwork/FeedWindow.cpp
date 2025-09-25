@@ -35,8 +35,8 @@ void FeedWindow::ConnectSlots()
     timer->start(1);
     connect(timer, &QTimer::timeout, this, &FeedWindow::CheckCursorPosition);
     connect(&SocketManager::instance(), &SocketManager::UserUpdateData, this, &FeedWindow::SetData);
-    connect(&SocketManager::instance(), &SocketManager::UserChangePhoto, this, &FeedWindow::SetData);
-    connect(&SocketManager::instance(), &SocketManager::ChangeCountFriends, this, &FeedWindow::SetData);
+    connect(&SocketManager::instance(), &SocketManager::UserChangePhoto, this, &FeedWindow::HandlerChangePhoto);
+    connect(&SocketManager::instance(), &SocketManager::ChangeCountFriends, this, &FeedWindow::HandlerChangeCountFriends);
     connect(&SocketManager::instance(), &SocketManager::GetPost, this, &FeedWindow::HandlerGetPost);
     connect(&SocketManager::instance(), &SocketManager::GetPostFailed, this, &FeedWindow::HandlerGetPostFailed);
     connect(&SocketManager::instance(), &SocketManager::DeletePost, this, &FeedWindow::HandlerDeletePost);
@@ -55,14 +55,17 @@ void FeedWindow::ConnectSlots()
 
 void FeedWindow::ConnectPostSlots(const PostItemWidget *postItemWidget)
 {
+    connect(postItemWidget, &PostItemWidget::ClickOnAvatarButton, this, &FeedWindow::OnAvatarClicked);
     connect(postItemWidget, &PostItemWidget::ClickOnLikeButton, this, &FeedWindow::OnLikeClicked);
     connect(postItemWidget, &PostItemWidget::ClickOnCommentButton, this, &FeedWindow::OnCommentClicked);
+    connect(postItemWidget, &PostItemWidget::ClickOnDownload, this, &FeedWindow::DownloadFile);
     connect(postItemWidget, &PostItemWidget::ClickOnEdit, this, &FeedWindow::EditPost);
     connect(postItemWidget, &PostItemWidget::ClickOnDelete, this, &FeedWindow::DeletePost);
 }
 
 void FeedWindow::ConnectCommentSlots(const CommentItemWidget *commentItemWidget)
 {
+    connect(commentItemWidget, &CommentItemWidget::ClickOnAvatarButton, this, &FeedWindow::OnAvatarClicked);
     connect(commentItemWidget, &CommentItemWidget::ClickOnEdit, this, &FeedWindow::OnEditComment);
     connect(commentItemWidget, &CommentItemWidget::ClickOnDelete, this, &FeedWindow::OnDeleteComment);
 }
@@ -234,6 +237,58 @@ void FeedWindow::HandlerSearchPostsFailed()
 void FeedWindow::DeletePost(const PostModel &postModel)
 {
     SocketManager::instance().DeletePostQuery(postModel);
+}
+
+void FeedWindow::HandlerChangePhoto(const UserModel &userModel)
+{
+    this->userModel = userModel;
+
+    ui->profilePinButton->setIcon(QIcon(photoUtil.GetHandlerPhoto(this->userModel.GetFileModel().GetFileData(), ui->profilePinButton->size())));
+}
+
+void FeedWindow::HandlerChangeCountFriends(const UserModel &userModel)
+{
+    this->userModel = userModel;
+}
+
+void FeedWindow::DownloadFile(const PostModel &postModel)
+{
+    FileModel fileModel = postModel.GetFileModel();
+
+    QString originalFileName = fileModel.GetName();
+    QString fileExtension = fileModel.GetFormat();
+
+    QString filter = fileExtension.toUpper() + " Files (*." + fileExtension + ")";
+
+    QString filePath = QFileDialog::getSaveFileName(
+        this,
+        "Сохранить файл",
+        QDir::homePath() + "/" + originalFileName,
+        filter + ";;All Files (*)"
+        );
+
+    if (filePath.isEmpty()) {
+        return;
+    }
+
+    if (QFileInfo(filePath).suffix().isEmpty()) {
+        filePath += "." + fileExtension;
+    }
+
+    QFile file(filePath);
+    if (file.open(QIODevice::WriteOnly))
+    {
+        file.write(fileModel.GetFileData());
+        file.close();
+
+        messageWidget = new MessageWidget(this, "Файл сохранён", SUCCESS);
+        messageWidget->Show();
+    }
+    else
+    {
+        messageWidget = new MessageWidget(this, "Не удалось сохранить файл", DANGER);
+        messageWidget->Show();
+    }
 }
 
 void FeedWindow::EditPost(const PostModel &postModel)
@@ -409,6 +464,17 @@ void FeedWindow::OnEditComment(const CommentModel &commentModel)
     ui->editCommentFrame->setVisible(true);
     ui->editCommentLabel->setText(commentModel.GetTextContent());
     ui->commentLineEdit->setText(commentModel.GetTextContent());
+}
+
+void FeedWindow::OnAvatarClicked(const UserModel &userModel)
+{
+    this->DisableWindow();
+
+    this->profileWindow = new class ProfileWindow();
+    this->profileWindow->SetData(userModel);
+    this->profileWindow->show();
+
+    connect(profileWindow, &ProfileWindow::closeSignal, this, &FeedWindow::EnableWindow);
 }
 
 void FeedWindow::OnDeleteComment(const CommentModel &commentModel)

@@ -27,7 +27,7 @@ private:
     PhotoUtil       photoUtil;
     TimeUtil        timeUtil;
 
-    QLabel          *avatarLabel;
+    QPushButton     *avatarButton;
     QLabel          *loginLabel;
     QLabel          *postTitleLabel;
     QLabel          *contentLabel;
@@ -55,15 +55,17 @@ private:
         headerLayout->setSpacing(8);
         headerLayout->setContentsMargins(0, 0, 0, 0);
 
-        avatarLabel = new QLabel(this);
-        avatarLabel->setFixedSize(50, 50);
-        avatarLabel->setStyleSheet("border-radius: 25px;");
+        avatarButton = new QPushButton(this);
+        avatarButton->setCursor(Qt::PointingHandCursor);
+        avatarButton->setFixedSize(50, 50);
+        avatarButton->setIconSize(QSize(50, 50));
+        avatarButton->setStyleSheet("border-radius: 25px;");
 
         loginLabel = new QLabel(this);
         loginLabel->setObjectName("author");
         loginLabel->setStyleSheet("font-weight: bold; font-size: 14px;");
 
-        headerLayout->addWidget(avatarLabel);
+        headerLayout->addWidget(avatarButton);
         headerLayout->addWidget(loginLabel);
         headerLayout->addStretch();
 
@@ -140,6 +142,9 @@ private:
 
         setLayout(mainLayout);
 
+        connect(avatarButton, &QPushButton::clicked, this, [this]() {
+            emit ClickOnAvatarButton(postModel.GetUserModel());
+        });
         connect(likeButton, &QPushButton::clicked, this, [this]() {       
             emit ClickOnLikeButton(postModel);
         });
@@ -154,11 +159,9 @@ private:
     void LoadContent() override
     {
         if (!postModel.GetUserModel().GetFileModel().GetFileData().isEmpty())
-            avatarLabel->setPixmap(photoUtil.GetHandlerPhoto(
-                postModel.GetUserModel().GetFileModel().GetFileData(),
-                QSize(50, 50)));
+            avatarButton->setIcon(QIcon(photoUtil.GetHandlerPhoto(postModel.GetUserModel().GetFileModel().GetFileData(), avatarButton->size())));
         else
-            avatarLabel->setPixmap(QPixmap(":/IMG/IMG/DefultProfilePin40x40SN.png")
+            avatarButton->setIcon(QPixmap(":/IMG/IMG/DefultProfilePin40x40SN.png")
                                        .scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
         loginLabel->setText(postModel.GetUserModel().GetLogin());
@@ -289,6 +292,7 @@ public:
     }
 
 signals:
+    void ClickOnAvatarButton(const UserModel &userModel);
     void ClickOnLikeButton(const PostModel &postModel);
     void ClickOnCommentButton(const PostModel &postModel);
     void ClickOnDownload(const PostModel &postModel);

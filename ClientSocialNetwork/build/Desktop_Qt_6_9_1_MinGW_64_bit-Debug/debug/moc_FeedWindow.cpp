@@ -50,6 +50,9 @@ template <> constexpr inline auto FeedWindow::qt_create_metaobjectdata<qt_meta_t
         "on_addPostButton_clicked",
         "on_notificationButton_clicked",
         "on_searchButton_clicked",
+        "OnAvatarClicked",
+        "UserModel",
+        "userModel",
         "OnLikeClicked",
         "PostModel",
         "postModel",
@@ -83,30 +86,34 @@ template <> constexpr inline auto FeedWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_searchButton_clicked'
         QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'OnLikeClicked'
-        QtMocHelpers::SlotData<void(const PostModel &)>(11, 2, QMC::AccessPrivate, QMetaType::Void, {{
+        // Slot 'OnAvatarClicked'
+        QtMocHelpers::SlotData<void(const UserModel &)>(11, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { 0x80000000 | 12, 13 },
+        }}),
+        // Slot 'OnLikeClicked'
+        QtMocHelpers::SlotData<void(const PostModel &)>(14, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 15, 16 },
         }}),
         // Slot 'OnCommentClicked'
-        QtMocHelpers::SlotData<void(const PostModel &)>(14, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 12, 13 },
+        QtMocHelpers::SlotData<void(const PostModel &)>(17, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 15, 16 },
         }}),
         // Slot 'OnEditComment'
-        QtMocHelpers::SlotData<void(const CommentModel &)>(15, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 16, 17 },
+        QtMocHelpers::SlotData<void(const CommentModel &)>(18, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 19, 20 },
         }}),
         // Slot 'OnDeleteComment'
-        QtMocHelpers::SlotData<void(const CommentModel &)>(18, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 16, 17 },
+        QtMocHelpers::SlotData<void(const CommentModel &)>(21, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 19, 20 },
         }}),
         // Slot 'on_updateFeedButton_clicked'
-        QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_backButton_clicked'
-        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_sendCommentButton_clicked'
-        QtMocHelpers::SlotData<void()>(21, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_cancelEditComment_clicked'
         QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_backButton_clicked'
+        QtMocHelpers::SlotData<void()>(23, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_sendCommentButton_clicked'
+        QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_cancelEditComment_clicked'
+        QtMocHelpers::SlotData<void()>(25, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -139,14 +146,15 @@ void FeedWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 6: _t->on_addPostButton_clicked(); break;
         case 7: _t->on_notificationButton_clicked(); break;
         case 8: _t->on_searchButton_clicked(); break;
-        case 9: _t->OnLikeClicked((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
-        case 10: _t->OnCommentClicked((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
-        case 11: _t->OnEditComment((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
-        case 12: _t->OnDeleteComment((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
-        case 13: _t->on_updateFeedButton_clicked(); break;
-        case 14: _t->on_backButton_clicked(); break;
-        case 15: _t->on_sendCommentButton_clicked(); break;
-        case 16: _t->on_cancelEditComment_clicked(); break;
+        case 9: _t->OnAvatarClicked((*reinterpret_cast< std::add_pointer_t<UserModel>>(_a[1]))); break;
+        case 10: _t->OnLikeClicked((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 11: _t->OnCommentClicked((*reinterpret_cast< std::add_pointer_t<PostModel>>(_a[1]))); break;
+        case 12: _t->OnEditComment((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
+        case 13: _t->OnDeleteComment((*reinterpret_cast< std::add_pointer_t<CommentModel>>(_a[1]))); break;
+        case 14: _t->on_updateFeedButton_clicked(); break;
+        case 15: _t->on_backButton_clicked(); break;
+        case 16: _t->on_sendCommentButton_clicked(); break;
+        case 17: _t->on_cancelEditComment_clicked(); break;
         default: ;
         }
     }
@@ -171,14 +179,14 @@ int FeedWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 17)
+        if (_id < 18)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 17;
+        _id -= 18;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 17)
+        if (_id < 18)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 17;
+        _id -= 18;
     }
     return _id;
 }

@@ -78,6 +78,9 @@ private:
     void HandlerDeleteCommentPostFailed();
     void HandlerSearchPosts(const PostList &postList);
     void HandlerSearchPostsFailed();
+    void HandlerChangePhoto(const UserModel &userModel);
+    void HandlerChangeCountFriends(const UserModel &userModel);
+    void DownloadFile(const PostModel &postModel);
     void DeletePost(const PostModel &postModel);
     void EditPost(const PostModel &postModel);
     void OpenMenuAnimation();
@@ -101,6 +104,7 @@ private slots:
     void on_addPostButton_clicked();
     void on_notificationButton_clicked();
     void on_searchButton_clicked();
+    void OnAvatarClicked(const UserModel &userModel);
     void OnLikeClicked(const PostModel &postModel);
     void OnCommentClicked(const PostModel &postModel);
     void OnEditComment(const CommentModel &commentModel);

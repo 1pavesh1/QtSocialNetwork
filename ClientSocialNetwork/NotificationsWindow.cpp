@@ -33,6 +33,7 @@ void NotificationsWindow::DisconnectSlots()
 
 void NotificationsWindow::ConnectNotificationSlots(const NotificationItemWidget *notificationItemWidget)
 {
+    connect(notificationItemWidget, &NotificationItemWidget::ClickOnAvatarButton, this, &NotificationsWindow::OnAvatarClicked);
     connect(notificationItemWidget, &NotificationItemWidget::ClickOnAcceptButton, this, &NotificationsWindow::AcceptNotification);
     connect(notificationItemWidget, &NotificationItemWidget::ClickOnCancelButton, this, &NotificationsWindow::CancelNotification);
 }
@@ -59,6 +60,17 @@ void NotificationsWindow::HandlerGetNotificationFailed()
 {
     messageWidget = new MessageWidget(this, "Не получилось доставить данные", DANGER);
     messageWidget->Show();
+}
+
+void NotificationsWindow::OnAvatarClicked(const UserModel &userModel)
+{
+    this->DisableWindow();
+
+    this->profileWindow = new class ProfileWindow();
+    this->profileWindow->SetData(userModel);
+    this->profileWindow->show();
+
+    connect(profileWindow, &ProfileWindow::closeSignal, this, &NotificationsWindow::EnableWindow);
 }
 
 void NotificationsWindow::CancelNotification(const NotificationModel &notificationModel)
