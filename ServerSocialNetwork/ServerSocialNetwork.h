@@ -95,6 +95,7 @@ private:
     void GetCommentsPost(const PostModel &postModel, QTcpSocket *socket);
     void SearchPostsInName(const PostModel &postModel, QTcpSocket *socket);
     void SearchUsersInLogin(const UserModel &userModel, QTcpSocket *socket);
+    void GetThreePost(const PostModel &postModel, QTcpSocket *socket);
     void SendDataToClient(const TypeQuery &typeQuery, const Data &data, QTcpSocket *socket);
 public:
     ServerSocialNetwork();

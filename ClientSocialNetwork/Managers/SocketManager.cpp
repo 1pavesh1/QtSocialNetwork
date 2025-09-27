@@ -162,6 +162,10 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
         dataFromServer >> userModelList;
         ReadSearchUsersAnswer(typeQuery);
         break;
+    case ADD_POST_TO_FEED_QUERY: case ADD_POST_TO_FEED_QUERY_FAILED:
+        dataFromServer >> postModelList;
+        ReadAddPostToFeed(typeQuery);
+        break;
     default:
         break;
     }
@@ -300,6 +304,11 @@ void SocketManager::SearchPostsQuery(const PostModel &postModel)
 void SocketManager::SearchUsersQuery(const UserModel &userModel)
 {
     SendDataToServer(SEARCH_USERS_QUERY, userModel);
+}
+
+void SocketManager::AddPostToFeedQuery(PostModel postModel)
+{
+    SendDataToServer(ADD_POST_TO_FEED_QUERY, postModel);
 }
 
 void SocketManager::ReadRegAnswer(const TypeQuery &typeQuery)
@@ -502,4 +511,12 @@ void SocketManager::ReadSearchUsersAnswer(const TypeQuery &typeQuery)
         emit SearchUsers(userModelList);
     else
         emit SearchUsersFailed();
+}
+
+void SocketManager::ReadAddPostToFeed(const TypeQuery &typeQuery)
+{
+    if (typeQuery == ADD_POST_TO_FEED_QUERY)
+        emit AddPostToFeed(postModelList);
+    else
+        emit AddPostToFeedFailed();
 }

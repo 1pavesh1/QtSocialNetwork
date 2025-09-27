@@ -51,6 +51,9 @@ void FeedWindow::ConnectSlots()
     connect(&SocketManager::instance(), &SocketManager::GetCommentPostFailed, this, &FeedWindow::HandlerGetCommentPostFailed);
     connect(&SocketManager::instance(), &SocketManager::SearchPosts, this, &FeedWindow::HandlerSearchPosts);
     connect(&SocketManager::instance(), &SocketManager::SearchPostsFailed, this, &FeedWindow::HandlerSearchPostsFailed);
+    connect(&SocketManager::instance(), &SocketManager::AddPostToFeed, this, &FeedWindow::HandlerAddPostToFeed);
+    connect(&SocketManager::instance(), &SocketManager::AddPostToFeedFailed, this, &FeedWindow::HandlerAddPostToFeedFailed);
+    connect(ui->postList->verticalScrollBar(), &QScrollBar::valueChanged, this, &FeedWindow::EndFeed);
 }
 
 void FeedWindow::ConnectPostSlots(const PostItemWidget *postItemWidget)
@@ -115,6 +118,29 @@ void FeedWindow::HandlerDeletePost(const PostModel &postModel)
 void FeedWindow::HandlerDeletePostFailed()
 {
     messageWidget = new MessageWidget(this, "Не удалось удалить пост", DANGER);
+    messageWidget->Show();
+}
+
+void FeedWindow::HandlerAddPostToFeed(const PostList &postList)
+{
+    for (const PostModel &postModel : postList.GetPostList())
+    {
+        PostItemWidget      *postItemWidget = new PostItemWidget(postModel, userModel);
+        QListWidgetItem     *item           = new QListWidgetItem();
+
+        item->setSizeHint(postItemWidget->sizeHint());
+        item->setData(Qt::UserRole, postModel.GetIdPost());
+
+        ui->postList->addItem(item);
+        ui->postList->setItemWidget(item, postItemWidget);
+
+        ConnectPostSlots(postItemWidget);
+    }
+}
+
+void FeedWindow::HandlerAddPostToFeedFailed()
+{
+    messageWidget = new MessageWidget(this, "Вы посмотрели все посты", INFORMATION);
     messageWidget->Show();
 }
 
@@ -249,6 +275,23 @@ void FeedWindow::HandlerChangePhoto(const UserModel &userModel)
 void FeedWindow::HandlerChangeCountFriends(const UserModel &userModel)
 {
     this->userModel = userModel;
+}
+
+void FeedWindow::EndFeed(qint32 value)
+{
+    if (value == ui->postList->verticalScrollBar()->maximum())
+    {
+        int lastIndex = ui->postList->count() - 1;
+        if (lastIndex >= 0) {
+            QListWidgetItem* lastItem = ui->postList->item(lastIndex);
+            PostItemWidget* postWidget = qobject_cast<PostItemWidget*>(ui->postList->itemWidget(lastItem));
+
+            if (postWidget) {
+                PostModel lastPostModel = postWidget->GetPostModel();
+                SocketManager::instance().AddPostToFeedQuery(lastPostModel);
+            }
+        }
+    }
 }
 
 void FeedWindow::DownloadFile(const PostModel &postModel)

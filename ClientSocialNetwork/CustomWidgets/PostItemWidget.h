@@ -291,6 +291,8 @@ public:
         LoadContent();
     }
 
+    PostModel GetPostModel() const { return postModel; }
+
 signals:
     void ClickOnAvatarButton(const UserModel &userModel);
     void ClickOnLikeButton(const PostModel &postModel);

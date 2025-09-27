@@ -57,6 +57,40 @@ public:
         return postList;
     }
 
+    QList<PostModel> GetThreePost(const PostModel &postModel, const QSqlDatabase &dataBase)
+    {
+        DataBaseUserManager dbUserManager;
+        QSqlQuery query(dataBase);
+
+        if (!postList.isEmpty())
+            postList.clear();
+
+        query.prepare("SELECT TOP 3 * FROM post WHERE created_date < ? ORDER BY created_date DESC;");
+        query.addBindValue(postModel.GetCreatedDate());
+
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        while (query.next())
+        {
+            PostModel tempPostModel;
+
+            tempPostModel.SetIdPost(query.value(0).toInt());
+            tempPostModel.SetIdUser(query.value(1).toInt());
+            tempPostModel.SetName(query.value(2).toString());
+            tempPostModel.SetTextContent(query.value(3).toString());
+            tempPostModel.SetCreatedDate(query.value(4).toString());
+            tempPostModel.SetLikesList(GetLikesList(tempPostModel, dataBase));
+            tempPostModel.SetCommentsList(GetCommentsList(tempPostModel, dataBase));
+            tempPostModel.SetUserModel(dbUserManager.GetUserInId(tempPostModel.GetIdUser(), dataBase));
+            tempPostModel.SetFileModel(dbFileManager.GetFileInPost(tempPostModel, dataBase));
+
+            postList.push_back(tempPostModel);
+        }
+
+        return postList;
+    }
+
     QList<PostModel> GetUserPosts(const UserModel &userModel, const QSqlDatabase &dataBase)
     {
         QSqlQuery           query(dataBase);

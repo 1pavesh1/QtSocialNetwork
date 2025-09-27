@@ -15,6 +15,7 @@
 #include "AbstractClasses/BaseWindow.h"
 #include "MediaUtil/PhotoUtil.h"
 #include "TimeUtil/TimeUtil.h"
+#include <QScrollBar>
 
 namespace Ui {
 class FeedWindow;
@@ -80,6 +81,9 @@ private:
     void HandlerSearchPostsFailed();
     void HandlerChangePhoto(const UserModel &userModel);
     void HandlerChangeCountFriends(const UserModel &userModel);
+    void HandlerAddPostToFeed(const PostList &postList);
+    void HandlerAddPostToFeedFailed();
+    void EndFeed(qint32 value);
     void DownloadFile(const PostModel &postModel);
     void DeletePost(const PostModel &postModel);
     void EditPost(const PostModel &postModel);

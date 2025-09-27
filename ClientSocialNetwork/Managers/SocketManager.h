@@ -78,6 +78,7 @@ public:
     void GetCommentPostQuery(const PostModel &postModel);
     void SearchPostsQuery(const PostModel &postModel);
     void SearchUsersQuery(const UserModel &userModel);
+    void AddPostToFeedQuery(PostModel postModel);
 
     void ReadRegAnswer(const TypeQuery &typeQuery);
     void ReadAuthAnswer(const TypeQuery &typeQuery);
@@ -102,7 +103,7 @@ public:
     void ReadGetCommentPostAnswer(const TypeQuery &typeQuery);
     void ReadSearchPostsAnswer(const TypeQuery &typeQuery);
     void ReadSearchUsersAnswer(const TypeQuery &typeQuery);
-
+    void ReadAddPostToFeed(const TypeQuery &typeQuery);
 signals:
     // Регистрация
     void UserReg(const UserModel &userModel);
@@ -153,6 +154,8 @@ signals:
     void DeletePostFailed();
     void EditPost(const PostModel &postModel);
     void EditPostFailed();
+    void AddPostToFeed(const PostList postList);
+    void AddPostToFeedFailed();
     // Лайки и комментарии поста
     void LikePost(const LikeModel &likeModel);
     void LikePostFailed();

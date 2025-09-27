@@ -183,6 +183,10 @@ void ServerSocialNetwork::ReadQuery(QDataStream &query, QTcpSocket *socket)
         query >> userModel;
         SearchUsersInLogin(userModel, socket);
         break;
+    case ADD_POST_TO_FEED_QUERY:
+        query >> postModel;
+        GetThreePost(postModel, socket);
+        break;
     default:
         break;
     }
@@ -455,6 +459,15 @@ void ServerSocialNetwork::SearchUsersInLogin(const UserModel &userModel, QTcpSoc
         SendDataToClient(SEARCH_USERS_FAILED, userList, socket);
     else
         SendDataToClient(SEARCH_USERS_QUERY, userList, socket);
+}
+
+void ServerSocialNetwork::GetThreePost(const PostModel &postModel, QTcpSocket *socket)
+{
+    postList.SetPostList(dbPostManager.GetThreePost(postModel, dbConnectManager.GetDataBase()));
+    if (postList.GetPostList().isEmpty())
+        SendDataToClient(ADD_POST_TO_FEED_QUERY_FAILED, postList, socket);
+    else
+        SendDataToClient(ADD_POST_TO_FEED_QUERY, postList, socket);
 }
 
 void ServerSocialNetwork::SendDataToClient(const TypeQuery &typeQuery, const Data &data, QTcpSocket *socket)
