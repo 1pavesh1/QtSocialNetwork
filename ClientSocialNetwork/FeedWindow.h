@@ -71,11 +71,11 @@ private:
     void HandlerDeletePostFailed();
     void HandlerGetCommentPost(const CommentList &commentList);
     void HandlerGetCommentPostFailed();
-    void HandlerAddCommentPost(const CommentModel &commentModel);
+    void HandlerAddCommentPost(const PostModel &postModel);
     void HandlerAddCommentPostFailed();
     void HandlerEditCommentPost(const CommentModel &commentModel);
     void HandlerEditCommentPostFailed();
-    void HandlerDeleteCommentPost(const CommentModel &commentModel);
+    void HandlerDeleteCommentPost(const PostModel &postModel);
     void HandlerDeleteCommentPostFailed();
     void HandlerSearchPosts(const PostList &postList);
     void HandlerSearchPostsFailed();

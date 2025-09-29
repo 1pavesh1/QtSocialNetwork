@@ -157,13 +157,14 @@ signals:
     void AddPostToFeed(const PostList postList);
     void AddPostToFeedFailed();
     // Лайки и комментарии поста
-    void LikePost(const LikeModel &likeModel);
+    void AddLikePost(const PostModel &postModel);
+    void DeleteLikePost(const PostModel &postModel);
     void LikePostFailed();
-    void AddCommentPost(const CommentModel &commentModel);
+    void AddCommentPost(const PostModel &postModel);
     void AddCommentPostFailed();
     void EditCommentPost(const CommentModel &commentModel);
     void EditCommentPostFailed();
-    void DeleteCommentPost(const CommentModel &commentModel);
+    void DeleteCommentPost(const PostModel &postModel);
     void DeleteCommentPostFailed();
     void GetCommentPost(const CommentList &commentList);
     void GetCommentPostFailed();

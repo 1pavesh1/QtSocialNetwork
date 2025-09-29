@@ -167,18 +167,25 @@ void FeedWindow::HandlerGetCommentPostFailed()
     messageWidget->Show();
 }
 
-void FeedWindow::HandlerAddCommentPost(const CommentModel &commentModel)
+void FeedWindow::HandlerAddCommentPost(const PostModel &postModel)
 {
-    CommentItemWidget   *commentItemWidget  = new CommentItemWidget(commentModel, userModel);
-    QListWidgetItem     *item               = new QListWidgetItem();
+    if (commentsIsOpen)
+    {
+        CommentModel        commentModel = postModel.GetCommentsList().last();
 
-    item->setSizeHint(commentItemWidget->sizeHint());
-    item->setData(Qt::UserRole, commentModel.GetIdComment());
+        CommentItemWidget   *commentItemWidget  = new CommentItemWidget(commentModel, userModel);
+        QListWidgetItem     *item               = new QListWidgetItem();
 
-    ui->commentList->addItem(item);
-    ui->commentList->setItemWidget(item, commentItemWidget);
+        item->setSizeHint(commentItemWidget->sizeHint());
+        item->setData(Qt::UserRole, commentModel.GetIdComment());
 
-    ConnectCommentSlots(commentItemWidget);
+        ui->commentList->addItem(item);
+        ui->commentList->setItemWidget(item, commentItemWidget);
+
+        ConnectCommentSlots(commentItemWidget);
+
+        ui->countCommentsPostLabel->setText(QString::number(postModel.GetCommentsList().size()) + " Комментариев");
+    }
 }
 
 void FeedWindow::HandlerAddCommentPostFailed()
@@ -189,26 +196,29 @@ void FeedWindow::HandlerAddCommentPostFailed()
 
 void FeedWindow::HandlerEditCommentPost(const CommentModel &commentModel)
 {
-    for (qint32 i = 0; i < ui->commentList->count(); ++i)
+    if (commentsIsOpen)
     {
-        QListWidgetItem* item = ui->commentList->item(i);
-        if (item->data(Qt::UserRole).toInt() == commentModel.GetIdComment())
+        for (qint32 i = 0; i < ui->commentList->count(); ++i)
         {
-            delete ui->commentList->takeItem(i);
-            break;
+            QListWidgetItem* item = ui->commentList->item(i);
+            if (item->data(Qt::UserRole).toInt() == commentModel.GetIdComment())
+            {
+                delete ui->commentList->takeItem(i);
+                break;
+            }
         }
+
+        CommentItemWidget   *commentItemWidget  = new CommentItemWidget(commentModel, userModel);
+        QListWidgetItem     *item               = new QListWidgetItem();
+
+        item->setSizeHint(commentItemWidget->sizeHint());
+        item->setData(Qt::UserRole, commentModel.GetIdComment());
+
+        ui->commentList->addItem(item);
+        ui->commentList->setItemWidget(item, commentItemWidget);
+
+        ConnectCommentSlots(commentItemWidget);
     }
-
-    CommentItemWidget   *commentItemWidget  = new CommentItemWidget(commentModel, userModel);
-    QListWidgetItem     *item               = new QListWidgetItem();
-
-    item->setSizeHint(commentItemWidget->sizeHint());
-    item->setData(Qt::UserRole, commentModel.GetIdComment());
-
-    ui->commentList->addItem(item);
-    ui->commentList->setItemWidget(item, commentItemWidget);
-
-    ConnectCommentSlots(commentItemWidget);
 }
 
 void FeedWindow::HandlerEditCommentPostFailed()
@@ -217,16 +227,23 @@ void FeedWindow::HandlerEditCommentPostFailed()
     messageWidget->Show();
 }
 
-void FeedWindow::HandlerDeleteCommentPost(const CommentModel &commentModel)
+void FeedWindow::HandlerDeleteCommentPost(const PostModel &postModel)
 {
-    for (qint32 i = 0; i < ui->commentList->count(); ++i)
+    if (commentsIsOpen)
     {
-        QListWidgetItem* item = ui->commentList->item(i);
-        if (item->data(Qt::UserRole).toInt() == commentModel.GetIdComment())
+        CommentModel commentModel = postModel.GetCommentsList().last();
+
+        for (qint32 i = 0; i < ui->commentList->count(); ++i)
         {
-            delete ui->commentList->takeItem(i);
-            break;
+            QListWidgetItem* item = ui->commentList->item(i);
+            if (item->data(Qt::UserRole).toInt() == commentModel.GetIdComment())
+            {
+                delete ui->commentList->takeItem(i);
+                break;
+            }
         }
+
+        ui->countCommentsPostLabel->setText(QString::number(postModel.GetCommentsList().size()) + " Комментариев");
     }
 }
 

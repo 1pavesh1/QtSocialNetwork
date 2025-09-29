@@ -210,6 +210,66 @@ public:
         return commentList;
     }
 
+    PostModel GetPostInComment(const CommentModel &commentModel, const QSqlDatabase &dataBase)
+    {
+        QSqlQuery               query(dataBase);
+        PostModel               tempPostModel;
+        DataBaseUserManager dbUserManager;
+
+        query.prepare("SELECT * FROM post WHERE id_post = :id_post;");
+        query.bindValue(":id_post", commentModel.GetIdPost());
+
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        while (query.next())
+        {
+            tempPostModel.SetIdPost(query.value(0).toInt());
+            tempPostModel.SetIdUser(query.value(1).toInt());
+            tempPostModel.SetName(query.value(2).toString());
+            tempPostModel.SetTextContent(query.value(3).toString());
+            tempPostModel.SetCreatedDate(query.value(4).toString());
+            tempPostModel.SetLikesList(GetLikesList(tempPostModel, dataBase));
+            tempPostModel.SetCommentsList(GetCommentsList(tempPostModel, dataBase));
+            tempPostModel.SetUserModel(dbUserManager.GetUserInId(tempPostModel.GetIdUser(), dataBase));
+            tempPostModel.SetFileModel(dbFileManager.GetFileInPost(tempPostModel, dataBase));
+
+            return tempPostModel;
+        }
+
+        return tempPostModel;
+    }
+
+    PostModel GetPostInLike(const LikeModel &likeModel, const QSqlDatabase &dataBase)
+    {
+        QSqlQuery               query(dataBase);
+        PostModel               tempPostModel;
+        DataBaseUserManager     dbUserManager;
+
+        query.prepare("SELECT * FROM post WHERE id_post = :id_post;");
+        query.bindValue(":id_post", likeModel.GetIdPost());
+
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        while (query.next())
+        {
+            tempPostModel.SetIdPost(query.value(0).toInt());
+            tempPostModel.SetIdUser(query.value(1).toInt());
+            tempPostModel.SetName(query.value(2).toString());
+            tempPostModel.SetTextContent(query.value(3).toString());
+            tempPostModel.SetCreatedDate(query.value(4).toString());
+            tempPostModel.SetLikesList(GetLikesList(tempPostModel, dataBase));
+            tempPostModel.SetCommentsList(GetCommentsList(tempPostModel, dataBase));
+            tempPostModel.SetUserModel(dbUserManager.GetUserInId(tempPostModel.GetIdUser(), dataBase));
+            tempPostModel.SetFileModel(dbFileManager.GetFileInPost(tempPostModel, dataBase));
+
+            return tempPostModel;
+        }
+
+        return tempPostModel;
+    }
+
     bool EditPost(const PostModel &postModel, const QSqlDatabase &dataBase)
     {
         if (postModel.GetFileModel().GetFileData().isEmpty())

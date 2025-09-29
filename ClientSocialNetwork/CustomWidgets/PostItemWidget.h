@@ -16,6 +16,7 @@
 #include "CustomWidgets/VideoWidget.h"
 #include "CustomWidgets/FileWidget.h"
 #include "CustomWidgets/PhotoWidget.h"
+#include "Managers/SocketManager.h"
 
 class PostItemWidget : public QWidget, public CustomWidget
 {
@@ -44,6 +45,63 @@ private:
     FileWidget      *fileWidget;
     PhotoWidget     *photoWidget;
     QFrame          *mediaContainer;
+
+    void ConnectSlots()
+    {
+        connect(&SocketManager::instance(), &SocketManager::AddLikePost,
+                this, [this](const PostModel &postModel) {
+                    if (postModel.GetIdPost() == this->postModel.GetIdPost()) {
+                        this->postModel = postModel;
+                        HandlerAddLikePost();
+                    }
+                });
+
+        connect(&SocketManager::instance(), &SocketManager::DeleteLikePost,
+                this, [this](const PostModel &postModel) {
+                    if (postModel.GetIdPost() == this->postModel.GetIdPost()) {
+                        this->postModel = postModel;
+                        HandlerDeleteLikePost();
+                    }
+                });
+
+        connect(&SocketManager::instance(), &SocketManager::AddCommentPost,
+                this, [this](const PostModel &postModel) {
+                    if (postModel.GetIdPost() == this->postModel.GetIdPost()) {
+                        this->postModel = postModel;
+                        HandlerAddCommentPost();
+                    }
+                });
+
+        connect(&SocketManager::instance(), &SocketManager::DeleteCommentPost,
+                this, [this](const PostModel &postModel) {
+                    if (postModel.GetIdPost() == this->postModel.GetIdPost()) {
+                        this->postModel = postModel;
+                        HandlerDeleteCommentPost();
+                    }
+                });
+    }
+
+    void HandlerAddLikePost()
+    {
+        likeButton->setIcon(QIcon(":/IMG/IMG/LikeFullPin50x50SN.png"));
+        likeButton->setText(" " + QString::number(postModel.GetLikesList().size()));
+    }
+
+    void HandlerDeleteLikePost()
+    {
+        likeButton->setIcon(QIcon(":/IMG/IMG/LikePin50x50SN.png"));
+        likeButton->setText(" " + QString::number(postModel.GetLikesList().size()));
+    }
+
+    void HandlerAddCommentPost()
+    {
+        commentButton->setText(" " + QString::number(postModel.GetCommentsList().size()));
+    }
+
+    void HandlerDeleteCommentPost()
+    {
+        commentButton->setText(" " + QString::number(postModel.GetCommentsList().size()));
+    }
 
     void InitializationInterface() override
     {
@@ -289,6 +347,12 @@ public:
         InitializationInterface();
         SetupQCC();
         LoadContent();
+        ConnectSlots();
+    }
+
+    ~PostItemWidget()
+    {
+        disconnect(&SocketManager::instance(), nullptr, this, nullptr);
     }
 
     PostModel GetPostModel() const { return postModel; }

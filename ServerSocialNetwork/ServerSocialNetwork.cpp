@@ -399,23 +399,23 @@ void ServerSocialNetwork::LikePost(const LikeModel &likeModel, QTcpSocket *socke
     if (!dbLikeManager.CheckLikePost(likeModel, dbConnectManager.GetDataBase()))
     {
         if (dbLikeManager.AddLikePost(likeModel, dbConnectManager.GetDataBase()))
-            SendDataToClient(LIKE_POST_QUERY, postModel, socket);
+            SendDataToClient(ADD_LIKE_POST_ANSWER, dbPostManager.GetPostInLike(likeModel, dbConnectManager.GetDataBase()), socket);
         else
-            SendDataToClient(LIKE_POST_FAILED, postModel, socket);
+            SendDataToClient(LIKE_POST_FAILED, likeModel, socket);
     }
     else
     {
         if (dbLikeManager.DeleteLikePost(likeModel, dbConnectManager.GetDataBase()))
-            SendDataToClient(LIKE_POST_QUERY, postModel, socket);
+            SendDataToClient(DELETE_LIKE_POST_ANSWER, dbPostManager.GetPostInLike(likeModel, dbConnectManager.GetDataBase()), socket);
         else
-            SendDataToClient(LIKE_POST_FAILED, postModel, socket);
+            SendDataToClient(LIKE_POST_FAILED, likeModel, socket);
     }
 }
 
 void ServerSocialNetwork::AddCommentPost(const CommentModel &commentModel, QTcpSocket *socket)
 {
     if (dbCommentManager.AddComment(commentModel, dbConnectManager.GetDataBase()))
-        SendDataToClient(ADD_COMMENT_QUERY, commentModel, socket);
+        SendDataToClient(ADD_COMMENT_QUERY, dbPostManager.GetPostInComment(commentModel, dbConnectManager.GetDataBase()), socket);
     else
         SendDataToClient(ADD_COMMENT_FAILED, commentModel, socket);
 }
@@ -430,7 +430,7 @@ void ServerSocialNetwork::GetCommentsPost(const PostModel &postModel, QTcpSocket
 void ServerSocialNetwork::DeleteCommentPost(const CommentModel &commentModel, QTcpSocket *socket)
 {
     if (dbCommentManager.DeleteComment(commentModel, dbConnectManager.GetDataBase()))
-        SendDataToClient(DELETE_COMMENT_QUERY, commentModel, socket);
+        SendDataToClient(DELETE_COMMENT_QUERY, dbPostManager.GetPostInComment(commentModel, dbConnectManager.GetDataBase()), socket);
     else
         SendDataToClient(DELETE_COMMENT_FAILED, commentModel, socket);
 }

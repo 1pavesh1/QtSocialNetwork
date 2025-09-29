@@ -134,16 +134,16 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
         dataFromServer >> postModel;
         ReadEditPostAnswer(typeQuery);
         break;
-    case LIKE_POST_QUERY: case LIKE_POST_FAILED:
+    case ADD_LIKE_POST_ANSWER: case DELETE_LIKE_POST_ANSWER: case LIKE_POST_FAILED:
         dataFromServer >> postModel;
         ReadLikePostAnswer(typeQuery);
         break;
     case ADD_COMMENT_QUERY: case ADD_COMMENT_FAILED:
-        dataFromServer >> commentModel;
+        dataFromServer >> postModel;
         ReadAddCommentPostAnswer(typeQuery);
         break;
     case DELETE_COMMENT_QUERY: case DELETE_COMMENT_FAILED:
-        dataFromServer >> commentModel;
+        dataFromServer >> postModel;
         ReadDeleteCommentPostAnswer(typeQuery);
         break;
     case EDIT_COMMENT_QUERY: case EDIT_COMMENT_FAILED:
@@ -459,8 +459,10 @@ void SocketManager::ReadEditPostAnswer(const TypeQuery &typeQuery)
 
 void SocketManager::ReadLikePostAnswer(const TypeQuery &typeQuery)
 {
-    if (typeQuery == LIKE_POST_QUERY)
-        emit LikePost(likeModel);
+    if (typeQuery == ADD_LIKE_POST_ANSWER)
+        emit AddLikePost(postModel);
+    else if (typeQuery == DELETE_LIKE_POST_ANSWER)
+        emit DeleteLikePost(postModel);
     else
         emit LikePostFailed();
 }
@@ -468,7 +470,7 @@ void SocketManager::ReadLikePostAnswer(const TypeQuery &typeQuery)
 void SocketManager::ReadAddCommentPostAnswer(const TypeQuery &typeQuery)
 {
     if (typeQuery == ADD_COMMENT_QUERY)
-        emit AddCommentPost(commentModel);
+        emit AddCommentPost(postModel);
     else
         emit AddCommentPostFailed();
 }
@@ -476,7 +478,7 @@ void SocketManager::ReadAddCommentPostAnswer(const TypeQuery &typeQuery)
 void SocketManager::ReadDeleteCommentPostAnswer(const TypeQuery &typeQuery)
 {
     if (typeQuery == DELETE_COMMENT_QUERY)
-        emit DeleteCommentPost(commentModel);
+        emit DeleteCommentPost(postModel);
     else
         emit DeleteCommentPostFailed();
 }
