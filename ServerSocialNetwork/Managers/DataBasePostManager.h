@@ -188,6 +188,8 @@ public:
         QSqlQuery               query(dataBase);
         CommentModel            commentModel;
         QList <CommentModel>    commentList;
+        PostModel               tempPostModel;
+        DataBaseUserManager dbUserManager;
 
         query.prepare("SELECT * FROM comment WHERE id_post = :id_post;");
         query.bindValue(":id_post", postModel.GetIdPost());
@@ -203,6 +205,7 @@ public:
             commentModel.SetTextContent(query.value(3).toString());
             commentModel.SetCreatedDate(query.value(4).toString());
             commentModel.SetIsEdited(query.value(5).toBool());
+            commentModel.SetUserModel(dbUserManager.GetUserInId(commentModel.GetIdUser(), dataBase));
 
             commentList.push_back(commentModel);
         }

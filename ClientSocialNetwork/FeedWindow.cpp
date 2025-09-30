@@ -173,7 +173,7 @@ void FeedWindow::HandlerAddCommentPost(const PostModel &postModel)
     {
         CommentModel        commentModel = postModel.GetCommentsList().last();
 
-        CommentItemWidget   *commentItemWidget  = new CommentItemWidget(commentModel, userModel);
+        CommentItemWidget   *commentItemWidget  = new CommentItemWidget(commentModel, commentModel.GetUserModel());
         QListWidgetItem     *item               = new QListWidgetItem();
 
         item->setSizeHint(commentItemWidget->sizeHint());
@@ -208,7 +208,7 @@ void FeedWindow::HandlerEditCommentPost(const CommentModel &commentModel)
             }
         }
 
-        CommentItemWidget   *commentItemWidget  = new CommentItemWidget(commentModel, userModel);
+        CommentItemWidget   *commentItemWidget  = new CommentItemWidget(commentModel, commentModel.GetUserModel());
         QListWidgetItem     *item               = new QListWidgetItem();
 
         item->setSizeHint(commentItemWidget->sizeHint());
@@ -231,12 +231,11 @@ void FeedWindow::HandlerDeleteCommentPost(const PostModel &postModel)
 {
     if (commentsIsOpen)
     {
-        CommentModel commentModel = postModel.GetCommentsList().last();
-
         for (qint32 i = 0; i < ui->commentList->count(); ++i)
         {
             QListWidgetItem* item = ui->commentList->item(i);
-            if (item->data(Qt::UserRole).toInt() == commentModel.GetIdComment())
+
+            if (item->data(Qt::UserRole).toInt() != postModel.GetCommentsList()[i].GetIdComment())
             {
                 delete ui->commentList->takeItem(i);
                 break;
@@ -539,6 +538,7 @@ void FeedWindow::OnAvatarClicked(const UserModel &userModel)
 
 void FeedWindow::OnDeleteComment(const CommentModel &commentModel)
 {
+    qDebug() << "Удаление: " << commentModel.GetIdComment() << " " << commentModel.GetTextContent();
     SocketManager::instance().DeleteCommentPostQuery(commentModel);
 }
 
@@ -696,16 +696,23 @@ void FeedWindow::on_sendCommentButton_clicked()
         messageWidget = new MessageWidget(this, "Чтобы оставить комментарий напишите что-нибудь", INFORMATION);
         messageWidget->Show();
     }
+    else if (ui->commentLineEdit->text().size() <= 5)
+    {
+        messageWidget = new MessageWidget(this, "Комментарий должен быть не меньше 5 символов", WARNING);
+        messageWidget->Show();
+    }
     else
     {
         this->commentModel.SetTextContent(ui->commentLineEdit->text());
         this->commentModel.SetUserModel(this->userModel);
+
         ui->commentLineEdit->clear();
 
         if (isEdit)
         {
             ui->editCommentFrame->setVisible(false);
             this->commentModel.SetIsEdited(true);
+            isEdit = false;
             SocketManager::instance().EditCommentPostQuery(this->commentModel);
         }
         else
