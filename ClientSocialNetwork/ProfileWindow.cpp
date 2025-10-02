@@ -119,7 +119,7 @@ void ProfileWindow::SetData(const UserModel &userModel)
         ui->statusLabel->setText("В сети");
     else
         ui->statusLabel->setText(timeUtil.FormatDateForDisplay(this->userModel.GetEntryTime()));
-
+    qDebug() << "Пользователь: " << this->userModel.GetStatusOnline() << " " << this->userModel.GetEntryTime();
     SocketManager::instance().CheckUserProfileQuery(this->userModel);
 }
 

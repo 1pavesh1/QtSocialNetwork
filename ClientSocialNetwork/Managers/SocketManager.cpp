@@ -166,6 +166,10 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
         dataFromServer >> postModelList;
         ReadAddPostToFeed(typeQuery);
         break;
+    case ADD_COMMENTS_TO_LIST_QUERY: case ADD_COMMENTS_TO_LIST_QUERY_FAILED:
+        dataFromServer >> commentList;
+        ReadAddCommentToList(typeQuery);
+        break;
     default:
         break;
     }
@@ -309,6 +313,11 @@ void SocketManager::SearchUsersQuery(const UserModel &userModel)
 void SocketManager::AddPostToFeedQuery(PostModel postModel)
 {
     SendDataToServer(ADD_POST_TO_FEED_QUERY, postModel);
+}
+
+void SocketManager::AddCommentToListQuery(CommentModel commentModel)
+{
+    SendDataToServer(ADD_COMMENTS_TO_LIST_QUERY, commentModel);
 }
 
 void SocketManager::ReadRegAnswer(const TypeQuery &typeQuery)
@@ -521,4 +530,12 @@ void SocketManager::ReadAddPostToFeed(const TypeQuery &typeQuery)
         emit AddPostToFeed(postModelList);
     else
         emit AddPostToFeedFailed();
+}
+
+void SocketManager::ReadAddCommentToList(const TypeQuery &typeQuery)
+{
+    if (typeQuery == ADD_COMMENTS_TO_LIST_QUERY)
+        emit AddCommentToList(commentList);
+    else
+        emit AddCommentToListFailed();
 }

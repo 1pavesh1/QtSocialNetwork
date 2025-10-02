@@ -7,6 +7,7 @@
 #include "AbstractClasses/CustomWidget.h"
 #include "MediaUtil/PhotoUtil.h"
 #include "TimeUtil/TimeUtil.h"
+#include "Managers/SocketManager.h"
 
 class CommentItemWidget : public QWidget, public CustomWidget
 {
@@ -234,6 +235,13 @@ public:
 
         setContentsMargins(10, 8, 10, 8);
     }
+
+    ~CommentItemWidget()
+    {
+        disconnect(&SocketManager::instance(), nullptr, this, nullptr);
+    }
+
+    CommentModel GetCommentModel() const { return commentModel; }
 
 signals:
     void ClickOnAvatarButton(const UserModel &userModel);

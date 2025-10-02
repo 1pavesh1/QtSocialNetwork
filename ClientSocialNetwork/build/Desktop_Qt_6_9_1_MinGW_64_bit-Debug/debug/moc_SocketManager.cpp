@@ -107,6 +107,8 @@ template <> constexpr inline auto SocketManager::qt_create_metaobjectdata<qt_met
         "CommentList",
         "commentList",
         "GetCommentPostFailed",
+        "AddCommentToList",
+        "AddCommentToListFailed",
         "SearchPosts",
         "SearchPostsFailed",
         "SearchUsers",
@@ -264,18 +266,24 @@ template <> constexpr inline auto SocketManager::qt_create_metaobjectdata<qt_met
         }}),
         // Signal 'GetCommentPostFailed'
         QtMocHelpers::SignalData<void()>(68, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'AddCommentToList'
+        QtMocHelpers::SignalData<void(const CommentList &)>(69, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 66, 67 },
+        }}),
+        // Signal 'AddCommentToListFailed'
+        QtMocHelpers::SignalData<void()>(70, 2, QMC::AccessPublic, QMetaType::Void),
         // Signal 'SearchPosts'
-        QtMocHelpers::SignalData<void(const PostList &)>(69, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SignalData<void(const PostList &)>(71, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 41, 42 },
         }}),
         // Signal 'SearchPostsFailed'
-        QtMocHelpers::SignalData<void()>(70, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SignalData<void()>(72, 2, QMC::AccessPublic, QMetaType::Void),
         // Signal 'SearchUsers'
-        QtMocHelpers::SignalData<void(const UserList &)>(71, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SignalData<void(const UserList &)>(73, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 18, 19 },
         }}),
         // Signal 'SearchUsersFailed'
-        QtMocHelpers::SignalData<void()>(72, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SignalData<void()>(74, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -350,10 +358,12 @@ void SocketManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 48: _t->DeleteCommentPostFailed(); break;
         case 49: _t->GetCommentPost((*reinterpret_cast< std::add_pointer_t<CommentList>>(_a[1]))); break;
         case 50: _t->GetCommentPostFailed(); break;
-        case 51: _t->SearchPosts((*reinterpret_cast< std::add_pointer_t<PostList>>(_a[1]))); break;
-        case 52: _t->SearchPostsFailed(); break;
-        case 53: _t->SearchUsers((*reinterpret_cast< std::add_pointer_t<UserList>>(_a[1]))); break;
-        case 54: _t->SearchUsersFailed(); break;
+        case 51: _t->AddCommentToList((*reinterpret_cast< std::add_pointer_t<CommentList>>(_a[1]))); break;
+        case 52: _t->AddCommentToListFailed(); break;
+        case 53: _t->SearchPosts((*reinterpret_cast< std::add_pointer_t<PostList>>(_a[1]))); break;
+        case 54: _t->SearchPostsFailed(); break;
+        case 55: _t->SearchUsers((*reinterpret_cast< std::add_pointer_t<UserList>>(_a[1]))); break;
+        case 56: _t->SearchUsersFailed(); break;
         default: ;
         }
     }
@@ -460,13 +470,17 @@ void SocketManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
             return;
         if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::GetCommentPostFailed, 50))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const PostList & )>(_a, &SocketManager::SearchPosts, 51))
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const CommentList & )>(_a, &SocketManager::AddCommentToList, 51))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::SearchPostsFailed, 52))
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::AddCommentToListFailed, 52))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const UserList & )>(_a, &SocketManager::SearchUsers, 53))
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const PostList & )>(_a, &SocketManager::SearchPosts, 53))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::SearchUsersFailed, 54))
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::SearchPostsFailed, 54))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)(const UserList & )>(_a, &SocketManager::SearchUsers, 55))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SocketManager::*)()>(_a, &SocketManager::SearchUsersFailed, 56))
             return;
     }
 }
@@ -490,14 +504,14 @@ int SocketManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 55)
+        if (_id < 57)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 55;
+        _id -= 57;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 55)
+        if (_id < 57)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 55;
+        _id -= 57;
     }
     return _id;
 }
@@ -809,26 +823,38 @@ void SocketManager::GetCommentPostFailed()
 }
 
 // SIGNAL 51
-void SocketManager::SearchPosts(const PostList & _t1)
+void SocketManager::AddCommentToList(const CommentList & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 51, nullptr, _t1);
 }
 
 // SIGNAL 52
-void SocketManager::SearchPostsFailed()
+void SocketManager::AddCommentToListFailed()
 {
     QMetaObject::activate(this, &staticMetaObject, 52, nullptr);
 }
 
 // SIGNAL 53
-void SocketManager::SearchUsers(const UserList & _t1)
+void SocketManager::SearchPosts(const PostList & _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 53, nullptr, _t1);
 }
 
 // SIGNAL 54
-void SocketManager::SearchUsersFailed()
+void SocketManager::SearchPostsFailed()
 {
     QMetaObject::activate(this, &staticMetaObject, 54, nullptr);
+}
+
+// SIGNAL 55
+void SocketManager::SearchUsers(const UserList & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 55, nullptr, _t1);
+}
+
+// SIGNAL 56
+void SocketManager::SearchUsersFailed()
+{
+    QMetaObject::activate(this, &staticMetaObject, 56, nullptr);
 }
 QT_WARNING_POP

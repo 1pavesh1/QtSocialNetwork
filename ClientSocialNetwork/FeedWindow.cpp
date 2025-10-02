@@ -53,7 +53,10 @@ void FeedWindow::ConnectSlots()
     connect(&SocketManager::instance(), &SocketManager::SearchPostsFailed, this, &FeedWindow::HandlerSearchPostsFailed);
     connect(&SocketManager::instance(), &SocketManager::AddPostToFeed, this, &FeedWindow::HandlerAddPostToFeed);
     connect(&SocketManager::instance(), &SocketManager::AddPostToFeedFailed, this, &FeedWindow::HandlerAddPostToFeedFailed);
+    connect(&SocketManager::instance(), &SocketManager::AddCommentToList, this, &FeedWindow::HandlerAddCommentToList);
+    connect(&SocketManager::instance(), &SocketManager::AddCommentToListFailed, this, &FeedWindow::HandlerAddCommentToListFailed);
     connect(ui->postList->verticalScrollBar(), &QScrollBar::valueChanged, this, &FeedWindow::EndFeed);
+    connect(ui->commentList->verticalScrollBar(), &QScrollBar::valueChanged, this, &FeedWindow::EndCommentList);
 }
 
 void FeedWindow::ConnectPostSlots(const PostItemWidget *postItemWidget)
@@ -141,6 +144,29 @@ void FeedWindow::HandlerAddPostToFeed(const PostList &postList)
 void FeedWindow::HandlerAddPostToFeedFailed()
 {
     messageWidget = new MessageWidget(this, "Вы посмотрели все посты", INFORMATION);
+    messageWidget->Show();
+}
+
+void FeedWindow::HandlerAddCommentToList(const CommentList &commentList)
+{
+    for (const CommentModel &commentModel : commentList.GetCommentList())
+    {
+        CommentItemWidget   *commentItemWidget  = new CommentItemWidget(commentModel, userModel);
+        QListWidgetItem     *item               = new QListWidgetItem();
+
+        item->setSizeHint(commentItemWidget->sizeHint());
+        item->setData(Qt::UserRole, commentModel.GetIdComment());
+
+        ui->commentList->addItem(item);
+        ui->commentList->setItemWidget(item, commentItemWidget);
+
+        ConnectCommentSlots(commentItemWidget);
+    }
+}
+
+void FeedWindow::HandlerAddCommentToListFailed()
+{
+    messageWidget = new MessageWidget(this, "Вы посмотрели все комментарии", INFORMATION);
     messageWidget->Show();
 }
 
@@ -305,6 +331,23 @@ void FeedWindow::EndFeed(qint32 value)
             if (postWidget) {
                 PostModel lastPostModel = postWidget->GetPostModel();
                 SocketManager::instance().AddPostToFeedQuery(lastPostModel);
+            }
+        }
+    }
+}
+
+void FeedWindow::EndCommentList(qint32 value)
+{
+    if (value == ui->commentList->verticalScrollBar()->maximum())
+    {
+        int lastIndex = ui->commentList->count() - 1;
+        if (lastIndex >= 0) {
+            QListWidgetItem* lastItem = ui->commentList->item(lastIndex);
+            CommentItemWidget* commentWidget = qobject_cast<CommentItemWidget*>(ui->commentList->itemWidget(lastItem));
+
+            if (commentWidget) {
+                CommentModel lastCommentModel = commentWidget->GetCommentModel();
+                SocketManager::instance().AddCommentToListQuery(lastCommentModel);
             }
         }
     }

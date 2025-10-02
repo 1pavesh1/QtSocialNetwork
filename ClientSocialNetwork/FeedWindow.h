@@ -83,7 +83,10 @@ private:
     void HandlerChangeCountFriends(const UserModel &userModel);
     void HandlerAddPostToFeed(const PostList &postList);
     void HandlerAddPostToFeedFailed();
+    void HandlerAddCommentToList(const CommentList &commentList);
+    void HandlerAddCommentToListFailed();
     void EndFeed(qint32 value);
+    void EndCommentList(qint32 value);
     void DownloadFile(const PostModel &postModel);
     void DeletePost(const PostModel &postModel);
     void EditPost(const PostModel &postModel);

@@ -188,10 +188,36 @@ QPushButton:pressed
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QListWidget
+    <string notr="true">QListWidget 
 {
-    background-color: white;
+	outline: 0;
     border: none;
+    background: transparent;
+}
+
+QListWidget::item 
+{
+	border: none;
+    background: transparent;
+    padding: 0px;
+    margin: 0px;
+}
+
+QListWidget::item:selected 
+{
+	background: transparent;
+	border: none;
+}
+
+QListWidget::item:hover 
+{
+	background: transparent;
+}
+
+QPushButton 
+{
+    border: none;
+    padding: 4px;
 }
 
 QScrollBar:vertical 

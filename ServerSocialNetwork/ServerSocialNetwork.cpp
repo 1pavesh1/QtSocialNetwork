@@ -187,6 +187,10 @@ void ServerSocialNetwork::ReadQuery(QDataStream &query, QTcpSocket *socket)
         query >> postModel;
         GetThreePost(postModel, socket);
         break;
+    case ADD_COMMENTS_TO_LIST_QUERY:
+        query >> commentModel;
+        GetThreeComments(commentModel, socket);
+        break;
     default:
         break;
     }
@@ -260,6 +264,9 @@ void ServerSocialNetwork::LogoutUser(const UserModel &userModel, QTcpSocket *soc
 
 void ServerSocialNetwork::CheckUser(UserModel &userModel, QTcpSocket *socket)
 {
+    qDebug() << userModel.GetLogin();
+    if (userServerManager.CheckUserOnServer(userServerMap, socket))
+        userModel.SetStatus(true);
     if (userServerManager.CheckUserMain(userServerMap, socket, userModel))
         SendDataToClient(USER_IS_MAIN_ANSWER, userModel, socket);
     else
@@ -468,6 +475,16 @@ void ServerSocialNetwork::GetThreePost(const PostModel &postModel, QTcpSocket *s
         SendDataToClient(ADD_POST_TO_FEED_QUERY_FAILED, postList, socket);
     else
         SendDataToClient(ADD_POST_TO_FEED_QUERY, postList, socket);
+}
+
+void ServerSocialNetwork::GetThreeComments(const CommentModel &commentModel, QTcpSocket *socket)
+{
+    commentList.SetCommentList(dbCommentManager.GetThreeComment(commentModel, dbConnectManager.GetDataBase()));
+    qDebug() << "SIZE: " << commentList.GetCommentList().size();
+    if (commentList.GetCommentList().isEmpty())
+        SendDataToClient(ADD_COMMENTS_TO_LIST_QUERY_FAILED, commentList, socket);
+    else
+        SendDataToClient(ADD_COMMENTS_TO_LIST_QUERY, commentList, socket);
 }
 
 void ServerSocialNetwork::SendDataToClient(const TypeQuery &typeQuery, const Data &data, QTcpSocket *socket)

@@ -36,6 +36,7 @@ public:
             tempUserModel.SetLogin(query.value(1).toString());
             tempUserModel.SetPhone(query.value(3).toString());
             tempUserModel.SetEmail(query.value(4).toString());
+            tempUserModel.SetEntryTime(query.value(5).toString());
             tempUserModel.SetDateBithday(query.value(6).toString());
             tempUserModel.SetFileModel(dbFileManager.GetFileInUser(tempUserModel, dataBase));
         }

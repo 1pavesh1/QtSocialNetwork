@@ -20,7 +20,7 @@ public:
         QList <CommentModel>            commentList;
         QSqlQuery                       query(dataBase);
 
-        query.prepare("SELECT * FROM comment WHERE id_post = :id_post ORDER BY created_date DESC;");
+        query.prepare("SELECT TOP 6 * FROM comment WHERE id_post = :id_post ORDER BY created_date DESC;");
         query.bindValue(":id_post", postModel.GetIdPost());
 
         if (!query.exec())
@@ -41,6 +41,40 @@ public:
         }
         return commentList;
     }
+
+    QList<CommentModel> GetThreeComment(const CommentModel &commentModel, const QSqlDatabase &dataBase)
+    {
+        DataBaseUserManager dbUserManager;
+        QSqlQuery query(dataBase);
+        QList<CommentModel> commentList;
+
+        qDebug() << "Комментарий: " << commentModel.GetIdComment() << " " << commentModel.GetUserModel().GetLogin();
+
+        query.prepare("SELECT TOP 3 * FROM comment WHERE created_date < ? AND id_post = ? ORDER BY created_date DESC;");
+        query.addBindValue(commentModel.GetCreatedDate());
+        query.addBindValue(commentModel.GetIdPost());
+
+        if (!query.exec())
+            qDebug() << query.lastError().text();
+
+        while (query.next())
+        {
+            CommentModel tempCommentModel;
+
+            tempCommentModel.SetIdComment(query.value(0).toInt());
+            tempCommentModel.SetIdPost(query.value(1).toInt());
+            tempCommentModel.SetIdUser(query.value(2).toInt());
+            tempCommentModel.SetTextContent(query.value(3).toString());
+            tempCommentModel.SetCreatedDate(query.value(4).toString());
+            tempCommentModel.SetIsEdited(query.value(5).toBool());
+            tempCommentModel.SetUserModel(dbUserManager.GetUserInId(tempCommentModel.GetIdUser(), dataBase));
+
+            commentList.push_back(tempCommentModel);
+        }
+
+        return commentList;
+    }
+
 
     bool AddComment(const CommentModel &commentModel, const QSqlDatabase &dataBase)
     {
