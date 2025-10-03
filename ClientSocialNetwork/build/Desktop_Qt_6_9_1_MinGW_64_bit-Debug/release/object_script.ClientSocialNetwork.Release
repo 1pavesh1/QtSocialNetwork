@@ -8,7 +8,6 @@ release/NotificationsWindow.o
 release/ProfileWindow.o
 release/RegWindow.o
 release/SettingsWindow.o
-release/UserPostsWindow.o
 release/UsersWindow.o
 release/main.o
 release/MainWindow.o
@@ -34,5 +33,4 @@ release/moc_NotificationsWindow.o
 release/moc_ProfileWindow.o
 release/moc_RegWindow.o
 release/moc_SettingsWindow.o
-release/moc_UserPostsWindow.o
 release/moc_UsersWindow.o

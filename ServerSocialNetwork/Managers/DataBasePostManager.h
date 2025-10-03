@@ -12,6 +12,7 @@
 #include "Managers/DataBaseCommentManager.h"
 #include "MediaHelpers/FileWriter.h"
 #include "MediaHelpers/FileReader.h"
+#include "Editor/TextEditor.h"
 
 class DataBasePostManager
 {
@@ -22,6 +23,7 @@ private:
     DataBaseCommentManager  dbCommentManager;
     FileWriter              fileWriter;
     PostModel               tempPostModel;
+    TextEditor              textEditor;
 public:
     QList<PostModel> GetPosts(const QSqlDatabase &dataBase)
     {
@@ -44,7 +46,7 @@ public:
             tempPostModel.SetIdPost(query.value(0).toInt());
             tempPostModel.SetIdUser(query.value(1).toInt());
             tempPostModel.SetName(query.value(2).toString());
-            tempPostModel.SetTextContent(query.value(3).toString());
+            tempPostModel.SetTextContent(textEditor.WrapTextRespectWords(query.value(3).toString(), 80));
             tempPostModel.SetCreatedDate(query.value(4).toString());
             tempPostModel.SetLikesList(GetLikesList(tempPostModel, dataBase));
             tempPostModel.SetCommentsList(GetCommentsList(tempPostModel, dataBase));
@@ -78,7 +80,7 @@ public:
             tempPostModel.SetIdPost(query.value(0).toInt());
             tempPostModel.SetIdUser(query.value(1).toInt());
             tempPostModel.SetName(query.value(2).toString());
-            tempPostModel.SetTextContent(query.value(3).toString());
+            tempPostModel.SetTextContent(textEditor.WrapTextRespectWords(query.value(3).toString(), 30));
             tempPostModel.SetCreatedDate(query.value(4).toString());
             tempPostModel.SetLikesList(GetLikesList(tempPostModel, dataBase));
             tempPostModel.SetCommentsList(GetCommentsList(tempPostModel, dataBase));
@@ -98,7 +100,7 @@ public:
         if (!postList.isEmpty())
             postList.clear();
 
-        query.prepare("SELECT TOP 5 * FROM post WHERE id_user = :id_user ORDER BY created_date DESC;");
+        query.prepare("SELECT * FROM post WHERE id_user = :id_user ORDER BY created_date DESC;");
         query.bindValue(":id_user", userModel.GetIdUser());
 
         if (!query.exec())
@@ -112,10 +114,11 @@ public:
             tempPostModel.SetIdPost(query.value(0).toInt());
             tempPostModel.SetIdUser(query.value(1).toInt());
             tempPostModel.SetName(query.value(2).toString());
-            tempPostModel.SetTextContent(query.value(3).toString());
+            tempPostModel.SetTextContent(textEditor.WrapTextRespectWords(query.value(3).toString(), 30));
             tempPostModel.SetCreatedDate(query.value(4).toString());
             tempPostModel.SetLikesList(GetLikesList(tempPostModel, dataBase));
             tempPostModel.SetCommentsList(GetCommentsList(tempPostModel, dataBase));
+            tempPostModel.SetUserModel(userModel);
             tempPostModel.SetFileModel(dbFileManager.GetFileInPost(tempPostModel, dataBase));
 
             postList.push_back(tempPostModel);
@@ -146,7 +149,7 @@ public:
             tempPostModel.SetIdPost(query.value(0).toInt());
             tempPostModel.SetIdUser(query.value(1).toInt());
             tempPostModel.SetName(query.value(2).toString());
-            tempPostModel.SetTextContent(query.value(3).toString());
+            tempPostModel.SetTextContent(textEditor.WrapTextRespectWords(query.value(3).toString(), 30));
             tempPostModel.SetCreatedDate(query.value(4).toString());
             tempPostModel.SetLikesList(GetLikesList(tempPostModel, dataBase));
             tempPostModel.SetCommentsList(GetCommentsList(tempPostModel, dataBase));
@@ -230,7 +233,7 @@ public:
             tempPostModel.SetIdPost(query.value(0).toInt());
             tempPostModel.SetIdUser(query.value(1).toInt());
             tempPostModel.SetName(query.value(2).toString());
-            tempPostModel.SetTextContent(query.value(3).toString());
+            tempPostModel.SetTextContent(textEditor.WrapTextRespectWords(query.value(3).toString(), 30));
             tempPostModel.SetCreatedDate(query.value(4).toString());
             tempPostModel.SetLikesList(GetLikesList(tempPostModel, dataBase));
             tempPostModel.SetCommentsList(GetCommentsList(tempPostModel, dataBase));
@@ -260,7 +263,7 @@ public:
             tempPostModel.SetIdPost(query.value(0).toInt());
             tempPostModel.SetIdUser(query.value(1).toInt());
             tempPostModel.SetName(query.value(2).toString());
-            tempPostModel.SetTextContent(query.value(3).toString());
+            tempPostModel.SetTextContent(textEditor.WrapTextRespectWords(query.value(3).toString(), 30));
             tempPostModel.SetCreatedDate(query.value(4).toString());
             tempPostModel.SetLikesList(GetLikesList(tempPostModel, dataBase));
             tempPostModel.SetCommentsList(GetCommentsList(tempPostModel, dataBase));

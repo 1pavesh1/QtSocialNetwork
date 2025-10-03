@@ -2,7 +2,6 @@
 #define FEEDWINDOW_H
 
 #include "ProfileWindow.h"
-#include "UserPostsWindow.h"
 #include "UsersWindow.h"
 #include "SettingsWindow.h"
 #include "MainWindow.h"
@@ -28,7 +27,6 @@ private:
     Ui::FeedWindow *ui;
 
     class ProfileWindow        *profileWindow;
-    class UserPostsWindow      *userPostsWindow;
     class UsersWindow          *usersWindow;
     class SettingsWindow       *settingsWindow;
     class MainWindow           *mainWindow;
@@ -67,6 +65,7 @@ private:
     void DisconnectSlots() override;
     void HandlerGetPost(const PostList &postList);
     void HandlerGetPostFailed();
+    void HandlerGetUserPostFailed();
     void HandlerDeletePost(const PostModel &postModel);
     void HandlerDeletePostFailed();
     void HandlerGetCommentPost(const CommentList &commentList);
@@ -90,6 +89,7 @@ private:
     void DownloadFile(const PostModel &postModel);
     void DeletePost(const PostModel &postModel);
     void EditPost(const PostModel &postModel);
+    void OnComboBoxIndexChanged(qint32 index);
     void OpenMenuAnimation();
     void CloseMenuAnimation();
     void OpenCommentAnimation();
@@ -104,7 +104,6 @@ public:
 private slots:
     void on_openMenuButton_clicked();
     void on_profilePinButton_clicked();
-    void on_myPostPinButton_clicked();
     void on_usersPinButton_clicked();
     void on_settingsPinButton_clicked();
     void on_exitPinButton_clicked();

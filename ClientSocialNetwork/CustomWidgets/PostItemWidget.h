@@ -148,7 +148,6 @@ private:
 
         contentLabel = new QLabel(this);
         contentLabel->setObjectName("content");
-        contentLabel->setWordWrap(true);
         contentLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
         contentLabel->setStyleSheet("font-size: 14px; line-height: 1.4; margin: 8px 0;");
 
@@ -225,7 +224,7 @@ private:
         loginLabel->setText(postModel.GetUserModel().GetLogin());
         postTitleLabel->setText(postModel.GetName());
         dateCreateLabel->setText(timeUtil.FormatDateForDisplay(postModel.GetCreatedDate()));
-        contentLabel->setText(postModel.GetTextContent().replace("\n", "<br>"));
+        contentLabel->setText(postModel.GetTextContent());
 
         likeButton->setIcon(QIcon(":/IMG/IMG/LikePin50x50SN.png"));
         for (const LikeModel &likeModel : postModel.GetLikesList())

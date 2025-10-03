@@ -101,6 +101,7 @@ public:
 "{\n"
 "    border-bottom: 2px solid #4a148c; \n"
 "}"));
+        nameText->setMaxLength(45);
         contentText = new QTextEdit(EditPostWindow);
         contentText->setObjectName("contentText");
         contentText->setGeometry(QRect(20, 510, 661, 121));

@@ -182,9 +182,22 @@ public:
         }
         if (query.next())
         {
-            if ((mainUserModel.GetIdUser() == query.value(1).toInt() && tempUserModel.GetIdUser() == query.value(2).toInt()) ||
-                (mainUserModel.GetIdUser() == query.value(2).toInt() && tempUserModel.GetIdUser() == query.value(1).toInt()))
+            if ((mainUserModel.GetIdUser() == query.value(1).toInt() && tempUserModel.GetIdUser() == query.value(2).toInt()))
                 return RELATIONSHIP_WAIT_NOTIFICATION_ANSWER;
+        }
+
+        query.prepare("SELECT * FROM notification WHERE id_user_sender = :id_user_sender AND id_user_accepter = :id_user_accepter;");
+        query.bindValue(":id_user_sender", tempUserModel.GetIdUser());
+        query.bindValue(":id_user_accepter", mainUserModel.GetIdUser());
+
+        if (!query.exec())
+        {
+            qDebug() << query.lastError().text();
+        }
+        if (query.next())
+        {
+            if ((mainUserModel.GetIdUser() == query.value(2).toInt() && tempUserModel.GetIdUser() == query.value(1).toInt()))
+                return RELATIONSHIP_WAIT_ANSWER;
         }
 
         return RELATIONSHIP_NOT_FRIEND_ANSWER;

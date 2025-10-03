@@ -82,6 +82,7 @@ public:
 "{\n"
 "    border-bottom: 2px solid #4a148c; \n"
 "}"));
+        nameText->setMaxLength(45);
         addPostButton = new QPushButton(AddPostWindow);
         addPostButton->setObjectName("addPostButton");
         addPostButton->setGeometry(QRect(10, 640, 681, 51));

@@ -121,6 +121,9 @@ QLineEdit:focus
    <property name="text">
     <string/>
    </property>
+   <property name="maxLength">
+    <number>45</number>
+   </property>
    <property name="placeholderText">
     <string>Заголовок поста</string>
    </property>

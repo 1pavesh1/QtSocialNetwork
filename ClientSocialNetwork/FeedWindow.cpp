@@ -34,11 +34,14 @@ void FeedWindow::ConnectSlots()
     timer = new QTimer(this);
     timer->start(1);
     connect(timer, &QTimer::timeout, this, &FeedWindow::CheckCursorPosition);
+    connect(ui->comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &FeedWindow::OnComboBoxIndexChanged);
     connect(&SocketManager::instance(), &SocketManager::UserUpdateData, this, &FeedWindow::SetData);
     connect(&SocketManager::instance(), &SocketManager::UserChangePhoto, this, &FeedWindow::HandlerChangePhoto);
     connect(&SocketManager::instance(), &SocketManager::ChangeCountFriends, this, &FeedWindow::HandlerChangeCountFriends);
     connect(&SocketManager::instance(), &SocketManager::GetPost, this, &FeedWindow::HandlerGetPost);
     connect(&SocketManager::instance(), &SocketManager::GetPostFailed, this, &FeedWindow::HandlerGetPostFailed);
+    connect(&SocketManager::instance(), &SocketManager::GetUserPost, this, &FeedWindow::HandlerGetPost);
+    connect(&SocketManager::instance(), &SocketManager::GetUserPostFailed, this, &FeedWindow::HandlerGetUserPostFailed);
     connect(&SocketManager::instance(), &SocketManager::DeletePost, this, &FeedWindow::HandlerDeletePost);
     connect(&SocketManager::instance(), &SocketManager::DeletePostFailed, this, &FeedWindow::HandlerDeletePostFailed);
     connect(&SocketManager::instance(), &SocketManager::AddCommentPost, this, &FeedWindow::HandlerAddCommentPost);
@@ -84,6 +87,7 @@ void FeedWindow::DisconnectSlots()
 void FeedWindow::HandlerGetPost(const PostList &postList)
 {
     ui->searchMessage->setVisible(false);
+    ui->postList->clear();
     for (const PostModel &postModel : postList.GetPostList())
     {
         PostItemWidget      *postItemWidget = new PostItemWidget(postModel, userModel);
@@ -103,6 +107,11 @@ void FeedWindow::HandlerGetPostFailed()
 {
     messageWidget = new MessageWidget(this, "Не получилось доставить данные", DANGER);
     messageWidget->Show();
+}
+
+void FeedWindow::HandlerGetUserPostFailed()
+{
+
 }
 
 void FeedWindow::HandlerDeletePost(const PostModel &postModel)
@@ -321,16 +330,19 @@ void FeedWindow::HandlerChangeCountFriends(const UserModel &userModel)
 
 void FeedWindow::EndFeed(qint32 value)
 {
-    if (value == ui->postList->verticalScrollBar()->maximum())
+    if (ui->comboBox->currentIndex() == 0)
     {
-        int lastIndex = ui->postList->count() - 1;
-        if (lastIndex >= 0) {
-            QListWidgetItem* lastItem = ui->postList->item(lastIndex);
-            PostItemWidget* postWidget = qobject_cast<PostItemWidget*>(ui->postList->itemWidget(lastItem));
+        if (value == ui->postList->verticalScrollBar()->maximum())
+        {
+            int lastIndex = ui->postList->count() - 1;
+            if (lastIndex >= 0) {
+                QListWidgetItem* lastItem = ui->postList->item(lastIndex);
+                PostItemWidget* postWidget = qobject_cast<PostItemWidget*>(ui->postList->itemWidget(lastItem));
 
-            if (postWidget) {
-                PostModel lastPostModel = postWidget->GetPostModel();
-                SocketManager::instance().AddPostToFeedQuery(lastPostModel);
+                if (postWidget) {
+                    PostModel lastPostModel = postWidget->GetPostModel();
+                    SocketManager::instance().AddPostToFeedQuery(lastPostModel);
+                }
             }
         }
     }
@@ -630,17 +642,6 @@ void FeedWindow::on_profilePinButton_clicked()
     connect(profileWindow, &ProfileWindow::closeSignal, this, &FeedWindow::EnableWindow);
 }
 
-void FeedWindow::on_myPostPinButton_clicked()
-{
-    this->DisableWindow();
-
-    this->userPostsWindow = new class UserPostsWindow();
-    this->userPostsWindow->SetData(userModel);
-    this->userPostsWindow->show();
-
-    connect(userPostsWindow, &UserPostsWindow::closeSignal, this, &FeedWindow::EnableWindow);
-}
-
 void FeedWindow::on_usersPinButton_clicked()
 {
     this->DisableWindow();
@@ -709,6 +710,7 @@ void FeedWindow::on_searchButton_clicked()
 
 void FeedWindow::on_updateFeedButton_clicked()
 {
+    ui->comboBox->setCurrentIndex(0);
     commentsIsOpen = false;
     isEdit = false;
     ui->editCommentFrame->setVisible(false);
@@ -739,14 +741,14 @@ void FeedWindow::on_sendCommentButton_clicked()
         messageWidget = new MessageWidget(this, "Чтобы оставить комментарий напишите что-нибудь", INFORMATION);
         messageWidget->Show();
     }
-    else if (ui->commentLineEdit->text().size() <= 5)
+    else if (ui->commentLineEdit->text().trimmed().size() <= 5)
     {
         messageWidget = new MessageWidget(this, "Комментарий должен быть не меньше 5 символов", WARNING);
         messageWidget->Show();
     }
     else
     {
-        this->commentModel.SetTextContent(ui->commentLineEdit->text());
+        this->commentModel.SetTextContent(ui->commentLineEdit->text().trimmed());
         this->commentModel.SetUserModel(this->userModel);
 
         ui->commentLineEdit->clear();
@@ -764,6 +766,21 @@ void FeedWindow::on_sendCommentButton_clicked()
             this->commentModel.SetIsEdited(false);
             SocketManager::instance().AddCommentPostQuery(this->commentModel);
         }
+    }
+}
+
+void FeedWindow::OnComboBoxIndexChanged(qint32 index)
+{
+    switch (index)
+    {
+    case 0:
+        SocketManager::instance().GetPostQuery(this->userModel);
+        break;
+    case 1:
+        SocketManager::instance().GetUserPostQuery(this->userModel);
+        break;
+    default:
+        break;
     }
 }
 

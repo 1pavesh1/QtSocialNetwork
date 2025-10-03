@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QLabel>
@@ -29,7 +30,6 @@ public:
     QPushButton *updateFeedButton;
     QFrame *menuTableFrame;
     QPushButton *profilePinButton;
-    QPushButton *myPostPinButton;
     QPushButton *usersPinButton;
     QPushButton *settingsPinButton;
     QPushButton *exitPinButton;
@@ -53,6 +53,7 @@ public:
     QPushButton *cancelEditComment;
     QPushButton *editButton;
     QLabel *searchMessage;
+    QComboBox *comboBox;
 
     void setupUi(QDialog *FeedWindow)
     {
@@ -137,31 +138,9 @@ public:
         icon4.addFile(QString::fromUtf8(":/IMG/IMG/DefultProfile75x75SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
         profilePinButton->setIcon(icon4);
         profilePinButton->setIconSize(QSize(80, 80));
-        myPostPinButton = new QPushButton(menuTableFrame);
-        myPostPinButton->setObjectName("myPostPinButton");
-        myPostPinButton->setGeometry(QRect(250, 45, 91, 91));
-        myPostPinButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
-        myPostPinButton->setStyleSheet(QString::fromUtf8("QPushButton \n"
-"{\n"
-"	background-color: rgb(240, 241, 255);\n"
-"    border-radius: 45px;\n"
-"}\n"
-"\n"
-"QPushButton:hover\n"
-"{\n"
-"    background: qlineargradient(\n"
-"        x1:0, y1:0, x2:0, y2:1,\n"
-"        stop:0 #6a3093, \n"
-"        stop:1 #a044ff \n"
-"    );\n"
-"}"));
-        QIcon icon5;
-        icon5.addFile(QString::fromUtf8(":/IMG/IMG/PostPin80x80SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        myPostPinButton->setIcon(icon5);
-        myPostPinButton->setIconSize(QSize(60, 60));
         usersPinButton = new QPushButton(menuTableFrame);
         usersPinButton->setObjectName("usersPinButton");
-        usersPinButton->setGeometry(QRect(449, 44, 91, 91));
+        usersPinButton->setGeometry(QRect(220, 40, 91, 91));
         usersPinButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         usersPinButton->setStyleSheet(QString::fromUtf8("QPushButton \n"
 "{\n"
@@ -177,13 +156,13 @@ public:
 "        stop:1 #a044ff \n"
 "    );\n"
 "}"));
-        QIcon icon6;
-        icon6.addFile(QString::fromUtf8(":/IMG/IMG/UsersPin80x80SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        usersPinButton->setIcon(icon6);
+        QIcon icon5;
+        icon5.addFile(QString::fromUtf8(":/IMG/IMG/UsersPin80x80SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        usersPinButton->setIcon(icon5);
         usersPinButton->setIconSize(QSize(60, 60));
         settingsPinButton = new QPushButton(menuTableFrame);
         settingsPinButton->setObjectName("settingsPinButton");
-        settingsPinButton->setGeometry(QRect(650, 44, 91, 91));
+        settingsPinButton->setGeometry(QRect(380, 40, 91, 91));
         settingsPinButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         settingsPinButton->setStyleSheet(QString::fromUtf8("QPushButton \n"
 "{\n"
@@ -199,9 +178,9 @@ public:
 "        stop:1 #a044ff \n"
 "    );\n"
 "}"));
-        QIcon icon7;
-        icon7.addFile(QString::fromUtf8(":/IMG/IMG/SettingsPin80x80SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        settingsPinButton->setIcon(icon7);
+        QIcon icon6;
+        icon6.addFile(QString::fromUtf8(":/IMG/IMG/SettingsPin80x80SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        settingsPinButton->setIcon(icon6);
         settingsPinButton->setIconSize(QSize(60, 60));
         exitPinButton = new QPushButton(menuTableFrame);
         exitPinButton->setObjectName("exitPinButton");
@@ -221,9 +200,9 @@ public:
 "        stop:1 #a044ff \n"
 "    );\n"
 "}"));
-        QIcon icon8;
-        icon8.addFile(QString::fromUtf8(":/IMG/IMG/ExitPin80x80SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        exitPinButton->setIcon(icon8);
+        QIcon icon7;
+        icon7.addFile(QString::fromUtf8(":/IMG/IMG/ExitPin80x80SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        exitPinButton->setIcon(icon7);
         exitPinButton->setIconSize(QSize(60, 60));
         loginLabel = new QLabel(menuTableFrame);
         loginLabel->setObjectName("loginLabel");
@@ -433,9 +412,9 @@ public:
 "        stop:1 #a044ff \n"
 "    );\n"
 "}"));
-        QIcon icon9;
-        icon9.addFile(QString::fromUtf8(":/IMG/IMG/AddPostPin50x50SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        addPostButton->setIcon(icon9);
+        QIcon icon8;
+        icon8.addFile(QString::fromUtf8(":/IMG/IMG/AddPostPin50x50SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        addPostButton->setIcon(icon8);
         addPostButton->setIconSize(QSize(50, 50));
         searchText = new QLineEdit(FeedWindow);
         searchText->setObjectName("searchText");
@@ -487,9 +466,9 @@ public:
 "	background-color: white;\n"
 "    border-radius: 45px;\n"
 "}"));
-        QIcon icon10;
-        icon10.addFile(QString::fromUtf8(":/IMG/IMG/BackPin60x60SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        backButton->setIcon(icon10);
+        QIcon icon9;
+        icon9.addFile(QString::fromUtf8(":/IMG/IMG/BackPin60x60SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        backButton->setIcon(icon9);
         backButton->setIconSize(QSize(40, 40));
         commentLineEdit = new QLineEdit(commentPostFrame);
         commentLineEdit->setObjectName("commentLineEdit");
@@ -500,6 +479,7 @@ public:
 "	padding: 5px;\n"
 "	border: none;\n"
 "}"));
+        commentLineEdit->setMaxLength(50);
         sendCommentButton = new QPushButton(commentPostFrame);
         sendCommentButton->setObjectName("sendCommentButton");
         sendCommentButton->setGeometry(QRect(740, 570, 41, 41));
@@ -509,9 +489,9 @@ public:
 "	background-color: white;\n"
 "    border-radius: 45px;\n"
 "}"));
-        QIcon icon11;
-        icon11.addFile(QString::fromUtf8(":/IMG/IMG/SendCommentMsgPin60x60SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        sendCommentButton->setIcon(icon11);
+        QIcon icon10;
+        icon10.addFile(QString::fromUtf8(":/IMG/IMG/SendCommentMsgPin60x60SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        sendCommentButton->setIcon(icon10);
         sendCommentButton->setIconSize(QSize(45, 45));
         namePostLabel = new QLabel(commentPostFrame);
         namePostLabel->setObjectName("namePostLabel");
@@ -664,9 +644,9 @@ public:
 "{\n"
 "    border-radius: 15px;\n"
 "}"));
-        QIcon icon12;
-        icon12.addFile(QString::fromUtf8(":/IMG/IMG/CancelPin512x512SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        cancelEditComment->setIcon(icon12);
+        QIcon icon11;
+        icon11.addFile(QString::fromUtf8(":/IMG/IMG/CancelPin512x512SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        cancelEditComment->setIcon(icon11);
         cancelEditComment->setIconSize(QSize(30, 30));
         editButton = new QPushButton(editCommentFrame);
         editButton->setObjectName("editButton");
@@ -676,9 +656,9 @@ public:
 "{\n"
 "    border-radius: 15px;\n"
 "}"));
-        QIcon icon13;
-        icon13.addFile(QString::fromUtf8(":/IMG/IMG/EditMsg512x512SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        editButton->setIcon(icon13);
+        QIcon icon12;
+        icon12.addFile(QString::fromUtf8(":/IMG/IMG/EditMsg512x512SN.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        editButton->setIcon(icon12);
         editButton->setIconSize(QSize(40, 40));
         searchMessage = new QLabel(FeedWindow);
         searchMessage->setObjectName("searchMessage");
@@ -689,6 +669,35 @@ public:
 "	background-color: white;\n"
 "	color: black;\n"
 "}"));
+        comboBox = new QComboBox(FeedWindow);
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->setObjectName("comboBox");
+        comboBox->setGeometry(QRect(870, 110, 121, 30));
+        comboBox->setFont(font3);
+        comboBox->setStyleSheet(QString::fromUtf8("QComboBox\n"
+"{\n"
+"	border-radius: 10px;\n"
+"	padding: 5px;\n"
+"	background-color: white;\n"
+"	color: black;\n"
+"}\n"
+"\n"
+"QComboBox::drop-down\n"
+"{\n"
+"	border: none;\n"
+"    background: qlineargradient(\n"
+"        x1:0, y1:0, x2:0, y2:1,\n"
+"        stop:0 #6a3093, \n"
+"        stop:1 #a044ff \n"
+"    );\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow \n"
+"{\n"
+"\n"
+"}"));
+        comboBox->raise();
         postList->raise();
         openMenuButton->raise();
         notificationButton->raise();
@@ -697,10 +706,10 @@ public:
         addPostButton->raise();
         searchText->raise();
         line->raise();
-        menuTableFrame->raise();
         line_2->raise();
         commentPostFrame->raise();
         searchMessage->raise();
+        menuTableFrame->raise();
 
         retranslateUi(FeedWindow);
 
@@ -714,7 +723,6 @@ public:
         notificationButton->setText(QString());
         updateFeedButton->setText(QString());
         profilePinButton->setText(QString());
-        myPostPinButton->setText(QString());
         usersPinButton->setText(QString());
         settingsPinButton->setText(QString());
         exitPinButton->setText(QString());
@@ -738,6 +746,9 @@ public:
         cancelEditComment->setText(QString());
         editButton->setText(QString());
         searchMessage->setText(QCoreApplication::translate("FeedWindow", "\320\237\320\276\321\201\321\202\320\276\320\262 \321\201 \321\202\320\260\320\272\320\270\320\274 \320\267\320\260\320\263\320\276\320\273\320\276\320\262\320\272\320\276\320\274 \320\275\320\265 \320\275\320\260\320\271\320\264\320\265\320\275\320\276", nullptr));
+        comboBox->setItemText(0, QCoreApplication::translate("FeedWindow", "\320\222\321\201\320\265 \320\277\320\276\321\201\321\202\321\213", nullptr));
+        comboBox->setItemText(1, QCoreApplication::translate("FeedWindow", "\320\234\320\276\320\270 \320\277\320\276\321\201\321\202\321\213", nullptr));
+
     } // retranslateUi
 
 };

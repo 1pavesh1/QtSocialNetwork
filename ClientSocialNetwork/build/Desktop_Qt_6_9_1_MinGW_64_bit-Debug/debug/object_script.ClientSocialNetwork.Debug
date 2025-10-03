@@ -8,7 +8,6 @@ debug/NotificationsWindow.o
 debug/ProfileWindow.o
 debug/RegWindow.o
 debug/SettingsWindow.o
-debug/UserPostsWindow.o
 debug/UsersWindow.o
 debug/main.o
 debug/MainWindow.o
@@ -34,5 +33,4 @@ debug/moc_NotificationsWindow.o
 debug/moc_ProfileWindow.o
 debug/moc_RegWindow.o
 debug/moc_SettingsWindow.o
-debug/moc_UserPostsWindow.o
 debug/moc_UsersWindow.o

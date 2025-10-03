@@ -51,6 +51,8 @@ public:
     void SendDataToServer(const TypeQuery &typeQuery, const Data& data);
     void ReadQuery(QDataStream &answerServer);
 
+    UserModel GetUser();
+
     void RegistrationUserQuery(const UserModel &userModel);
     void AuthorizationUserQuery(const UserModel &userModel);
     void CheckUserProfileQuery(const UserModel &userModel);
@@ -134,6 +136,7 @@ signals:
     void RelationshipFriend();
     void RelationshipNotFriend();
     void RelationshipWaitFriend();
+    void RelationshipWaitAnswer();
     // Получение уведомлений
     void GetNotifications(const NotificationList &notificationList);
     void GetNotificationsFailed();

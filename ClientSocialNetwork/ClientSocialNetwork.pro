@@ -24,7 +24,6 @@ SOURCES += \
     ProfileWindow.cpp \
     RegWindow.cpp \
     SettingsWindow.cpp \
-    UserPostsWindow.cpp \
     UsersWindow.cpp \
     main.cpp \
     MainWindow.cpp
@@ -58,7 +57,6 @@ HEADERS += \
     RegWindow.h \
     SettingsWindow.h \
     TimeUtil/TimeUtil.h \
-    UserPostsWindow.h \
     UsersWindow.h
 
 FORMS += \
@@ -72,7 +70,6 @@ FORMS += \
     ProfileWindow.ui \
     RegWindow.ui \
     SettingsWindow.ui \
-    UserPostsWindow.ui \
     UsersWindow.ui
 
 # Default rules for deployment.

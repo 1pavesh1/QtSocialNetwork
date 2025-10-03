@@ -40,6 +40,7 @@ public:
     QLabel *emailLabel;
     QPushButton *changePhotoButton;
     QPushButton *addButton;
+    QPushButton *answerQueryButton;
 
     void setupUi(QDialog *ProfileWindow)
     {
@@ -269,6 +270,43 @@ public:
 "        stop:1 #7b1fa2\n"
 "    );\n"
 "}"));
+        answerQueryButton = new QPushButton(ProfileWindow);
+        answerQueryButton->setObjectName("answerQueryButton");
+        answerQueryButton->setGeometry(QRect(20, 550, 361, 51));
+        answerQueryButton->setFont(font2);
+        answerQueryButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        answerQueryButton->setStyleSheet(QString::fromUtf8("QPushButton \n"
+"{\n"
+"    background: qlineargradient(\n"
+"        x1:0, y1:0, x2:0, y2:1,\n"
+"        stop:0 #6a3093, \n"
+"        stop:1 #a044ff \n"
+"    );\n"
+"    color: white;     \n"
+"    border-radius: 20px;\n"
+"    padding: 8px 16px;  \n"
+"    font-weight: bold;   \n"
+"    border: 1px solid #4a148c; \n"
+"}\n"
+"\n"
+"QPushButton:hover\n"
+" {\n"
+"    background: qlineargradient(\n"
+"        x1:0, y1:0, x2:0, y2:1,\n"
+"        stop:0 #7b1fa2,\n"
+"        stop:1 #aa00ff\n"
+"    );\n"
+"    border: 2px solid #7b1fa2;\n"
+"}\n"
+"\n"
+"QPushButton:pressed \n"
+"{\n"
+"    background: qlineargradient(\n"
+"        x1:0, y1:0, x2:0, y2:1,\n"
+"        stop:0 #4a148c,\n"
+"        stop:1 #7b1fa2\n"
+"    );\n"
+"}"));
 
         retranslateUi(ProfileWindow);
 
@@ -294,6 +332,7 @@ public:
         emailLabel->setText(QCoreApplication::translate("ProfileWindow", "\320\237\320\276\321\207\321\202\320\260:", nullptr));
         changePhotoButton->setText(QString());
         addButton->setText(QCoreApplication::translate("ProfileWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214", nullptr));
+        answerQueryButton->setText(QCoreApplication::translate("ProfileWindow", "\320\236\321\202\320\262\320\265\321\202\320\270\321\202\321\214 \320\275\320\260 \320\267\320\260\321\217\320\262\320\272\321\203", nullptr));
     } // retranslateUi
 
 };

@@ -550,6 +550,63 @@ QPushButton:pressed
     <string>Добавить</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="answerQueryButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>550</y>
+     <width>361</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>14</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton 
+{
+    background: qlineargradient(
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 #6a3093, 
+        stop:1 #a044ff 
+    );
+    color: white;     
+    border-radius: 20px;
+    padding: 8px 16px;  
+    font-weight: bold;   
+    border: 1px solid #4a148c; 
+}
+
+QPushButton:hover
+ {
+    background: qlineargradient(
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 #7b1fa2,
+        stop:1 #aa00ff
+    );
+    border: 2px solid #7b1fa2;
+}
+
+QPushButton:pressed 
+{
+    background: qlineargradient(
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 #4a148c,
+        stop:1 #7b1fa2
+    );
+}</string>
+   </property>
+   <property name="text">
+    <string>Ответить на заявку</string>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="IMG.qrc"/>

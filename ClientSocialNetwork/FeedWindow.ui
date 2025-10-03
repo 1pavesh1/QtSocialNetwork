@@ -196,53 +196,11 @@ QPushButton:hover
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="myPostPinButton">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>45</y>
-      <width>91</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton 
-{
-	background-color: rgb(240, 241, 255);
-    border-radius: 45px;
-}
-
-QPushButton:hover
-{
-    background: qlineargradient(
-        x1:0, y1:0, x2:0, y2:1,
-        stop:0 #6a3093, 
-        stop:1 #a044ff 
-    );
-}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="IMG.qrc">
-      <normaloff>:/IMG/IMG/PostPin80x80SN.png</normaloff>:/IMG/IMG/PostPin80x80SN.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>60</width>
-      <height>60</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QPushButton" name="usersPinButton">
     <property name="geometry">
      <rect>
-      <x>449</x>
-      <y>44</y>
+      <x>220</x>
+      <y>40</y>
       <width>91</width>
       <height>91</height>
      </rect>
@@ -283,8 +241,8 @@ QPushButton:hover
    <widget class="QPushButton" name="settingsPinButton">
     <property name="geometry">
      <rect>
-      <x>650</x>
-      <y>44</y>
+      <x>380</x>
+      <y>40</y>
       <width>91</width>
       <height>91</height>
      </rect>
@@ -807,6 +765,9 @@ QPushButton:hover
     <property name="text">
      <string/>
     </property>
+    <property name="maxLength">
+     <number>50</number>
+    </property>
     <property name="placeholderText">
      <string>Напишите комментарий...</string>
     </property>
@@ -1150,6 +1111,58 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
     <string>Постов с таким заголовком не найдено</string>
    </property>
   </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>870</x>
+     <y>110</y>
+     <width>121</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QComboBox
+{
+	border-radius: 10px;
+	padding: 5px;
+	background-color: white;
+	color: black;
+}
+
+QComboBox::drop-down
+{
+	border: none;
+    background: qlineargradient(
+        x1:0, y1:0, x2:0, y2:1,
+        stop:0 #6a3093, 
+        stop:1 #a044ff 
+    );
+}
+
+QComboBox::down-arrow 
+{
+
+}</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>Все посты</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Мои посты</string>
+    </property>
+   </item>
+  </widget>
+  <zorder>comboBox</zorder>
   <zorder>postList</zorder>
   <zorder>openMenuButton</zorder>
   <zorder>notificationButton</zorder>
@@ -1158,10 +1171,10 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
   <zorder>addPostButton</zorder>
   <zorder>searchText</zorder>
   <zorder>line</zorder>
-  <zorder>menuTableFrame</zorder>
   <zorder>line_2</zorder>
   <zorder>commentPostFrame</zorder>
   <zorder>searchMessage</zorder>
+  <zorder>menuTableFrame</zorder>
  </widget>
  <resources>
   <include location="IMG.qrc"/>

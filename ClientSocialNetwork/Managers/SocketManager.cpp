@@ -22,6 +22,12 @@ void SocketManager::SlotDisconnected()
 
 }
 
+UserModel SocketManager::GetUser()
+{
+    qDebug() << this->userModel.GetLogin();
+    return this->userModel;
+}
+
 void SocketManager::SlotReadyRead()
 {
     socket = (QTcpSocket*)sender();
@@ -83,7 +89,7 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
         ReadUpdateAnswer(typeQuery);
         break;
     case USER_IS_MAIN_ANSWER: case USER_NOT_MAIN_ANSWER:
-        dataFromServer >> userModel;
+        dataFromServer >> tempUser;
         ReadCheckUserProfileAnswer(typeQuery);
         break;
     case CHANGE_PHOTO_USER_QUERY: case CHANGE_PHOTO_FAILED_ANSWER:
@@ -98,7 +104,7 @@ void SocketManager::ReadQuery(QDataStream &dataFromServer)
         dataFromServer >> userModelList;
         ReadGetFriends(typeQuery);
         break;
-    case RELATIONSHIP_FRIEND_ANSWER: case RELATIONSHIP_NOT_FRIEND_ANSWER: case RELATIONSHIP_WAIT_NOTIFICATION_ANSWER:
+    case RELATIONSHIP_FRIEND_ANSWER: case RELATIONSHIP_NOT_FRIEND_ANSWER: case RELATIONSHIP_WAIT_NOTIFICATION_ANSWER: case RELATIONSHIP_WAIT_ANSWER:
         dataFromServer >> tempUser;
         ReadGetRelationship(typeQuery);
         break;
@@ -390,6 +396,8 @@ void SocketManager::ReadGetRelationship(const TypeQuery &typeQuery)
         emit RelationshipNotFriend();
     else if (typeQuery == RELATIONSHIP_WAIT_NOTIFICATION_ANSWER)
         emit RelationshipWaitFriend();
+    else if (typeQuery == RELATIONSHIP_WAIT_ANSWER)
+        emit RelationshipWaitAnswer();
 }
 
 void SocketManager::ReadGetNotification(const TypeQuery &typeQuery)

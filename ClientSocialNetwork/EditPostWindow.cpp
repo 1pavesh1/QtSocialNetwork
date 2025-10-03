@@ -93,9 +93,19 @@ void EditPostWindow::on_editPostButton_clicked()
         messageWidget = new MessageWidget(this, "Вы не добавили заголовок", WARNING);
         messageWidget->Show();
     }
-    else if (ui->contentText->toPlainText().isEmpty() && ui->mediaFrame->layout()->isEmpty())
+    else if (ui->nameText->text().trimmed().size() <= 5)
+    {
+        messageWidget = new MessageWidget(this, "Заголовок должен быть не меньше 5 символов", WARNING);
+        messageWidget->Show();
+    }
+    else if (ui->contentText->toPlainText().trimmed().isEmpty() && ui->mediaFrame->layout()->isEmpty())
     {
         messageWidget = new MessageWidget(this, "Пост должен содержать либо просто файл, либо просто контент, либо всё вместе", INFORMATION);
+        messageWidget->Show();
+    }
+    else if (ui->contentText->toPlainText().trimmed().size() <= 10 || ui->contentText->toPlainText().trimmed().size() >= 200)
+    {
+        messageWidget = new MessageWidget(this, "Контент должен быть не меньше 10 и не больше 200 символов", WARNING);
         messageWidget->Show();
     }
     else

@@ -24,6 +24,7 @@ void ProfileWindow::ConnectSlots()
     connect(&SocketManager::instance(), &SocketManager::RelationshipFriend, this, &ProfileWindow::HandleUserRelationshipFriend);
     connect(&SocketManager::instance(), &SocketManager::RelationshipNotFriend, this, &ProfileWindow::HandleUserRelationshipNotFriend);
     connect(&SocketManager::instance(), &SocketManager::RelationshipWaitFriend, this, &ProfileWindow::HandleUserRelationshipWaitFriend);
+    connect(&SocketManager::instance(), &SocketManager::RelationshipWaitAnswer, this, &ProfileWindow::HandleUserRelationshipWaitAnswer);
     connect(&SocketManager::instance(), &SocketManager::UserChangePhoto, this, &ProfileWindow::HandleUserChangePhoto);
     connect(&SocketManager::instance(), &SocketManager::UserChangePhotoFailed, this, &ProfileWindow::HandleUserChangePhotoFailed);
 }
@@ -46,6 +47,7 @@ void ProfileWindow::HandleUserIsMain()
     ui->addButton->setVisible(false);
     ui->deleteButton->setVisible(false);
     ui->deleteQueryButton->setVisible(false);
+    ui->answerQueryButton->setVisible(false);
 
     connect(timer, &QTimer::timeout, this, &ProfileWindow::CheckCursorPosition);
 }
@@ -80,6 +82,7 @@ void ProfileWindow::HandleUserRelationshipFriend()
     ui->addButton->setVisible(false);
     ui->deleteButton->setVisible(true);
     ui->deleteQueryButton->setVisible(false);
+    ui->answerQueryButton->setVisible(false);
 }
 
 void ProfileWindow::HandleUserRelationshipNotFriend()
@@ -87,6 +90,7 @@ void ProfileWindow::HandleUserRelationshipNotFriend()
     ui->addButton->setVisible(true);
     ui->deleteButton->setVisible(false);
     ui->deleteQueryButton->setVisible(false);
+    ui->answerQueryButton->setVisible(false);
 }
 
 void ProfileWindow::HandleUserRelationshipWaitFriend()
@@ -94,6 +98,15 @@ void ProfileWindow::HandleUserRelationshipWaitFriend()
     ui->addButton->setVisible(false);
     ui->deleteButton->setVisible(false);
     ui->deleteQueryButton->setVisible(true);
+    ui->answerQueryButton->setVisible(false);
+}
+
+void ProfileWindow::HandleUserRelationshipWaitAnswer()
+{
+    ui->addButton->setVisible(false);
+    ui->deleteButton->setVisible(false);
+    ui->deleteQueryButton->setVisible(false);
+    ui->answerQueryButton->setVisible(true);
 }
 
 void ProfileWindow::SetData(const UserModel &userModel)
@@ -193,3 +206,13 @@ void ProfileWindow::on_deleteButton_clicked()
 {
     SocketManager::instance().DeleteFriendQuery(this->userModel);
 }
+
+void ProfileWindow::on_answerQueryButton_clicked()
+{
+    this->close();
+
+    this->notificationWindow = new class NotificationsWindow();
+    this->notificationWindow->SetData(SocketManager::instance().GetUser());
+    this->notificationWindow->show();
+}
+

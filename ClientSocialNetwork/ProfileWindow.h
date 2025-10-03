@@ -2,6 +2,7 @@
 #define PROFILEWINDOW_H
 
 #include "SettingsWindow.h"
+#include "NotificationsWindow.h"
 #include "Managers/SocketManager.h"
 #include "UserModel.h"
 #include "AbstractClasses/BaseWindow.h"
@@ -20,6 +21,7 @@ private:
     Ui::ProfileWindow       *ui;
 
     class SettingsWindow    *settingsWindow;
+    class NotificationsWindow *notificationWindow;
 
     QTimer                  *timer;
 
@@ -38,6 +40,7 @@ private:
     void HandleUserRelationshipFriend();
     void HandleUserRelationshipNotFriend();
     void HandleUserRelationshipWaitFriend();
+    void HandleUserRelationshipWaitAnswer();
 
 public:
     explicit ProfileWindow(QWidget *parent = nullptr);
@@ -51,6 +54,7 @@ private slots:
     void on_addButton_clicked();
     void on_deleteQueryButton_clicked();
     void on_deleteButton_clicked();
+    void on_answerQueryButton_clicked();
 };
 
 #endif // PROFILEWINDOW_H

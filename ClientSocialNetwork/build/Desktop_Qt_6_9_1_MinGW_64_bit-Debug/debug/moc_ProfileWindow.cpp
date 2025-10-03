@@ -44,7 +44,8 @@ template <> constexpr inline auto ProfileWindow::qt_create_metaobjectdata<qt_met
         "on_changePhotoButton_clicked",
         "on_addButton_clicked",
         "on_deleteQueryButton_clicked",
-        "on_deleteButton_clicked"
+        "on_deleteButton_clicked",
+        "on_answerQueryButton_clicked"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -58,6 +59,8 @@ template <> constexpr inline auto ProfileWindow::qt_create_metaobjectdata<qt_met
         QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_deleteButton_clicked'
         QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_answerQueryButton_clicked'
+        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -86,6 +89,7 @@ void ProfileWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 2: _t->on_addButton_clicked(); break;
         case 3: _t->on_deleteQueryButton_clicked(); break;
         case 4: _t->on_deleteButton_clicked(); break;
+        case 5: _t->on_answerQueryButton_clicked(); break;
         default: ;
         }
     }
@@ -111,14 +115,14 @@ int ProfileWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 6;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 6)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
 }
