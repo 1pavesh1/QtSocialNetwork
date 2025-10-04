@@ -15,6 +15,7 @@
 #include "MediaUtil/PhotoUtil.h"
 #include "TimeUtil/TimeUtil.h"
 #include <QScrollBar>
+#include <QtAlgorithms>
 
 namespace Ui {
 class FeedWindow;

@@ -206,20 +206,22 @@ void FeedWindow::HandlerAddCommentPost(const PostModel &postModel)
 {
     if (commentsIsOpen)
     {
-        CommentModel        commentModel = postModel.GetCommentsList().last();
+        CommentModel commentModel = postModel.GetCommentsList().last();
 
-        CommentItemWidget   *commentItemWidget  = new CommentItemWidget(commentModel, commentModel.GetUserModel());
-        QListWidgetItem     *item               = new QListWidgetItem();
+        CommentItemWidget *commentItemWidget = new CommentItemWidget(commentModel, commentModel.GetUserModel());
+        QListWidgetItem *item = new QListWidgetItem();
 
         item->setSizeHint(commentItemWidget->sizeHint());
         item->setData(Qt::UserRole, commentModel.GetIdComment());
 
-        ui->commentList->addItem(item);
+        ui->commentList->insertItem(0, item);
         ui->commentList->setItemWidget(item, commentItemWidget);
 
         ConnectCommentSlots(commentItemWidget);
 
         ui->countCommentsPostLabel->setText(QString::number(postModel.GetCommentsList().size()) + " Комментариев");
+
+        ui->commentList->scrollToTop();
     }
 }
 
@@ -233,11 +235,13 @@ void FeedWindow::HandlerEditCommentPost(const CommentModel &commentModel)
 {
     if (commentsIsOpen)
     {
+        qint32 posComment = 0;
         for (qint32 i = 0; i < ui->commentList->count(); ++i)
         {
             QListWidgetItem* item = ui->commentList->item(i);
             if (item->data(Qt::UserRole).toInt() == commentModel.GetIdComment())
             {
+                posComment = i;
                 delete ui->commentList->takeItem(i);
                 break;
             }
@@ -249,7 +253,7 @@ void FeedWindow::HandlerEditCommentPost(const CommentModel &commentModel)
         item->setSizeHint(commentItemWidget->sizeHint());
         item->setData(Qt::UserRole, commentModel.GetIdComment());
 
-        ui->commentList->addItem(item);
+        ui->commentList->insertItem(posComment, item);
         ui->commentList->setItemWidget(item, commentItemWidget);
 
         ConnectCommentSlots(commentItemWidget);
@@ -266,14 +270,20 @@ void FeedWindow::HandlerDeleteCommentPost(const PostModel &postModel)
 {
     if (commentsIsOpen)
     {
-        for (qint32 i = 0; i < ui->commentList->count(); ++i)
+        QSet<qint32> currentCommentIds;
+        for (const auto& commentModel : postModel.GetCommentsList())
+        {
+            currentCommentIds.insert(commentModel.GetIdComment());
+        }
+
+        for (qint32 i = ui->commentList->count() - 1; i >= 0; --i)
         {
             QListWidgetItem* item = ui->commentList->item(i);
+            qint32 itemId = item->data(Qt::UserRole).toInt();
 
-            if (item->data(Qt::UserRole).toInt() != postModel.GetCommentsList()[i].GetIdComment())
+            if (!currentCommentIds.contains(itemId))
             {
                 delete ui->commentList->takeItem(i);
-                break;
             }
         }
 
